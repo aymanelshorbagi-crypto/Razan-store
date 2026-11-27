@@ -605,7 +605,7 @@
 
       <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs">
         <h2 class="text-base sm:text-lg font-extrabold text-plum mb-1">تتبعي طلبك</h2>
-        <p class="text-xs text-plum-muted mb-4">اكتبي رقم الطلب ورقم الموبايل اللي طلبتي بيه (من نفس المتصفح) عشان تشوفي حالة الطلب.</p>
+        <p class="text-xs text-plum-muted mb-4">اكتبي رقم الطلب ورقم الموبايل اللي طلبتي بيه عشان تشوفي حالة الطلب لحظياً من أي جهاز.</p>
         <div class="space-y-3">
           <input type="text" id="track-order-ref" dir="ltr" placeholder="#RZ-1001" class="w-full rounded-xl border border-blush-border bg-blush/50 px-3.5 py-2.5 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
           <input type="tel" id="track-order-phone" dir="ltr" maxlength="11" placeholder="01012345678" class="w-full rounded-xl border border-blush-border bg-blush/50 px-3.5 py-2.5 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
@@ -2615,6 +2615,7 @@
 
       appState.orders.unshift(orderRecord);
       saveOrderToFirestore(orderRecord);
+      saveTrackingDoc(orderRecord);
       sendOrderEmail(orderRecord).then(sent => {
         if (sent) showToast("تم إرسال إشعار بالطلب على إيميلك");
       });
@@ -3139,6 +3140,42 @@
       } catch (e) {
         console.warn("Firestore order save error:", e.message);
         return false;
+      }
+    }
+
+    // Live order tracking (status-only, no personal data): one tiny public
+    // doc per order so the customer can see the live status from any browser.
+    // The doc holds ONLY orderId + status + updatedAt — never names, phones
+    // or addresses (those stay in razan_orders, admin-only).
+    function trackingDocId(orderId) {
+      return String(orderId || "").replace(/[^a-zA-Z0-9_-]/g, "_");
+    }
+    async function saveTrackingDoc(order) {
+      try {
+        const fsCtx = await getFirestoreDb();
+        if (!fsCtx || !order?.id) return false;
+        await fsCtx.setDoc(
+          fsCtx.doc(fsCtx.db, "razan_tracking", trackingDocId(order.id)),
+          { orderId: String(order.id), status: orderStatusOf(order), updatedAt: order.updatedAt || Date.now() },
+          { merge: true }
+        );
+        return true;
+      } catch (e) {
+        console.warn("Firestore tracking save error:", e.message);
+        return false;
+      }
+    }
+    async function fetchLiveOrderStatus(orderId) {
+      try {
+        const fsCtx = await getFirestoreDb();
+        if (!fsCtx) return null;
+        const snap = await fsCtx.getDoc(fsCtx.doc(fsCtx.db, "razan_tracking", trackingDocId(orderId)));
+        if (!snap.exists()) return null;
+        const d = snap.data();
+        return d && ORDER_STATUSES[d.status] ? d.status : null;
+      } catch (e) {
+        console.warn("Firestore tracking read error:", e.message);
+        return null;
       }
     }
 
@@ -3840,6 +3877,7 @@
       persistData();
       renderAdminOrdersList();
       saveOrderToFirestore(order).then(ok => {
+        saveTrackingDoc(order);
         showToast(ok
           ? `تم تحديث حالة الطلب إلى "${ORDER_STATUSES[status].label}" وحفظها`
           : "لم تُحفظ الحالة في قاعدة البيانات — انشر قواعد Firestore الجديدة (firestore.rules) من Firebase Console ثم غيّر الحالة مرة أخرى",
@@ -3847,7 +3885,7 @@
       });
     };
 
-    window.trackOrder = function () {
+    window.trackOrder = async function () {
       const ref = (document.getElementById("track-order-ref")?.value || "").trim().replace(/^#/, "").toLowerCase();
       const phone = (document.getElementById("track-order-phone")?.value || "").trim().replace(/\D/g, "");
       const result = document.getElementById("track-order-result");
@@ -3860,19 +3898,29 @@
         String(o.id || "").replace(/^#/, "").toLowerCase() === ref &&
         String(o.phone || "").replace(/\D/g, "") === phone
       );
-      if (!order) {
-        result.innerHTML = `<p class="text-[11px] font-bold text-rose-600 leading-relaxed">مفيش طلب بالبيانات دي على المتصفح ده. تأكدي من رقم الطلب والموبايل، أو كلمينا واتساب.</p>`;
+      // Live status from the public tracking doc (works from any browser);
+      // falls back to the status saved on this browser if live is unavailable
+      // (old order, offline, or rules not published yet).
+      const liveId = order ? order.id : ("#" + ref.toUpperCase());
+      const liveStatus = await fetchLiveOrderStatus(liveId);
+      const status = liveStatus || (order ? orderStatusOf(order) : null);
+      if (!status) {
+        result.innerHTML = `<p class="text-[11px] font-bold text-rose-600 leading-relaxed">مفيش طلب بالبيانات دي. تأكدي من رقم الطلب ورقم الموبايل، أو كلمينا واتساب.</p>`;
         return;
       }
-      const st = ORDER_STATUSES[orderStatusOf(order)];
+      const st = ORDER_STATUSES[status];
+      const totalsLine = order
+        ? `<p class="font-extrabold text-plum">الإجمالي: ${order.grandTotal} ج.م — المتبقي عند الاستلام: ${order.remainingOnDelivery} ج.م</p>`
+        : `<p class="text-plum-muted">لو محتاجة تفاصيل الطلب كلمينا واتساب.</p>`;
       result.innerHTML = `
         <div class="rounded-2xl border border-blush-border bg-blush-soft p-3.5 text-xs space-y-1.5">
           <div class="flex items-center justify-between gap-2">
-            <span class="font-bold text-plum-muted">الطلب ${escapeHtml(order.id)}</span>
-            ${orderStatusChip(orderStatusOf(order))}
+            <span class="font-bold text-plum-muted">الطلب ${escapeHtml(order ? order.id : liveId)}</span>
+            ${orderStatusChip(status)}
           </div>
           <p class="text-plum-muted">${escapeHtml(st.hint)}</p>
-          <p class="font-extrabold text-plum">الإجمالي: ${order.grandTotal} ج.م — المتبقي عند الاستلام: ${order.remainingOnDelivery} ج.م</p>
+          ${totalsLine}
+          ${liveStatus ? `<p class="text-[10px] text-emerald-700 font-bold">✓ الحالة محدثة لحظياً من المتجر</p>` : ``}
         </div>`;
     };
 
