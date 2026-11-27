@@ -702,7 +702,7 @@
   <!-- ===================================================================== -->
   <!-- PRODUCT QUICK-VIEW MODAL                                              -->
   <!-- ===================================================================== -->
-  <div id="quick-view-modal" onclick="if(event.target===this) closeQuickViewModal()" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-plum/50 backdrop-blur-xs">
+  <div id="quick-view-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="عرض المنتج" onclick="if(event.target===this) closeQuickViewModal()" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-plum/50 backdrop-blur-xs">
     <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-blush-border relative">
       <button type="button" onclick="closeQuickViewModal()" class="absolute top-3.5 left-3.5 z-10 w-10 h-10 rounded-full bg-white border border-blush-border shadow-md flex items-center justify-center text-plum hover:bg-blush-tint hover:text-rosegold transition-colors cursor-pointer" aria-label="إغلاق">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -916,7 +916,7 @@
   <!-- ===================================================================== -->
   <!-- ORDER CONFIRMATION & DEPOSIT REMINDER MODAL                           -->
   <!-- ===================================================================== -->
-  <div id="order-success-modal" onclick="if(event.target===this) closeOrderSuccessModal()" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-plum/55 backdrop-blur-xs">
+  <div id="order-success-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="تم استلام طلبك" onclick="if(event.target===this) closeOrderSuccessModal()" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-plum/55 backdrop-blur-xs">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-blush-border text-center space-y-4">
       <div class="w-16 h-16 mx-auto rounded-full bg-[#25D366]/15 text-[#178d43] flex items-center justify-center">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M5 13l4 4L19 7"/></svg>
@@ -991,7 +991,7 @@
   <!-- ===================================================================== -->
   <!-- GOOGLE AUTH ADMIN LOGIN MODAL                                         -->
   <!-- ===================================================================== -->
-  <div id="google-auth-modal" onclick="if(event.target===this) closeGoogleAuthModal()" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-plum/55 backdrop-blur-xs">
+  <div id="google-auth-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="تسجيل دخول الإدارة" onclick="if(event.target===this) closeGoogleAuthModal()" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-plum/55 backdrop-blur-xs">
     <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-blush-border text-center space-y-4">
       <div class="w-14 h-14 mx-auto rounded-2xl bg-blush-tint text-rosegold flex items-center justify-center">
         <svg class="w-7 h-7" viewBox="0 0 24 24">
@@ -1031,7 +1031,7 @@
   <!-- ===================================================================== -->
   <!-- 7. LIGHTWEIGHT STORE OWNER ADMIN MODAL (إدارة المتجر)                 -->
   <!-- ===================================================================== -->
-  <div id="admin-modal" class="fixed inset-0 z-50 hidden bg-blush overflow-y-auto">
+  <div id="admin-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="إدارة المتجر" class="fixed inset-0 z-50 hidden bg-blush overflow-y-auto">
     <div class="sticky top-0 z-20 bg-white border-b border-blush-border px-4 sm:px-8 py-3.5">
       <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
         <div class="flex items-center gap-2.5">
@@ -1200,7 +1200,7 @@
   </div>
 
   <!-- EDIT PRODUCT MODAL (تعديل منتج بعد إضافته) -->
-  <div id="edit-product-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-plum/55 backdrop-blur-xs">
+  <div id="edit-product-modal" role="dialog" aria-modal="true" tabindex="-1" aria-label="تعديل المنتج" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-plum/55 backdrop-blur-xs">
     <div class="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-blush-border max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between mb-4">
         <h3 class="text-base sm:text-lg font-extrabold text-plum">تعديل المنتج</h3>
@@ -2246,6 +2246,7 @@
 
       modal.classList.remove("hidden");
       modal.classList.add("flex");
+      focusModal(modal);
       // Let the phone's system back button close the quick view instead of
       // leaving the store: one history entry per modal opening.
       if (!_quickViewHistoryPushed) {
@@ -2258,6 +2259,7 @@
       if (!modal || modal.classList.contains("hidden")) { _quickViewHistoryPushed = false; return; }
       modal.classList.add("hidden");
       modal.classList.remove("flex");
+      restoreModalFocus();
       const wasPushed = _quickViewHistoryPushed;
       _quickViewHistoryPushed = false;
       // Undo the history entry this modal opening added, so the next system
@@ -2697,6 +2699,7 @@
       const modal = document.getElementById("order-success-modal");
       modal.classList.remove("hidden");
       modal.classList.add("flex");
+      focusModal(modal);
     }
 
     // =========================================================================
@@ -2831,8 +2834,10 @@
 
     window.closeOrderSuccessModal = function () {
       const modal = document.getElementById("order-success-modal");
+      if (!modal || modal.classList.contains("hidden")) return;
       modal.classList.add("hidden");
       modal.classList.remove("flex");
+      restoreModalFocus();
     };
 
     window.copyLastWhatsAppReceipt = function () {
@@ -3316,8 +3321,10 @@
 
     window.closeGoogleAuthModal = function () {
       const m = document.getElementById("google-auth-modal");
+      if (!m || m.classList.contains("hidden")) return;
       m.classList.add("hidden");
       m.classList.remove("flex");
+      restoreModalFocus();
     };
 
     function openGoogleAuthModal(errorMsg = "") {
@@ -3332,6 +3339,7 @@
       const m = document.getElementById("google-auth-modal");
       m.classList.remove("hidden");
       m.classList.add("flex");
+      focusModal(m);
     }
 
     window.signInAdminWithGoogle = async function () {
@@ -3372,6 +3380,24 @@
       }
     };
 
+    // Accessibility: move keyboard focus into a modal when it opens and
+    // return it to the element that opened it when it closes. Stacked, so a
+    // modal opened from another modal (e.g. edit product from admin) returns
+    // focus to the right place.
+    const _modalFocusStack = [];
+    function focusModal(modal) {
+      if (!modal) return;
+      _modalFocusStack.push(document.activeElement instanceof HTMLElement ? document.activeElement : null);
+      const target = modal.querySelector("button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])") || modal;
+      try { target.focus({ preventScroll: true }); } catch (_) { try { modal.focus(); } catch (_) {} }
+    }
+    function restoreModalFocus() {
+      const opener = _modalFocusStack.pop();
+      if (opener && document.contains(opener)) {
+        try { opener.focus({ preventScroll: true }); } catch (_) {}
+      }
+    }
+
     // =========================================================================
     // 13. LIGHTWEIGHT STORE OWNER ADMIN MODAL
     // =========================================================================
@@ -3409,13 +3435,17 @@
       document.getElementById("admin-order-count").textContent = appState.orders.length;
 
       document.getElementById("admin-modal").classList.remove("hidden");
+      focusModal(document.getElementById("admin-modal"));
       switchAdminTab(appState.adminTab);
       const _low = updateLowStockAlerts();
       if (_low.length) showToast(`تنبيه مخزون: ${_low.length} منتجات قربت تخلص — شوفي تبويب المنتجات`, "error");
     };
 
     window.closeAdminModal = function () {
-      document.getElementById("admin-modal").classList.add("hidden");
+      const m = document.getElementById("admin-modal");
+      if (!m || m.classList.contains("hidden")) return;
+      m.classList.add("hidden");
+      restoreModalFocus();
     };
 
     window.switchAdminTab = function (tab) {
@@ -3706,13 +3736,16 @@
       const m = document.getElementById("edit-product-modal");
       m.classList.remove("hidden");
       m.classList.add("flex");
+      focusModal(m);
     };
 
     window.closeEditProductModal = function () {
       _editingProductId = null;
       const m = document.getElementById("edit-product-modal");
+      if (!m || m.classList.contains("hidden")) return;
       m.classList.add("hidden");
       m.classList.remove("flex");
+      restoreModalFocus();
     };
 
     window.saveEditProduct = function (event) {
