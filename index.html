@@ -2328,6 +2328,11 @@
       };
 
       appState.orders.unshift(orderRecord);
+      saveOrderToFirestore(orderRecord);
+      appState.cart.forEach(item => {
+        const prod = appState.products.find(p => p.id === item.productId);
+        if (prod) syncProductToFirestore(prod);
+      });
 
       const itemsLines = orderRecord.items
         .map((item, idx) => `${idx + 1}. ${item.name} (${item.variant}) × ${item.qty} = ${item.price * item.qty} ج.م`)
@@ -2509,6 +2514,9 @@
     let _authModulePromise = null;
     let _authInstance = null;
     let _verifiedAdminEmail = null;
+    let _firestoreModulePromise = null;
+    let _firestoreInstance = null;
+    let _firestoreListenersStarted = false;
 
     async function getFirebaseAuth() {
       if (_authInstance) return _authInstance;
@@ -2524,8 +2532,184 @@
       const [{ initializeApp, getApps }, { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut }] = await _authModulePromise;
       const app = getApps().length ? getApps()[0] : initializeApp(FIREBASE_AUTH_CONFIG);
       const auth = getAuth(app);
-      _authInstance = { auth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut };
+      _authInstance = { app, auth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut };
       return _authInstance;
+    }
+
+    async function getFirestoreDb() {
+      if (_firestoreInstance) return _firestoreInstance;
+      const fb = await getFirebaseAuth();
+      if (!fb) return null;
+      if (!_firestoreModulePromise) {
+        _firestoreModulePromise = import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+      }
+      const fs = await _firestoreModulePromise;
+      const db = fs.getFirestore(fb.app);
+      _firestoreInstance = { db, ...fs };
+      return _firestoreInstance;
+    }
+
+    async function seedDefaultProductsToFirestore(fsCtx) {
+      const { db, doc, setDoc } = fsCtx;
+      for (const p of DEFAULT_PRODUCTS) {
+        await setDoc(doc(db, "razan_products", p.id), p, { merge: true });
+      }
+    }
+
+    async function syncProductToFirestore(product) {
+      try {
+        const fsCtx = await getFirestoreDb();
+        if (!fsCtx || !product?.id) return;
+        await fsCtx.setDoc(fsCtx.doc(fsCtx.db, "razan_products", product.id), product);
+      } catch (e) {
+        console.warn("Firestore product sync error:", e.message);
+      }
+    }
+
+    async function deleteProductFromFirestore(productId) {
+      try {
+        const fsCtx = await getFirestoreDb();
+        if (!fsCtx || !productId) return;
+        await fsCtx.deleteDoc(fsCtx.doc(fsCtx.db, "razan_products", productId));
+      } catch (e) {
+        console.warn("Firestore product delete error:", e.message);
+      }
+    }
+
+    async function syncSettingsToFirestore() {
+      try {
+        const fsCtx = await getFirestoreDb();
+        if (!fsCtx) return;
+        await fsCtx.setDoc(
+          fsCtx.doc(fsCtx.db, "razan_store", "settings"),
+          { ...appState.settings, updatedAt: Date.now() },
+          { merge: true }
+        );
+      } catch (e) {
+        console.warn("Firestore settings sync error:", e.message);
+      }
+    }
+
+    async function saveOrderToFirestore(orderRecord) {
+      try {
+        const fsCtx = await getFirestoreDb();
+        if (!fsCtx || !orderRecord) return;
+        const docId = String(orderRecord.id || ("RZ-" + Date.now())).replace(/[^a-zA-Z0-9_-]/g, "_");
+        await fsCtx.setDoc(
+          fsCtx.doc(fsCtx.db, "razan_orders", docId),
+          { ...orderRecord, createdAtTs: Date.now() }
+        );
+      } catch (e) {
+        console.warn("Firestore order save error:", e.message);
+      }
+    }
+
+    async function deleteOrderFromFirestore(orderId) {
+      try {
+        const fsCtx = await getFirestoreDb();
+        if (!fsCtx || !orderId) return;
+        const docId = String(orderId).replace(/[^a-zA-Z0-9_-]/g, "_");
+        await fsCtx.deleteDoc(fsCtx.doc(fsCtx.db, "razan_orders", docId));
+      } catch (e) {
+        console.warn("Firestore order delete error:", e.message);
+      }
+    }
+
+    async function initFirestoreRealtimeSync() {
+      if (_firestoreListenersStarted) return;
+      const fsCtx = await getFirestoreDb();
+      if (!fsCtx) return;
+      _firestoreListenersStarted = true;
+
+      const { db, collection, doc, onSnapshot, query, orderBy } = fsCtx;
+
+      // 1. Settings listener
+      onSnapshot(doc(db, "razan_store", "settings"), (snap) => {
+        if (snap.exists()) {
+          const data = snap.data();
+          appState.settings = {
+            ...DEFAULT_SETTINGS,
+            whatsapp: data.whatsapp ?? appState.settings.whatsapp,
+            vodafone: data.vodafone ?? appState.settings.vodafone,
+            instapay: data.instapay ?? appState.settings.instapay,
+            depositPercent: data.depositPercent ?? appState.settings.depositPercent
+          };
+          try {
+            localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(appState.settings));
+          } catch (_) {}
+          syncSettingsToUI();
+        }
+      }, (err) => console.warn("Settings snapshot error:", err.message));
+
+      // 2. Products listener (seeds default products once if collection is empty)
+      let seededOnce = false;
+      onSnapshot(collection(db, "razan_products"), async (snapshot) => {
+        if (snapshot.empty && !seededOnce) {
+          seededOnce = true;
+          try {
+            await seedDefaultProductsToFirestore(fsCtx);
+          } catch (e) {
+            console.warn("Seed skipped:", e.message);
+          }
+          return;
+        }
+        if (!snapshot.empty) {
+          const cloudProducts = [];
+          snapshot.forEach((d) => {
+            const p = d.data();
+            if (p && p.name && typeof p.price === "number") {
+              cloudProducts.push({ ...p, id: p.id || d.id });
+            }
+          });
+          if (cloudProducts.length > 0) {
+            const orderMap = new Map(DEFAULT_PRODUCTS.map((p, idx) => [p.id, idx]));
+            cloudProducts.sort((a, b) => {
+              const ia = orderMap.has(a.id) ? orderMap.get(a.id) : -1;
+              const ib = orderMap.has(b.id) ? orderMap.get(b.id) : -1;
+              if (ia !== -1 && ib !== -1) return ia - ib;
+              if (ia === -1 && ib !== -1) return -1;
+              if (ia !== -1 && ib === -1) return 1;
+              return String(b.id).localeCompare(String(a.id));
+            });
+            appState.products = cloudProducts;
+            appState.products.forEach((p) => {
+              if (!appState.selectedVariants[p.id] && p.variants?.length) {
+                appState.selectedVariants[p.id] = p.variants[0];
+              }
+            });
+            try {
+              localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(appState.products));
+            } catch (_) {}
+            renderOffersShowcase();
+            renderCategoryTabs();
+            renderProductsGrid();
+            const prodCountEl = document.getElementById("admin-prod-count");
+            if (prodCountEl) prodCountEl.textContent = appState.products.length;
+            if (!document.getElementById("admin-modal")?.classList.contains("hidden") && appState.adminTab === "products") {
+              renderAdminProductsList();
+            }
+          }
+        }
+      }, (err) => console.warn("Products snapshot error:", err.message));
+
+      // 3. Orders listener (ordered newest first)
+      const ordersQuery = query(collection(db, "razan_orders"), orderBy("createdAtTs", "desc"));
+      onSnapshot(ordersQuery, (snapshot) => {
+        const cloudOrders = [];
+        snapshot.forEach((d) => {
+          const o = d.data();
+          if (o) cloudOrders.push(o);
+        });
+        appState.orders = cloudOrders;
+        try {
+          localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(appState.orders));
+        } catch (_) {}
+        const orderCountEl = document.getElementById("admin-order-count");
+        if (orderCountEl) orderCountEl.textContent = appState.orders.length;
+        if (!document.getElementById("admin-modal")?.classList.contains("hidden") && appState.adminTab === "orders") {
+          renderAdminOrdersList();
+        }
+      }, (err) => console.warn("Orders snapshot error:", err.message));
     }
 
     function isEmailAuthorized(email) {
@@ -2657,6 +2841,7 @@
       appState.settings.instapay = document.getElementById("admin-set-instapay").value.trim() || "razan.store@instapay";
 
       persistData();
+      syncSettingsToFirestore();
       syncSettingsToUI();
       showToast("تم حفظ إعدادات المتجر والديبوزت بنجاح");
     };
@@ -2669,6 +2854,11 @@
         if (p.variants?.length) appState.selectedVariants[p.id] = p.variants[0];
       });
       persistData();
+      syncSettingsToFirestore();
+      (async () => {
+        const fsCtx = await getFirestoreDb();
+        if (fsCtx) await seedDefaultProductsToFirestore(fsCtx);
+      })();
       syncSettingsToUI();
       renderOffersShowcase();
       renderCategoryTabs();
@@ -2718,6 +2908,7 @@
       appState.products.unshift(newProd);
       appState.selectedVariants[newProd.id] = newProd.variants[0];
       persistData();
+      syncProductToFirestore(newProd);
 
       event.target.reset();
       handleAdminCatDefaultVariants("بيجامات");
@@ -2770,6 +2961,7 @@
       if (!prod) return;
       prod[field] = Math.max(0, Number(val) || 0);
       persistData();
+      syncProductToFirestore(prod);
       renderOffersShowcase();
       renderProductsGrid();
       showToast("تم تحديث بيانات المنتج");
@@ -2779,6 +2971,7 @@
       appState.products = appState.products.filter(p => p.id !== id);
       appState.cart = appState.cart.filter(c => c.productId !== id);
       persistData();
+      deleteProductFromFirestore(id);
       updateCartBadge();
       document.getElementById("admin-prod-count").textContent = appState.products.length;
       renderAdminProductsList();
@@ -2791,6 +2984,7 @@
     window.deleteAdminOrder = function (id) {
       appState.orders = appState.orders.filter(o => o.id !== id);
       persistData();
+      deleteOrderFromFirestore(id);
       document.getElementById("admin-order-count").textContent = appState.orders.length;
       renderAdminOrdersList();
       showToast("تم حذف الطلب");
@@ -2855,6 +3049,7 @@
       renderCategoryTabs();
       renderProductsGrid();
       updateCartBadge();
+      initFirestoreRealtimeSync();
       if (new URLSearchParams(window.location.search).get("admin") === "1") {
         openAdminModal();
       }
