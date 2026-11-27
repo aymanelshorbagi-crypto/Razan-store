@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/png" href="assets/logo-short.png">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23FFF8FA'/%3E%3Cpath d='M22 48V17H34.5C40.5 17 44.3 20.2 44.3 25.3C44.3 29.5 41.5 32.4 37.2 33.3L45.7 48H40.1L32.5 34H27.1V48H22ZM27.1 30.1H33.8C37.5 30.1 39.6 28.2 39.6 25.3C39.6 22.4 37.5 20.7 33.8 20.7H27.1V30.1Z' fill='%23B76E79'/%3E%3C/svg%3E">
   <title>رزان | RAZAN — بيجامات، إكسسوارات وعطور فاخرة</title>
 
   <!-- Tailwind CSS -->
@@ -114,9 +114,12 @@
     html.dark .bg-white\/95 { background-color: rgba(43,27,31,.95) !important; }
     html.dark .bg-blush { background-color: #1d1216 !important; }
     html.dark .bg-blush-soft { background-color: #33222a !important; }
+    html.dark .bg-blush-soft\/75 { background-color: rgba(51,34,42,.75) !important; }
     html.dark .bg-blush-soft\/80 { background-color: rgba(51,34,42,.85) !important; }
+    html.dark .bg-blush-soft\/90 { background-color: rgba(51,34,42,.92) !important; }
     html.dark .bg-blush\/40 { background-color: rgba(51,34,42,.4) !important; }
     html.dark .bg-blush\/50 { background-color: rgba(51,34,42,.5) !important; }
+    html.dark .bg-blush\/60 { background-color: rgba(51,34,42,.6) !important; }
     html.dark .bg-blush-tint { background-color: #3a2530 !important; }
     html.dark .text-plum { color: #f7e8ec !important; }
     html.dark .text-plum-muted { color: #c9a8b2 !important; }
@@ -133,7 +136,7 @@
 <body class="bg-blush text-plum antialiased selection:bg-rosegold/20 selection:text-plum overflow-x-hidden min-h-screen flex flex-col">
 
   <!-- ===================================================================== -->
-  <!-- TOAST NOTIFICATION CONTAINER (Replaces browser alert/confirm)         -->
+  <!-- TOAST NOTIFICATION CONTAINER                                          -->
   <!-- ===================================================================== -->
   <div id="toast-container" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-2 pointer-events-none w-11/12 max-w-md"></div>
 
@@ -145,9 +148,8 @@
       <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
 
         <!-- Right Side (RTL Start): Custom Rose-Gold Monogram Logo -->
-        <button onclick="navigateToStore('الكل')" class="flex items-center gap-2.5 text-right group focus:outline-none shrink-0 cursor-pointer">
+        <button type="button" onclick="navigateToStore('الكل')" class="flex items-center gap-2.5 text-right group focus:outline-none shrink-0 cursor-pointer">
           <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl rose-gold-soft-gradient border border-blush-border flex items-center justify-center shadow-xs group-hover:border-rosegold transition-all">
-            <!-- Custom Rose-Gold Monogram SVG ('R' intertwined with botanical silk curves) -->
             <svg viewBox="0 0 64 64" class="w-7 h-7 sm:w-8 sm:h-8 text-rosegold" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="rgLogoGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
@@ -156,16 +158,12 @@
                   <stop offset="100%" stop-color="#9E5662"/>
                 </linearGradient>
               </defs>
-              <!-- Delicate Silk Orbit Ring -->
               <path d="M13 38C10 26 18 14 31 12C43 10 53 19 52 31" stroke="url(#rgLogoGrad)" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="2 2"/>
-              <!-- Botanical Silk Curve -->
               <path d="M16 47C13 39 15 28 23 21C29 16 37 14 45 15" stroke="url(#rgLogoGrad)" stroke-width="1.5" stroke-linecap="round"/>
               <path d="M18 36C25 35 32 30 37 23" stroke="url(#rgLogoGrad)" stroke-width="1.3" stroke-linecap="round"/>
-              <!-- Botanical Leaves -->
               <path d="M15 29C11.5 28 10.5 25 12 22.8C14.5 23.8 15.8 26.2 15 29Z" fill="url(#rgLogoGrad)" fill-opacity="0.8"/>
               <path d="M33 14.5C34 11 37 9.8 39.2 11C38.2 13.6 35.8 14.8 33 14.5Z" fill="url(#rgLogoGrad)" fill-opacity="0.8"/>
               <path d="M44 33C47.5 31.5 50.2 32.8 51 35C48.4 36 45.8 35 44 33Z" fill="url(#rgLogoGrad)" fill-opacity="0.8"/>
-              <!-- Luxury Serif 'R' -->
               <path d="M23 49V18H35.2C41.2 18 45 21.2 45 26.3C45 30.5 42.2 33.4 37.9 34.3L46.4 49H40.8L33.2 35H27.8V49H23ZM27.8 31.1H34.5C38.2 31.1 40.3 29.2 40.3 26.3C40.3 23.4 38.2 21.7 34.5 21.7H27.8V31.1Z" fill="url(#rgLogoGrad)"/>
             </svg>
           </div>
@@ -181,31 +179,32 @@
 
         <!-- Center Navigation Links (Desktop) -->
         <nav class="hidden lg:flex items-center gap-1 bg-blush-soft/80 p-1.5 rounded-full border border-blush-border">
-          <button onclick="navigateToStore('الكل')" data-nav="الرئيسية" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-rosegold text-white shadow-2xs">
+          <button type="button" onclick="navigateToStore('الكل')" data-nav="الرئيسية" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-rosegold text-white shadow-2xs cursor-pointer">
             الرئيسية
           </button>
-          <button onclick="navigateToStore('بيجامات')" data-nav="بيجامات" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold">
+          <button type="button" onclick="navigateToStore('بيجامات')" data-nav="بيجامات" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold cursor-pointer">
             بيجامات
           </button>
-          <button onclick="navigateToStore('إكسسوارات')" data-nav="إكسسوارات" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold">
+          <button type="button" onclick="navigateToStore('إكسسوارات')" data-nav="إكسسوارات" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold cursor-pointer">
             إكسسوارات
           </button>
-          <button onclick="navigateToStore('برفانات')" data-nav="برفانات" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold">
+          <button type="button" onclick="navigateToStore('برفانات')" data-nav="برفانات" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold cursor-pointer">
             برفانات
           </button>
-          <button onclick="scrollToOffersSection()" data-nav="العروض" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold flex items-center gap-1">
+          <button type="button" onclick="scrollToOffersSection()" data-nav="العروض" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold flex items-center gap-1 cursor-pointer">
             <span>الأكثر طلباً وعروض</span>
             <span class="w-1.5 h-1.5 rounded-full bg-rosegold"></span>
           </button>
-          <button onclick="openShippingContactPage()" data-nav="الشحن والتواصل" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold">
+          <button type="button" onclick="openShippingContactPage()" data-nav="الشحن والتواصل" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold cursor-pointer">
             الشحن والتواصل
           </button>
         </nav>
 
-        <!-- Left Side (RTL End): Store Admin Gear + Cart Button -->
+        <!-- Left Side (RTL End): Store Admin Gear + Dark Mode + Cart Button -->
         <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          <!-- Subtle Store Management Gear Button -->
+          <!-- Store Management Gear Button -->
           <button
+            type="button"
             onclick="openAdminModal()"
             class="inline-flex items-center gap-1.5 px-2.5 py-2 sm:px-3 sm:py-2 rounded-full text-xs font-semibold text-plum-muted hover:text-rosegold bg-blush-soft border border-blush-border hover:border-rosegold transition-all cursor-pointer"
             title="إدارة المتجر والأسعار"
@@ -220,6 +219,7 @@
 
           <!-- Dark Mode Toggle -->
           <button
+            type="button"
             id="dark-mode-toggle"
             onclick="toggleDarkMode()"
             class="inline-flex items-center gap-1.5 px-2.5 py-2 sm:px-3 sm:py-2 rounded-full text-xs font-semibold text-plum-muted hover:text-rosegold bg-blush-soft border border-blush-border hover:border-rosegold transition-all cursor-pointer"
@@ -233,6 +233,7 @@
 
           <!-- Cart Button -->
           <button
+            type="button"
             onclick="openCartDrawer()"
             class="relative inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold rose-gold-gradient text-white shadow-sm hover:opacity-95 active:scale-95 transition-all cursor-pointer"
             aria-label="سلة التسوق"
@@ -248,22 +249,22 @@
 
       <!-- Mobile & Tablet Horizontal Scrollable Navigation Bar -->
       <nav class="lg:hidden flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-2.5 pt-0.5">
-        <button onclick="navigateToStore('الكل')" data-nav="الرئيسية" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-rosegold text-white">
+        <button type="button" onclick="navigateToStore('الكل')" data-nav="الرئيسية" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-rosegold text-white cursor-pointer">
           الرئيسية
         </button>
-        <button onclick="navigateToStore('بيجامات')" data-nav="بيجامات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border">
+        <button type="button" onclick="navigateToStore('بيجامات')" data-nav="بيجامات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
           بيجامات
         </button>
-        <button onclick="navigateToStore('إكسسوارات')" data-nav="إكسسوارات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border">
+        <button type="button" onclick="navigateToStore('إكسسوارات')" data-nav="إكسسوارات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
           إكسسوارات
         </button>
-        <button onclick="navigateToStore('برفانات')" data-nav="برفانات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border">
+        <button type="button" onclick="navigateToStore('برفانات')" data-nav="برفانات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
           برفانات
         </button>
-        <button onclick="scrollToOffersSection()" data-nav="العروض" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border">
+        <button type="button" onclick="scrollToOffersSection()" data-nav="العروض" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
           الأكثر طلباً وعروض
         </button>
-        <button onclick="openShippingContactPage()" data-nav="الشحن والتواصل" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border">
+        <button type="button" onclick="openShippingContactPage()" data-nav="الشحن والتواصل" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
           الشحن والتواصل
         </button>
       </nav>
@@ -278,7 +279,6 @@
     <!-- 2. COMPACT LUXURY HERO & QUICK CATEGORY STRIP -->
     <section class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3 sm:pt-5">
       <div class="relative overflow-hidden rounded-3xl rose-gold-soft-gradient border border-blush-border p-4 sm:p-7 lg:p-8 shadow-2xs">
-        <!-- Decorative Soft Rose Gold Glow Circles -->
         <div class="pointer-events-none absolute -top-16 -left-16 w-48 h-48 rounded-full bg-rosegold/10 blur-2xl"></div>
         <div class="pointer-events-none absolute -bottom-20 right-10 w-56 h-56 rounded-full bg-rosegold-champagne/15 blur-2xl"></div>
 
@@ -304,12 +304,14 @@
           <!-- Quick CTA Buttons -->
           <div class="flex flex-wrap items-center gap-2.5 sm:gap-3 shrink-0">
             <button
+              type="button"
               onclick="selectCategoryAndScroll('بيجامات')"
               class="px-4 py-2.5 sm:px-5 sm:py-3 rounded-full rose-gold-gradient text-white text-xs sm:text-sm font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all cursor-pointer"
             >
               تسوقي البيجامات
             </button>
             <button
+              type="button"
               onclick="selectCategoryAndScroll('إكسسوارات')"
               class="px-4 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white text-plum hover:text-rosegold border border-blush-border hover:border-rosegold text-xs sm:text-sm font-bold shadow-2xs active:scale-95 transition-all cursor-pointer"
             >
@@ -320,7 +322,7 @@
       </div>
     </section>
 
-    <!-- 3. BEST SELLERS & OFFERS SECTION (قسم الأكثر طلباً وعروض) -->
+    <!-- 3. BEST SELLERS & OFFERS SECTION -->
     <section id="offers-section" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-6 sm:pt-8">
       <div class="bg-blush-soft/75 rounded-3xl border border-blush-border p-4 sm:p-6">
         <div class="flex items-center justify-between gap-2 mb-4">
@@ -331,15 +333,12 @@
             </div>
             <p class="text-[11px] sm:text-xs text-plum-muted mt-0.5">باكدجات التوفير والقطع الأعلى مبيعاً — احجزيها قبل نفاد الكمية</p>
           </div>
-          <button onclick="selectCategoryAndScroll('العروض')" class="text-xs font-bold text-rosegold hover:text-rosegold-hover underline underline-offset-4 shrink-0 cursor-pointer">
+          <button type="button" onclick="selectCategoryAndScroll('العروض')" class="text-xs font-bold text-rosegold hover:text-rosegold-hover underline underline-offset-4 shrink-0 cursor-pointer">
             عرض كل العروض ←
           </button>
         </div>
 
-        <!-- Horizontal Scroll on Mobile / 3-Column Showcase on Desktop -->
-        <div id="offers-showcase-grid" class="flex md:grid md:grid-cols-3 gap-3 sm:gap-5 overflow-x-auto no-scrollbar pb-1 snap-x snap-mandatory">
-          <!-- Populated dynamically via JS -->
-        </div>
+        <div id="offers-showcase-grid" class="flex md:grid md:grid-cols-3 gap-3 sm:gap-5 overflow-x-auto no-scrollbar pb-1 snap-x snap-mandatory"></div>
       </div>
     </section>
 
@@ -348,13 +347,8 @@
       
       <!-- Filter Tabs + Search + Sort Bar -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-blush-border">
-        
-        <!-- Category Filter Tabs -->
-        <div id="category-tabs" class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-1">
-          <!-- Rendered via JS -->
-        </div>
+        <div id="category-tabs" class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-1"></div>
 
-        <!-- Search Input & Sort Dropdown -->
         <div class="flex items-center gap-2">
           <div class="relative flex-1 sm:w-60">
             <input
@@ -368,9 +362,10 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
             </svg>
             <button
+              type="button"
               id="clear-catalog-search"
               onclick="clearCatalogSearch()"
-              class="hidden absolute left-2.5 top-1/2 -translate-y-1/2 text-plum-muted hover:text-plum p-0.5"
+              class="hidden absolute left-2.5 top-1/2 -translate-y-1/2 text-plum-muted hover:text-plum p-0.5 cursor-pointer"
               title="مسح"
             >
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -393,13 +388,14 @@
       <!-- Active Section Header -->
       <div class="flex items-center justify-between py-3">
         <h2 id="catalog-heading" class="text-base sm:text-lg font-extrabold text-plum">جميع منتجات رزان</h2>
-        <span class="flex items-center gap-2"><span id="catalog-count" class="text-xs font-semibold text-plum-muted">12 منتج</span><button onclick="document.getElementById('size-chart-section').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-full bg-blush-soft border border-blush-border text-xs font-bold text-rosegold hover:border-rosegold cursor-pointer">جدول المقاسات (سم)</button></span>
+        <span class="flex items-center gap-2">
+          <span id="catalog-count" class="text-xs font-semibold text-plum-muted">12 منتج</span>
+          <button type="button" onclick="document.getElementById('size-chart-section').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-full bg-blush-soft border border-blush-border text-xs font-bold text-rosegold hover:border-rosegold cursor-pointer">جدول المقاسات (سم)</button>
+        </span>
       </div>
 
-      <!-- Responsive Product Grid: Strictly 2 cols Mobile, 3 cols Tablet, 4 cols Desktop -->
-      <div id="products-grid" class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6">
-        <!-- Product cards rendered via JS -->
-      </div>
+      <!-- Responsive Product Grid -->
+      <div id="products-grid" class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6"></div>
 
       <!-- Empty Filter State -->
       <div id="empty-catalog-state" class="hidden text-center py-14 px-4 bg-white rounded-3xl border border-blush-border mt-4">
@@ -410,13 +406,13 @@
         </div>
         <h3 class="text-base font-extrabold text-plum">لم نجد منتجات مطابقة لبحثك</h3>
         <p class="text-xs text-plum-muted mt-1">جربي البحث بكلمة أخرى أو استعرضي كل أقسام تشكيلة رزان.</p>
-        <button onclick="navigateToStore('الكل')" class="mt-4 px-5 py-2.5 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-xs cursor-pointer">
+        <button type="button" onclick="navigateToStore('الكل')" class="mt-4 px-5 py-2.5 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-xs cursor-pointer">
           عرض كل المنتجات
         </button>
       </div>
     </main>
 
-    <!-- SIZE CHART (cm) — kept from the RAZAN store design, no reviews added -->
+    <!-- SIZE CHART (cm) -->
     <section id="size-chart-section" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-16">
       <div class="bg-white rounded-3xl border border-blush-border p-5 sm:p-6 shadow-2xs">
         <h2 class="text-base sm:text-lg font-extrabold text-plum">جدول مقاسات البيجامات (بالسنتيمتر)</h2>
@@ -440,7 +436,7 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- VIEW B: DEDICATED SHIPPING & CONTACT PAGE (صفحة تواصل وشحن)           -->
+  <!-- VIEW B: DEDICATED SHIPPING & CONTACT PAGE                             -->
   <!-- ===================================================================== -->
   <div id="shipping-contact-view" class="hidden flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
     
@@ -451,7 +447,7 @@
         <h1 class="text-xl sm:text-2xl font-extrabold text-plum">الشحن والتوصيل ونظام حجز الديبوزت</h1>
         <p class="text-xs sm:text-sm text-plum-muted mt-1">كل التفاصيل الخاصة بمواعيد الشحن للمحافظات، خطوات تأكيد الطلب، وطرق التواصل المباشر.</p>
       </div>
-      <button onclick="navigateToStore('الكل')" class="px-5 py-2.5 rounded-full rose-gold-gradient text-white text-xs sm:text-sm font-bold shadow-xs hover:opacity-95 transition-all cursor-pointer">
+      <button type="button" onclick="navigateToStore('الكل')" class="px-5 py-2.5 rounded-full rose-gold-gradient text-white text-xs sm:text-sm font-bold shadow-xs hover:opacity-95 transition-all cursor-pointer">
         ← العودة للتسوق
       </button>
     </div>
@@ -472,7 +468,7 @@
         </div>
         <div class="bg-white rounded-2xl p-5 border border-blush-border shadow-2xs">
           <div class="w-9 h-9 rounded-full rose-gold-gradient text-white font-extrabold text-sm flex items-center justify-center mb-3">2</div>
-          <h3 class="text-sm font-extrabold text-plum" id="step2-deposit-title">حولي ديبوزت 20% من إجمالي الطلب وابعتي الإيصال</h3>
+          <h3 class="text-sm font-extrabold text-plum" id="step2-deposit-title">حولي ديبوزت 20% وابعتي الإيصال</h3>
           <p class="text-xs text-plum-muted mt-1.5 leading-relaxed" id="step2-deposit-desc">
             يتم تحويل ديبوزت 20% من إجمالي الطلب على فودافون كاش أو إنستاباي وإرسال صورة التحويل (سكرين شوت) في نفس محادثة الواتساب لتثبيت الحجز فوراً.
           </p>
@@ -489,8 +485,6 @@
 
     <!-- Shipping Rates Table & Return Policy -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      
-      <!-- Governorate Shipping Rates & Delivery Times -->
       <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs">
         <h2 class="text-base sm:text-lg font-extrabold text-plum mb-4 flex items-center gap-2">
           <svg class="w-5 h-5 text-rosegold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
@@ -531,7 +525,6 @@
         </div>
       </div>
 
-      <!-- Inspection & Exchange Policy -->
       <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs space-y-4">
         <h2 class="text-base sm:text-lg font-extrabold text-plum flex items-center gap-2">
           <svg class="w-5 h-5 text-rosegold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
@@ -556,45 +549,39 @@
 
     <!-- Direct Contact Section + Quick WhatsApp Message Form -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      
-      <!-- Transfer & Contact Copy Cards -->
       <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs space-y-4">
         <h2 class="text-base sm:text-lg font-extrabold text-plum">بيانات التحويل والتواصل المباشر</h2>
         <p class="text-xs text-plum-muted">اضغطي على زر النسخ بجوار أي رقم لنسخه مباشرة:</p>
 
         <div class="space-y-3">
-          <!-- WhatsApp Number Card -->
           <div class="flex items-center justify-between p-3.5 rounded-2xl bg-blush-soft border border-blush-border">
             <div>
               <span class="block text-[11px] font-bold text-plum-muted">رقم واتساب وخدمة العملاء</span>
               <span id="contact-wa-display" dir="ltr" class="text-sm font-extrabold text-plum">01008485337</span>
             </div>
             <div class="flex items-center gap-2">
-              <button onclick="copySettingValue('whatsapp')" class="px-3 py-1.5 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">نسخ</button>
-              <button onclick="openDirectWhatsAppChat()" class="px-3 py-1.5 rounded-xl bg-[#25D366] text-white text-xs font-bold hover:opacity-95 cursor-pointer">مراسلة</button>
+              <button type="button" onclick="copySettingValue('whatsapp')" class="px-3 py-1.5 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">نسخ</button>
+              <button type="button" onclick="openDirectWhatsAppChat()" class="px-3 py-1.5 rounded-xl bg-[#25D366] text-white text-xs font-bold hover:opacity-95 cursor-pointer">مراسلة</button>
             </div>
           </div>
 
-          <!-- Vodafone Cash Card -->
           <div class="flex items-center justify-between p-3.5 rounded-2xl bg-blush-soft border border-blush-border">
             <div>
               <span class="block text-[11px] font-bold text-plum-muted">رقم تحويل الديبوزت (فودافون كاش)</span>
               <span id="contact-vf-display" dir="ltr" class="text-sm font-extrabold text-plum">01008485337</span>
             </div>
-            <button onclick="copySettingValue('vodafone')" class="px-3.5 py-1.5 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">نسخ الرقم</button>
+            <button type="button" onclick="copySettingValue('vodafone')" class="px-3.5 py-1.5 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">نسخ الرقم</button>
           </div>
 
-          <!-- InstaPay Card -->
           <div class="flex items-center justify-between p-3.5 rounded-2xl bg-blush-soft border border-blush-border">
             <div>
               <span class="block text-[11px] font-bold text-plum-muted">عنوان إنستاباي (InstaPay)</span>
               <span id="contact-ip-display" dir="ltr" class="text-sm font-extrabold text-plum">razan.store@instapay</span>
             </div>
-            <button onclick="copySettingValue('instapay')" class="px-3.5 py-1.5 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">نسخ العنوان</button>
+            <button type="button" onclick="copySettingValue('instapay')" class="px-3.5 py-1.5 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">نسخ العنوان</button>
           </div>
         </div>
 
-        <!-- Social Media Links -->
         <div class="pt-2 flex flex-wrap items-center gap-2.5">
           <a href="#instagram" onclick="event.preventDefault(); showToast('تابعي حساب @razan.store.eg على إنستجرام')" class="px-4 py-2 rounded-full bg-blush-tint text-rosegold text-xs font-bold hover:bg-rosegold hover:text-white transition-colors">Instagram</a>
           <a href="#tiktok" onclick="event.preventDefault(); showToast('تابعي حساب رزان على تيك توك لمشاهدة الخامات على الطبيعة')" class="px-4 py-2 rounded-full bg-blush-tint text-rosegold text-xs font-bold hover:bg-rosegold hover:text-white transition-colors">TikTok</a>
@@ -602,7 +589,6 @@
         </div>
       </div>
 
-      <!-- Quick Contact Form -> Sends directly to WhatsApp -->
       <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs">
         <h2 class="text-base sm:text-lg font-extrabold text-plum mb-1">أرسلي استفسارك مباشرة على واتساب</h2>
         <p class="text-xs text-plum-muted mb-4">عندك سؤال عن مقاس معين أو ترشيح عطر؟ اكتبي رسالتك وهنرد عليكِ فوراً.</p>
@@ -653,19 +639,19 @@
           <div>
             <h4 class="text-xs font-extrabold text-plum mb-2.5">أقسام المتجر</h4>
             <ul class="space-y-1.5 text-xs text-plum-muted">
-              <li><button onclick="navigateToStore('بيجامات')" class="hover:text-rosegold transition-colors cursor-pointer">بيجامات حريمي</button></li>
-              <li><button onclick="navigateToStore('إكسسوارات')" class="hover:text-rosegold transition-colors cursor-pointer">إكسسوارات</button></li>
-              <li><button onclick="navigateToStore('برفانات')" class="hover:text-rosegold transition-colors cursor-pointer">برفانات</button></li>
-              <li><button onclick="navigateToStore('العروض')" class="hover:text-rosegold transition-colors cursor-pointer">الأكثر طلباً وعروض</button></li>
+              <li><button type="button" onclick="navigateToStore('بيجامات')" class="hover:text-rosegold transition-colors cursor-pointer">بيجامات حريمي</button></li>
+              <li><button type="button" onclick="navigateToStore('إكسسوارات')" class="hover:text-rosegold transition-colors cursor-pointer">إكسسوارات</button></li>
+              <li><button type="button" onclick="navigateToStore('برفانات')" class="hover:text-rosegold transition-colors cursor-pointer">برفانات</button></li>
+              <li><button type="button" onclick="navigateToStore('العروض')" class="hover:text-rosegold transition-colors cursor-pointer">الأكثر طلباً وعروض</button></li>
             </ul>
           </div>
           <div>
             <h4 class="text-xs font-extrabold text-plum mb-2.5">خدمة العملاء</h4>
             <ul class="space-y-1.5 text-xs text-plum-muted">
-              <li><button onclick="openShippingContactPage()" class="hover:text-rosegold transition-colors cursor-pointer">الشحن والتوصيل</button></li>
-              <li><button onclick="openShippingContactPage()" class="hover:text-rosegold transition-colors cursor-pointer">نظام الدفع بالديبوزت</button></li>
-              <li><button onclick="openCartDrawer()" class="hover:text-rosegold transition-colors cursor-pointer">سلة التسوق</button></li>
-              <li><button onclick="openAdminModal()" class="hover:text-rosegold transition-colors cursor-pointer">إدارة المتجر</button></li>
+              <li><button type="button" onclick="openShippingContactPage()" class="hover:text-rosegold transition-colors cursor-pointer">الشحن والتوصيل</button></li>
+              <li><button type="button" onclick="openShippingContactPage()" class="hover:text-rosegold transition-colors cursor-pointer">نظام الدفع بالديبوزت</button></li>
+              <li><button type="button" onclick="openCartDrawer()" class="hover:text-rosegold transition-colors cursor-pointer">سلة التسوق</button></li>
+              <li><button type="button" onclick="openAdminModal()" class="hover:text-rosegold transition-colors cursor-pointer">إدارة المتجر</button></li>
             </ul>
           </div>
         </div>
@@ -673,7 +659,7 @@
         <div class="md:text-left space-y-2.5">
           <h4 class="text-xs font-extrabold text-plum">حجز سريع عبر واتساب</h4>
           <p class="text-xs text-plum-muted" id="footer-deposit-note">تأكيد الحجز بتحويل ديبوزت 20% من إجمالي الطلب والباقي عند الاستلام مع المعاينة.</p>
-          <button onclick="openDirectWhatsAppChat()" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366]/15 text-[#178d43] hover:bg-[#25D366] hover:text-white text-xs font-extrabold transition-colors cursor-pointer">
+          <button type="button" onclick="openDirectWhatsAppChat()" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366]/15 text-[#178d43] hover:bg-[#25D366] hover:text-white text-xs font-extrabold transition-colors cursor-pointer">
             <span>تواصلي معنا على واتساب</span>
           </button>
         </div>
@@ -689,14 +675,12 @@
   <!-- ===================================================================== -->
   <!-- PRODUCT QUICK-VIEW MODAL                                              -->
   <!-- ===================================================================== -->
-  <div id="quick-view-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-plum/50 backdrop-blur-xs">
+  <div id="quick-view-modal" onclick="if(event.target===this) closeQuickViewModal()" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-plum/50 backdrop-blur-xs">
     <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-blush-border relative">
-      <button onclick="closeQuickViewModal()" class="absolute top-3.5 left-3.5 z-10 w-9 h-9 rounded-full bg-white/95 border border-blush-border flex items-center justify-center text-plum hover:bg-blush-tint hover:text-rosegold transition-colors cursor-pointer" aria-label="إغلاق">
+      <button type="button" onclick="closeQuickViewModal()" class="absolute top-3.5 left-3.5 z-10 w-9 h-9 rounded-full bg-white/95 border border-blush-border flex items-center justify-center text-plum hover:bg-blush-tint hover:text-rosegold transition-colors cursor-pointer" aria-label="إغلاق">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
-      <div id="quick-view-body" class="grid grid-cols-1 sm:grid-cols-2">
-        <!-- Populated dynamically -->
-      </div>
+      <div id="quick-view-body" class="grid grid-cols-1 sm:grid-cols-2"></div>
     </div>
   </div>
 
@@ -717,9 +701,14 @@
           <p id="cart-drawer-subtitle" class="text-[11px] text-plum-muted">0 قطع في السلة</p>
         </div>
       </div>
-      <button onclick="closeCartDrawer()" class="w-9 h-9 rounded-full bg-blush-soft text-plum hover:bg-rosegold hover:text-white flex items-center justify-center transition-colors cursor-pointer" aria-label="إغلاق السلة">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
+      <div class="flex items-center gap-1.5">
+        <button type="button" id="clear-cart-btn" onclick="clearFullCart()" class="hidden px-2.5 py-1.5 rounded-full bg-blush-soft text-rose-600 hover:bg-rose-600 hover:text-white text-[11px] font-bold transition-colors cursor-pointer">
+          إفراغ السلة
+        </button>
+        <button type="button" onclick="closeCartDrawer()" class="w-9 h-9 rounded-full bg-blush-soft text-plum hover:bg-rosegold hover:text-white flex items-center justify-center transition-colors cursor-pointer" aria-label="إغلاق السلة">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
     </div>
 
     <!-- Scrollable Drawer Content -->
@@ -732,7 +721,7 @@
         </div>
         <h3 class="text-base font-extrabold text-plum">سلتك فارغة حالياً</h3>
         <p class="text-xs text-plum-muted mt-1 max-w-xs mx-auto">اختاري قطعك المفضلة من بيجامات، إكسسوارات، أو عطور رزان لتأكيد طلبك عبر واتساب.</p>
-        <button onclick="closeCartDrawer()" class="mt-5 px-6 py-2.5 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-xs cursor-pointer">
+        <button type="button" onclick="closeCartDrawer()" class="mt-5 px-6 py-2.5 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-xs cursor-pointer">
           تصفحي التشكيلة الآن
         </button>
       </div>
@@ -740,12 +729,9 @@
       <!-- Populated Cart + Deposit System + WhatsApp Checkout Form -->
       <div id="populated-cart-state" class="hidden space-y-4">
         
-        <!-- Cart Items List -->
-        <div id="cart-items-container" class="space-y-2.5">
-          <!-- Cart item cards rendered via JS -->
-        </div>
+        <div id="cart-items-container" class="space-y-2.5"></div>
 
-        <!-- Prominent Deposit Payment System Box (نظام الدفع بالديبوزت) -->
+        <!-- Deposit Payment System Box -->
         <div class="rounded-2xl rose-gold-soft-gradient border border-rosegold/40 p-4 space-y-3 shadow-2xs">
           <div class="flex items-center gap-2">
             <span class="w-7 h-7 rounded-full rose-gold-gradient text-white flex items-center justify-center text-xs font-extrabold shrink-0">!</span>
@@ -755,7 +741,6 @@
             لتأكيد طلبك وحجز القطع قبل النفاد، يتم تحويل <strong class="text-rosegold">ديبوزت 20% من إجمالي الطلب</strong> أولاً عبر فودافون كاش أو إنستاباي، ويُخصم من إجمالي الفاتورة والباقي يُدفع عند الاستلام مع المندوب.
           </p>
 
-          <!-- Quick-Copy Transfer Details -->
           <div class="grid grid-cols-1 gap-2 pt-1">
             <div class="flex items-center justify-between bg-white/95 rounded-xl px-3 py-2 border border-blush-border">
               <div class="text-right">
@@ -786,21 +771,18 @@
             <span>بيانات الشحن وتأكيد الحجز</span>
           </h3>
 
-          <!-- Full Name -->
           <div>
             <label for="checkout-name" class="block text-xs font-bold text-plum mb-1">الاسم بالكامل <span class="text-rose-500">*</span></label>
             <input type="text" id="checkout-name" placeholder="مثال: سارة محمد أحمد" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-xs sm:text-sm text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
             <p id="err-checkout-name" class="hidden text-[11px] text-rose-600 font-semibold mt-1">يرجى إدخال الاسم بالكامل (3 أحرف على الأقل).</p>
           </div>
 
-          <!-- 11-Digit Egyptian Mobile Number -->
           <div>
             <label for="checkout-phone" class="block text-xs font-bold text-plum mb-1">رقم الموبايل (11 رقم) <span class="text-rose-500">*</span></label>
             <input type="tel" id="checkout-phone" maxlength="11" dir="ltr" placeholder="01012345678" class="w-full text-right rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-xs sm:text-sm text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
             <p id="err-checkout-phone" class="hidden text-[11px] text-rose-600 font-semibold mt-1">يرجى إدخال رقم موبايل مصري صحيح (11 رقم يبدأ بـ 01).</p>
           </div>
 
-          <!-- Governorate Dropdown (Auto-calculates Shipping) -->
           <div>
             <label for="checkout-gov" class="block text-xs font-bold text-plum mb-1">المحافظة <span class="text-rose-500">*</span></label>
             <select id="checkout-gov" onchange="updateCartFinancials()" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-xs sm:text-sm text-plum focus:bg-white focus:outline-none focus:border-rosegold cursor-pointer">
@@ -836,14 +818,12 @@
             <p id="err-checkout-gov" class="hidden text-[11px] text-rose-600 font-semibold mt-1">يرجى اختيار المحافظة.</p>
           </div>
 
-          <!-- Detailed Address -->
           <div>
             <label for="checkout-address" class="block text-xs font-bold text-plum mb-1">العنوان بالتفصيل <span class="text-rose-500">*</span></label>
             <textarea id="checkout-address" rows="2" placeholder="المركز / الحي / اسم الشارع / علامة مميزة" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-xs sm:text-sm text-plum focus:bg-white focus:outline-none focus:border-rosegold"></textarea>
             <p id="err-checkout-address" class="hidden text-[11px] text-rose-600 font-semibold mt-1">يرجى كتابة العنوان بالتفصيل (المركز / الحي / الشارع).</p>
           </div>
 
-          <!-- Preferred Deposit Transfer Method -->
           <div>
             <label class="block text-xs font-bold text-plum mb-1.5">طريقة تحويل الديبوزت المفضلة</label>
             <div class="grid grid-cols-2 gap-2">
@@ -864,16 +844,13 @@
             </div>
           </div>
 
-          <!-- Optional Notes -->
           <div>
             <label for="checkout-notes" class="block text-xs font-bold text-plum mb-1">ملاحظات إضافية (اختياري)</label>
             <input type="text" id="checkout-notes" placeholder="مثال: تغليف هدية، أو ميعاد مناسب للاستلام" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-xs text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
           </div>
 
-          <!-- Free Shipping Progress -->
           <div id="free-shipping-progress" class="hidden text-center text-[11px] sm:text-xs font-extrabold text-rosegold bg-blush-tint border border-rosegold/30 rounded-xl px-3 py-2"></div>
 
-          <!-- Live Order Financial Summary Box -->
           <div class="bg-blush-soft/90 rounded-2xl p-3.5 space-y-2 border border-blush-border">
             <div class="flex items-center justify-between text-xs text-plum-muted">
               <span>إجمالي المنتجات:</span>
@@ -897,7 +874,6 @@
             </div>
           </div>
 
-          <!-- Primary CTA: WhatsApp Checkout Button -->
           <button
             type="submit"
             class="w-full py-3.5 px-4 rounded-full bg-[#25D366] hover:bg-[#1fb858] text-white font-extrabold text-xs sm:text-sm shadow-md border-2 border-rosegold/35 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
@@ -913,7 +889,7 @@
   <!-- ===================================================================== -->
   <!-- ORDER CONFIRMATION & DEPOSIT REMINDER MODAL                           -->
   <!-- ===================================================================== -->
-  <div id="order-success-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-plum/55 backdrop-blur-xs">
+  <div id="order-success-modal" onclick="if(event.target===this) closeOrderSuccessModal()" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-plum/55 backdrop-blur-xs">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-blush-border text-center space-y-4">
       <div class="w-16 h-16 mx-auto rounded-full bg-[#25D366]/15 text-[#178d43] flex items-center justify-center">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M5 13l4 4L19 7"/></svg>
@@ -923,38 +899,36 @@
         <span class="px-3 py-1 rounded-full bg-blush-tint text-rosegold text-xs font-extrabold" id="modal-order-ref">#RZ-1001</span>
         <h3 class="text-lg sm:text-xl font-extrabold text-plum mt-2">تم تجهيز طلبك بنجاح!</h3>
         <p id="modal-deposit-reminder" class="text-xs sm:text-sm text-plum-muted mt-1.5 leading-relaxed">
-          لإتمام حجز القطع، يرجى تحويل <strong class="text-rosegold">ديبوزت 20% من إجمالي الطلب</strong> وإرسال صورة التحويل (سكرين شوت) في محادثة واتساب المفتوحة الآن.
+          لإتمام حجز القطع، يرجى تحويل <strong class="text-rosegold">ديبوزت 20% من إجمالي الطلب</strong> وإرسال صورة التحويل (سكرين شوت) في محادثة واتساب.
         </p>
       </div>
 
-      <!-- Quick Copy Transfer Box Inside Confirmation -->
       <div class="bg-blush-soft rounded-2xl p-3.5 border border-blush-border text-right space-y-2 text-xs">
         <div class="flex items-center justify-between">
           <span class="text-plum-muted">فودافون كاش: <strong id="modal-vf-num" dir="ltr" class="text-plum">01008485337</strong></span>
-          <button onclick="copySettingValue('vodafone')" class="px-2.5 py-1 rounded-lg bg-white border border-blush-border text-[11px] font-bold text-rosegold cursor-pointer">نسخ</button>
+          <button type="button" onclick="copySettingValue('vodafone')" class="px-2.5 py-1 rounded-lg bg-white border border-blush-border text-[11px] font-bold text-rosegold cursor-pointer">نسخ</button>
         </div>
         <div class="flex items-center justify-between">
           <span class="text-plum-muted">إنستاباي: <strong id="modal-ip-id" dir="ltr" class="text-plum">razan.store@instapay</strong></span>
-          <button onclick="copySettingValue('instapay')" class="px-2.5 py-1 rounded-lg bg-white border border-blush-border text-[11px] font-bold text-rosegold cursor-pointer">نسخ</button>
+          <button type="button" onclick="copySettingValue('instapay')" class="px-2.5 py-1 rounded-lg bg-white border border-blush-border text-[11px] font-bold text-rosegold cursor-pointer">نسخ</button>
         </div>
       </div>
 
-      <!-- Action Buttons -->
       <div class="space-y-2 pt-1">
         <a
           id="modal-whatsapp-launch-link"
           href="#"
           target="_blank"
           rel="noopener noreferrer"
-          class="w-full py-3 rounded-full bg-[#25D366] hover:bg-[#1fb858] text-white text-xs sm:text-sm font-extrabold shadow-sm flex items-center justify-center gap-2 transition-all"
+          class="w-full py-3.5 rounded-full bg-[#25D366] hover:bg-[#1fb858] text-white text-xs sm:text-sm font-extrabold shadow-sm flex items-center justify-center gap-2 transition-all"
         >
-          <span>فتح محادثة واتساب وإرسال الإيصال</span>
+          <span>فتح محادثة واتساب وإرسال الطلب والإيصال</span>
         </a>
         <div class="grid grid-cols-2 gap-2">
-          <button onclick="copyLastWhatsAppReceipt()" class="py-2.5 rounded-full bg-blush-soft hover:bg-blush-tint text-plum text-xs font-bold border border-blush-border cursor-pointer">
+          <button type="button" onclick="copyLastWhatsAppReceipt()" class="py-2.5 rounded-full bg-blush-soft hover:bg-blush-tint text-plum text-xs font-bold border border-blush-border cursor-pointer">
             نسخ نص الفاتورة
           </button>
-          <button onclick="closeOrderSuccessModal()" class="py-2.5 rounded-full bg-white hover:bg-blush-soft text-plum-muted text-xs font-bold border border-blush-border cursor-pointer">
+          <button type="button" onclick="closeOrderSuccessModal()" class="py-2.5 rounded-full bg-white hover:bg-blush-soft text-plum-muted text-xs font-bold border border-blush-border cursor-pointer">
             متابعة التسوق
           </button>
         </div>
@@ -975,7 +949,7 @@
             <p class="text-[11px] text-plum-muted">تعديل بيانات التحويل، الديبوزت، المنتجات، ومتابعة الطلبات</p>
           </div>
         </div>
-        <button onclick="closeAdminModal()" class="px-4 py-2 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-2xs cursor-pointer">
+        <button type="button" onclick="closeAdminModal()" class="px-4 py-2 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-2xs cursor-pointer">
           العودة للمتجر
         </button>
       </div>
@@ -985,48 +959,59 @@
       
       <!-- Admin Tabs -->
       <div class="flex items-center gap-2 overflow-x-auto no-scrollbar border-b border-blush-border pb-2">
-        <button onclick="switchAdminTab('settings')" id="admin-tab-btn-settings" class="px-4 py-2 rounded-full text-xs font-bold rose-gold-gradient text-white shrink-0 cursor-pointer">
+        <button type="button" onclick="switchAdminTab('settings')" id="admin-tab-btn-settings" class="px-4 py-2 rounded-full text-xs font-bold rose-gold-gradient text-white shrink-0 cursor-pointer">
           إعدادات واتساب والديبوزت
         </button>
-        <button onclick="switchAdminTab('products')" id="admin-tab-btn-products" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-plum border border-blush-border shrink-0 cursor-pointer">
+        <button type="button" onclick="switchAdminTab('products')" id="admin-tab-btn-products" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-plum border border-blush-border shrink-0 cursor-pointer">
           المنتجات والأسعار (<span id="admin-prod-count">12</span>)
         </button>
-        <button onclick="switchAdminTab('orders')" id="admin-tab-btn-orders" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-plum border border-blush-border shrink-0 cursor-pointer">
+        <button type="button" onclick="switchAdminTab('orders')" id="admin-tab-btn-orders" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-plum border border-blush-border shrink-0 cursor-pointer">
           الطلبات المسجلة (<span id="admin-order-count">0</span>)
         </button>
       </div>
 
       <!-- TAB 1: PAYMENT & WHATSAPP SETTINGS -->
-      <div id="admin-panel-settings" class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs max-w-2xl">
-        <h3 class="text-sm sm:text-base font-extrabold text-plum mb-4">تحديث بيانات الاستلام والديبوزت</h3>
-        <form onsubmit="saveAdminSettings(event)" class="space-y-4">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-bold text-plum mb-1">رقم واتساب لاستقبال الطلبات *</label>
-              <input type="text" id="admin-set-whatsapp" dir="ltr" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+      <div id="admin-panel-settings" class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs max-w-2xl space-y-6">
+        <div>
+          <h3 class="text-sm sm:text-base font-extrabold text-plum mb-4">تحديث بيانات الاستلام والديبوزت</h3>
+          <form onsubmit="saveAdminSettings(event)" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-plum mb-1">رقم واتساب لاستقبال الطلبات *</label>
+                <input type="text" id="admin-set-whatsapp" dir="ltr" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-plum mb-1">نسبة الديبوزت % *</label>
+                <input type="number" id="admin-set-deposit" min="0" max="50" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-plum mb-1">رقم فودافون كاش *</label>
+                <input type="text" id="admin-set-vodafone" dir="ltr" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-plum mb-1">عنوان إنستاباي (InstaPay) *</label>
+                <input type="text" id="admin-set-instapay" dir="ltr" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
             </div>
-            <div>
-              <label class="block text-xs font-bold text-plum mb-1">نسبة الديبوزت % *</label>
-              <input type="number" id="admin-set-deposit" min="0" max="50" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-plum mb-1">رقم فودافون كاش *</label>
-              <input type="text" id="admin-set-vodafone" dir="ltr" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-plum mb-1">عنوان إنستاباي (InstaPay) *</label>
-              <input type="text" id="admin-set-instapay" dir="ltr" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
-            </div>
+            <button type="submit" class="px-6 py-2.5 rounded-full rose-gold-gradient text-white text-xs sm:text-sm font-bold shadow-xs cursor-pointer">
+              حفظ الإعدادات وتطبيقها فوراً
+            </button>
+          </form>
+        </div>
+
+        <div class="pt-4 border-t border-blush-border flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h4 class="text-xs font-extrabold text-plum">استعادة البيانات الافتراضية للمتجر</h4>
+            <p class="text-[11px] text-plum-muted">إعادة المنتجات الـ 12 الأصلية وإعدادات المتجر الافتراضية.</p>
           </div>
-          <button type="submit" class="px-6 py-2.5 rounded-full rose-gold-gradient text-white text-xs sm:text-sm font-bold shadow-xs cursor-pointer">
-            حفظ الإعدادات وتطبيقها فوراً
+          <button type="button" onclick="resetStoreDefaults()" class="px-4 py-2 rounded-full bg-blush-soft border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">
+            إعادة ضبط المتجر
           </button>
-        </form>
+        </div>
       </div>
 
       <!-- TAB 2: MANAGE PRODUCTS & ADD NEW -->
       <div id="admin-panel-products" class="hidden space-y-6">
-        <!-- Add New Product Card -->
         <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs">
           <h3 class="text-sm sm:text-base font-extrabold text-plum mb-4">+ إضافة منتج جديد</h3>
           <form onsubmit="handleAdminAddProduct(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
@@ -1073,20 +1058,15 @@
           </form>
         </div>
 
-        <!-- Existing Products List -->
         <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs space-y-3">
           <h3 class="text-sm sm:text-base font-extrabold text-plum">تعديل الأسعار والمخزون</h3>
-          <div id="admin-products-list" class="space-y-2.5">
-            <!-- Rendered via JS -->
-          </div>
+          <div id="admin-products-list" class="space-y-2.5"></div>
         </div>
       </div>
 
       <!-- TAB 3: SAVED ORDERS -->
       <div id="admin-panel-orders" class="hidden space-y-3">
-        <div id="admin-orders-list" class="space-y-3">
-          <!-- Rendered via JS -->
-        </div>
+        <div id="admin-orders-list" class="space-y-3"></div>
       </div>
 
     </div>
@@ -1097,12 +1077,41 @@
   <!-- ===================================================================== -->
   <script>
     // =========================================================================
-    // 1. BESPOKE ROSE-GOLD SVG ILLUSTRATION FALLBACK GENERATOR (NO BASE64)
+    // 0. SAFE ESCAPING & URL SANITIZATION HELPERS
+    // =========================================================================
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function escapeJsStr(str) {
+      return String(str ?? "")
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, "\\n")
+        .replace(/\r/g, "\\r");
+    }
+
+    function sanitizeImageUrl(url, fallbackSvg) {
+      const val = String(url ?? "").trim();
+      if (!val) return fallbackSvg;
+      if (val.startsWith("https://") || val.startsWith("http://") || val.startsWith("data:image/")) {
+        return val;
+      }
+      return fallbackSvg;
+    }
+
+    // =========================================================================
+    // 1. BESPOKE ROSE-GOLD SVG ILLUSTRATION FALLBACK GENERATOR
     // =========================================================================
     function createRoseGoldIllustrationUrl(category, title) {
       let iconPath = "";
       if (category === "بيجامات") {
-        // Elegant silk pajama top & collar silhouette
         iconPath = `
           <path d="M115 95 L145 80 L175 80 L205 95 L225 140 L200 152 L190 128 L190 215 L130 215 L130 128 L120 152 L95 140 Z" fill="#F8E5EA" stroke="#B76E79" stroke-width="2.5" stroke-linejoin="round"/>
           <path d="M145 80 L160 112 L175 80" fill="none" stroke="#B76E79" stroke-width="2.2" stroke-linecap="round"/>
@@ -1111,7 +1120,6 @@
           <circle cx="160" cy="172" r="2.5" fill="#B76E79"/>
         `;
       } else if (category === "إكسسوارات") {
-        // Delicate rose-gold necklace & pendant silhouette
         iconPath = `
           <path d="M115 95 C115 150, 205 150, 205 95" fill="none" stroke="#B76E79" stroke-width="2.5" stroke-linecap="round"/>
           <circle cx="160" cy="142" r="6" fill="#F8E5EA" stroke="#B76E79" stroke-width="2"/>
@@ -1119,7 +1127,6 @@
           <circle cx="160" cy="172" r="4" fill="#B76E79"/>
         `;
       } else if (category === "برفانات") {
-        // Luxury glass perfume flacon silhouette
         iconPath = `
           <rect x="146" y="78" width="28" height="20" rx="5" fill="#B76E79"/>
           <rect x="152" y="98" width="16" height="12" fill="#D49B9E"/>
@@ -1128,7 +1135,6 @@
           <text x="160" y="159" font-family="serif" font-size="13" font-weight="bold" fill="#B76E79" text-anchor="middle">RAZAN</text>
         `;
       } else {
-        // Luxury gift bundle box with ribbon
         iconPath = `
           <rect x="115" y="122" width="90" height="82" rx="10" fill="#F8E5EA" stroke="#B76E79" stroke-width="2.5"/>
           <rect x="108" y="106" width="104" height="18" rx="6" fill="#FFFFFF" stroke="#B76E79" stroke-width="2.5"/>
@@ -1138,6 +1144,7 @@
         `;
       }
 
+      const safeCat = escapeHtml(category);
       const svg = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 380" width="320" height="380">
           <defs>
@@ -1150,7 +1157,7 @@
           <circle cx="160" cy="148" r="88" fill="#FFFFFF" stroke="#F3DCE3" stroke-width="2"/>
           ${iconPath}
           <text x="160" y="275" font-family="sans-serif" font-size="14" font-weight="bold" fill="#B76E79" text-anchor="middle">RAZAN | رزان</text>
-          <text x="160" y="300" font-family="sans-serif" font-size="12" fill="#6E545B" text-anchor="middle">${category}</text>
+          <text x="160" y="300" font-family="sans-serif" font-size="12" fill="#6E545B" text-anchor="middle">${safeCat}</text>
         </svg>
       `.trim();
 
@@ -1349,7 +1356,8 @@
     const STORAGE_KEYS = {
       SETTINGS: "razan_store_settings_v1",
       PRODUCTS: "razan_store_products_v1",
-      ORDERS: "razan_store_orders_v1"
+      ORDERS: "razan_store_orders_v1",
+      CART: "razan_store_cart_v1"
     };
 
     const DEFAULT_SETTINGS = {
@@ -1361,10 +1369,10 @@
 
     const appState = {
       settings: { ...DEFAULT_SETTINGS },
-      products: [...DEFAULT_PRODUCTS],
+      products: JSON.parse(JSON.stringify(DEFAULT_PRODUCTS)),
       orders: [],
-      cart: [], // { key, productId, name, category, price, variant, qty, image }
-      activeView: "store", // 'store' | 'shipping'
+      cart: [],
+      activeView: "store",
       selectedCategory: "الكل",
       searchQuery: "",
       sortBy: "featured",
@@ -1380,7 +1388,6 @@
           appState.settings = { ...DEFAULT_SETTINGS, ...JSON.parse(savedSettings) };
         }
         if (appState.settings.depositPercent == null) {
-          // Migrate legacy fixed-amount deposit (was 100 EGP) to the 20% rate
           appState.settings.depositPercent = 20;
           delete appState.settings.deposit;
         }
@@ -1395,11 +1402,23 @@
         if (savedOrders) {
           appState.orders = JSON.parse(savedOrders) || [];
         }
+        const savedCart = localStorage.getItem(STORAGE_KEYS.CART);
+        if (savedCart) {
+          const parsedCart = JSON.parse(savedCart);
+          if (Array.isArray(parsedCart)) {
+            appState.cart = parsedCart.filter(item => {
+              const prod = appState.products.find(p => p.id === item.productId);
+              return prod && prod.stock > 0 && item.qty > 0;
+            }).map(item => {
+              const prod = appState.products.find(p => p.id === item.productId);
+              return { ...item, qty: Math.min(item.qty, prod.stock) };
+            });
+          }
+        }
       } catch (e) {
         console.warn("Storage load skipped:", e.message);
       }
 
-      // Initialize default variant selection for each product
       appState.products.forEach(p => {
         if (!appState.selectedVariants[p.id] && p.variants?.length) {
           appState.selectedVariants[p.id] = p.variants[0];
@@ -1407,11 +1426,20 @@
       });
     }
 
+    function persistCart() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(appState.cart));
+      } catch (e) {
+        console.warn("Cart save skipped:", e.message);
+      }
+    }
+
     function persistData() {
       try {
         localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(appState.settings));
         localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(appState.products));
         localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(appState.orders));
+        localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(appState.cart));
       } catch (e) {
         console.warn("Storage save skipped:", e.message);
       }
@@ -1470,7 +1498,7 @@
     }
 
     // =========================================================================
-    // 4b. DARK MODE TOGGLE (persisted, respects device preference by default)
+    // 4b. DARK MODE TOGGLE
     // =========================================================================
     function applyThemeIcon() {
       const dark = document.documentElement.classList.contains('dark');
@@ -1557,34 +1585,36 @@
       const container = document.getElementById("offers-showcase-grid");
       if (!container) return;
 
-      // Pick combo offers & top sellers
       const showcaseItems = appState.products.filter(p => p.isOffer || p.id === "rz-1" || p.id === "rz-9").slice(0, 3);
 
       container.innerHTML = showcaseItems.map(item => {
         const selectedVar = appState.selectedVariants[item.id] || (item.variants?.[0] ?? "");
         const fallbackSvg = createRoseGoldIllustrationUrl(item.category, item.name);
+        const safeImg = sanitizeImageUrl(item.image, fallbackSvg);
         const isOut = item.stock <= 0;
+        const safeIdJs = escapeJsStr(item.id);
+        const safeIdHtml = escapeHtml(item.id);
 
         return `
           <div class="snap-start shrink-0 w-[82%] sm:w-[60%] md:w-auto bg-white rounded-2xl border border-blush-border p-3 flex flex-col justify-between shadow-2xs hover:border-rosegold transition-all">
             <div class="flex gap-3">
-              <div onclick="openQuickViewModal('${item.id}')" class="relative w-24 h-28 sm:w-28 sm:h-32 rounded-xl overflow-hidden bg-blush-soft shrink-0 cursor-pointer">
+              <div onclick="openQuickViewModal('${safeIdJs}')" class="relative w-24 h-28 sm:w-28 sm:h-32 rounded-xl overflow-hidden bg-blush-soft shrink-0 cursor-pointer">
                 <img
-                  src="${item.image}"
-                  alt="${item.name}"
+                  src="${escapeHtml(safeImg)}"
+                  alt="${escapeHtml(item.name)}"
                   onerror="this.onerror=null; this.src='${fallbackSvg}';"
                   class="w-full h-full object-cover"
                 />
-                ${item.badge ? `<span class="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-full text-[10px] font-extrabold rose-gold-gradient text-white shadow-2xs">${item.badge}</span>` : ""}
+                ${item.badge ? `<span class="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-full text-[10px] font-extrabold rose-gold-gradient text-white shadow-2xs">${escapeHtml(item.badge)}</span>` : ""}
               </div>
 
               <div class="flex-1 min-w-0 flex flex-col justify-between">
                 <div>
-                  <span class="text-[10px] font-bold text-rosegold">${item.category}</span>
-                  <h3 onclick="openQuickViewModal('${item.id}')" class="text-xs sm:text-sm font-extrabold text-plum line-clamp-2 leading-snug cursor-pointer hover:text-rosegold">
-                    ${item.name}
+                  <span class="text-[10px] font-bold text-rosegold">${escapeHtml(item.category)}</span>
+                  <h3 onclick="openQuickViewModal('${safeIdJs}')" class="text-xs sm:text-sm font-extrabold text-plum line-clamp-2 leading-snug cursor-pointer hover:text-rosegold">
+                    ${escapeHtml(item.name)}
                   </h3>
-                  <p class="text-[11px] text-plum-muted line-clamp-1 mt-0.5">${item.fabric}</p>
+                  <p class="text-[11px] text-plum-muted line-clamp-1 mt-0.5">${escapeHtml(item.fabric)}</p>
                 </div>
 
                 <div class="flex items-baseline gap-1.5 mt-1.5">
@@ -1594,26 +1624,25 @@
               </div>
             </div>
 
-            <!-- Direct Variant Selection & Add Offer Button -->
             <div class="mt-3 pt-2.5 border-t border-blush-border flex items-center justify-between gap-2">
               <div class="flex items-center gap-1 overflow-x-auto no-scrollbar">
                 ${(item.variants || []).map(v => `
                   <button
                     type="button"
-                    onclick="selectVariant('${item.id}', '${v}')"
+                    onclick="selectVariant('${safeIdJs}', '${escapeJsStr(v)}')"
                     class="px-2 py-0.5 rounded-lg text-[10px] font-bold border transition-all cursor-pointer ${
                       selectedVar === v
                         ? "bg-blush-tint border-rosegold text-plum"
                         : "bg-blush/50 border-blush-border text-plum-muted hover:border-rosegold"
                     }"
-                  >${v}</button>
+                  >${escapeHtml(v)}</button>
                 `).join("")}
               </div>
 
               <button
                 type="button"
-                id="offer-btn-${item.id}"
-                onclick="handleAddToCartWithFeedback('${item.id}', 'offer-btn-${item.id}')"
+                id="offer-btn-${safeIdHtml}"
+                onclick="handleAddToCartWithFeedback('${safeIdJs}', 'offer-btn-${safeIdJs}')"
                 ${isOut ? "disabled" : ""}
                 class="shrink-0 px-3 py-1.5 rounded-full text-[11px] font-extrabold transition-all cursor-pointer ${
                   isOut
@@ -1649,14 +1678,14 @@
         return `
           <button
             type="button"
-            onclick="setCatalogCategory('${tab}')"
+            onclick="setCatalogCategory('${escapeJsStr(tab)}')"
             class="shrink-0 px-3.5 py-2 rounded-full text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer ${
               isActive
                 ? "rose-gold-gradient text-white shadow-2xs"
                 : "bg-white text-plum hover:text-rosegold border border-blush-border"
             }"
           >
-            <span>${tab}</span>
+            <span>${escapeHtml(tab)}</span>
             <span class="text-[10px] ${isActive ? "text-white/90" : "text-plum-muted"}">(${count})</span>
           </button>
         `;
@@ -1721,12 +1750,15 @@
       grid.innerHTML = filtered.map(product => {
         const selectedVar = appState.selectedVariants[product.id] || (product.variants?.[0] ?? "");
         const fallbackSvg = createRoseGoldIllustrationUrl(product.category, product.name);
+        const safeImg = sanitizeImageUrl(product.image, fallbackSvg);
         const isOut = product.stock <= 0;
         const isLow = product.stock > 0 && product.stock <= 5;
+        const safeIdJs = escapeJsStr(product.id);
+        const safeIdHtml = escapeHtml(product.id);
 
         let topBadgeHtml = "";
         if (product.badge) {
-          topBadgeHtml = `<span class="absolute top-2.5 right-2.5 z-10 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold rose-gold-gradient text-white shadow-2xs">${product.badge}</span>`;
+          topBadgeHtml = `<span class="absolute top-2.5 right-2.5 z-10 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold rose-gold-gradient text-white shadow-2xs">${escapeHtml(product.badge)}</span>`;
         }
 
         let stockWarningHtml = "";
@@ -1741,14 +1773,14 @@
           return `
             <button
               type="button"
-              onclick="selectVariant('${product.id}', '${v}')"
+              onclick="selectVariant('${safeIdJs}', '${escapeJsStr(v)}')"
               class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-[10px] sm:text-[11px] font-bold border transition-all cursor-pointer ${
                 active
                   ? "bg-blush-tint border-rosegold text-plum shadow-2xs"
                   : "bg-blush/60 border-blush-border text-plum-muted hover:border-rosegold hover:text-plum"
               }"
             >
-              ${v}
+              ${escapeHtml(v)}
             </button>
           `;
         }).join("");
@@ -1756,37 +1788,33 @@
         return `
           <article class="bg-white rounded-2xl sm:rounded-3xl border border-blush-border overflow-hidden flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-rosegold/60 transition-all duration-300 group">
             <div>
-              <!-- Product Image -->
-              <div onclick="openQuickViewModal('${product.id}')" class="relative aspect-[4/5] bg-blush-soft overflow-hidden cursor-pointer">
+              <div onclick="openQuickViewModal('${safeIdJs}')" class="relative aspect-[4/5] bg-blush-soft overflow-hidden cursor-pointer">
                 ${topBadgeHtml}
                 <span class="absolute top-2.5 left-2.5 z-10 px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/90 text-plum-muted border border-blush-border">
-                  ${product.category}
+                  ${escapeHtml(product.category)}
                 </span>
                 ${stockWarningHtml}
                 <img
-                  src="${product.image}"
-                  alt="${product.name}"
+                  src="${escapeHtml(safeImg)}"
+                  alt="${escapeHtml(product.name)}"
                   loading="lazy"
                   onerror="this.onerror=null; this.src='${fallbackSvg}';"
                   class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ${isOut ? "opacity-60 grayscale-[30%]" : ""}"
                 />
               </div>
 
-              <!-- Title, Fabric Note & Interactive Sizes -->
               <div class="p-3 sm:p-4 pb-2">
-                <h3 onclick="openQuickViewModal('${product.id}')" class="text-xs sm:text-sm font-extrabold text-plum line-clamp-1 cursor-pointer hover:text-rosegold transition-colors">
-                  ${product.name}
+                <h3 onclick="openQuickViewModal('${safeIdJs}')" class="text-xs sm:text-sm font-extrabold text-plum line-clamp-1 cursor-pointer hover:text-rosegold transition-colors">
+                  ${escapeHtml(product.name)}
                 </h3>
-                <p class="text-[11px] text-plum-muted line-clamp-1 mt-0.5">${product.fabric || ""}</p>
+                <p class="text-[11px] text-plum-muted line-clamp-1 mt-0.5">${escapeHtml(product.fabric || "")}</p>
 
-                <!-- Variant / Size Selector Pills -->
                 <div class="flex flex-wrap items-center gap-1 sm:gap-1.5 mt-2.5">
                   ${variantPills}
                 </div>
               </div>
             </div>
 
-            <!-- Price & Full-Width Rose-Gold Add to Cart Button -->
             <div class="p-3 sm:p-4 pt-2 space-y-2.5">
               <div class="flex items-baseline gap-1.5">
                 <span class="text-sm sm:text-base font-extrabold text-rosegold">${product.price} ج.م</span>
@@ -1795,8 +1823,8 @@
 
               <button
                 type="button"
-                id="card-add-btn-${product.id}"
-                onclick="handleAddToCartWithFeedback('${product.id}', 'card-add-btn-${product.id}')"
+                id="card-add-btn-${safeIdHtml}"
+                onclick="handleAddToCartWithFeedback('${safeIdJs}', 'card-add-btn-${safeIdJs}')"
                 ${isOut ? "disabled" : ""}
                 class="w-full py-2.5 px-3 rounded-full text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                   isOut
@@ -1858,28 +1886,30 @@
       const body = document.getElementById("quick-view-body");
       const selectedVar = appState.selectedVariants[product.id] || (product.variants?.[0] ?? "");
       const fallbackSvg = createRoseGoldIllustrationUrl(product.category, product.name);
+      const safeImg = sanitizeImageUrl(product.image, fallbackSvg);
       const isOut = product.stock <= 0;
+      const safeIdJs = escapeJsStr(product.id);
 
       body.innerHTML = `
         <div class="aspect-[4/5] sm:aspect-auto sm:h-full bg-blush-soft relative">
           <img
-            src="${product.image}"
-            alt="${product.name}"
+            src="${escapeHtml(safeImg)}"
+            alt="${escapeHtml(product.name)}"
             onerror="this.onerror=null; this.src='${fallbackSvg}';"
             class="w-full h-full object-cover"
           />
-          ${product.badge ? `<span class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-extrabold rose-gold-gradient text-white shadow-xs">${product.badge}</span>` : ""}
+          ${product.badge ? `<span class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-extrabold rose-gold-gradient text-white shadow-xs">${escapeHtml(product.badge)}</span>` : ""}
         </div>
 
         <div class="p-5 sm:p-7 flex flex-col justify-between space-y-4">
           <div class="space-y-3">
-            <span class="inline-block px-3 py-0.5 rounded-full text-xs font-bold bg-blush-tint text-rosegold">${product.category}</span>
-            <h3 class="text-lg sm:text-xl font-extrabold text-plum leading-snug">${product.name}</h3>
+            <span class="inline-block px-3 py-0.5 rounded-full text-xs font-bold bg-blush-tint text-rosegold">${escapeHtml(product.category)}</span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-plum leading-snug">${escapeHtml(product.name)}</h3>
             <div class="flex items-baseline gap-2">
               <span class="text-xl font-extrabold text-rosegold">${product.price} ج.م</span>
               ${product.oldPrice ? `<span class="text-xs text-plum-muted line-through">${product.oldPrice} ج.م</span>` : ""}
             </div>
-            <p class="text-xs sm:text-sm text-plum-muted leading-relaxed">${product.description || product.fabric}</p>
+            <p class="text-xs sm:text-sm text-plum-muted leading-relaxed">${escapeHtml(product.description || product.fabric)}</p>
 
             <div class="pt-1">
               <span class="block text-xs font-extrabold text-plum mb-2">اختاري المقاس / النوع:</span>
@@ -1887,13 +1917,13 @@
                 ${(product.variants || []).map(v => `
                   <button
                     type="button"
-                    onclick="selectVariant('${product.id}', '${v}'); openQuickViewModal('${product.id}')"
+                    onclick="selectVariant('${safeIdJs}', '${escapeJsStr(v)}'); openQuickViewModal('${safeIdJs}')"
                     class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold border transition-all cursor-pointer ${
                       selectedVar === v
                         ? "rose-gold-gradient text-white border-transparent shadow-2xs"
                         : "bg-blush border-blush-border text-plum hover:border-rosegold"
                     }"
-                  >${v}</button>
+                  >${escapeHtml(v)}</button>
                 `).join("")}
               </div>
             </div>
@@ -1905,7 +1935,7 @@
 
           <button
             type="button"
-            onclick="addToCart('${product.id}'); closeQuickViewModal();"
+            onclick="addToCart('${safeIdJs}'); closeQuickViewModal();"
             ${isOut ? "disabled" : ""}
             class="w-full py-3.5 rounded-full text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
               isOut
@@ -1979,6 +2009,7 @@
         });
       }
 
+      persistCart();
       updateCartBadge();
       renderCartDrawer();
       showToast(`تمت إضافة "${product.name}" (${variant}) للسلة`);
@@ -2009,14 +2040,24 @@
         }
       }
 
+      persistCart();
       updateCartBadge();
       renderCartDrawer();
     };
 
     window.removeCartItem = function (key) {
       appState.cart = appState.cart.filter(item => item.key !== key);
+      persistCart();
       updateCartBadge();
       renderCartDrawer();
+    };
+
+    window.clearFullCart = function () {
+      appState.cart = [];
+      persistCart();
+      updateCartBadge();
+      renderCartDrawer();
+      showToast("تم إفراغ السلة");
     };
 
     function updateCartBadge() {
@@ -2025,10 +2066,7 @@
       if (badge) badge.textContent = count;
     }
 
-    // Free shipping for orders of 1200 EGP or more (subtotal, before shipping)
     const FREE_SHIPPING_THRESHOLD = 1200;
-    // Default deposit rate is 20% -> 0.20 of the grand total (incl. shipping)
-    const DEFAULT_DEPOSIT_RATE = 0.20;
 
     function getDepositPercent() {
       const v = Number(appState.settings.depositPercent);
@@ -2037,12 +2075,12 @@
     }
 
     function calcDeposit(grandTotal) {
-      const rate = getDepositPercent() / 100; // 0.20 at the default 20%
+      const rate = getDepositPercent() / 100;
       return grandTotal > 0 ? Math.round(grandTotal * rate) : 0;
     }
 
     function getShippingRateForGov(gov, subtotal) {
-      if ((subtotal || 0) >= FREE_SHIPPING_THRESHOLD) return 0; // free shipping over 1200 EGP
+      if ((subtotal || 0) >= FREE_SHIPPING_THRESHOLD) return 0;
       if (!gov) return 0;
       if (gov === "الشرقية") return 50;
       if (gov === "القاهرة" || gov === "الجيزة") return 60;
@@ -2056,7 +2094,6 @@
       const gov = document.getElementById("checkout-gov")?.value || "";
       const shipping = getShippingRateForGov(gov, subtotal);
       const grandTotal = subtotal + shipping;
-      // Deposit = 20% of the grand total incl. shipping: Math.round(grandTotal * 0.20) at the default rate
       const depositRequired = calcDeposit(grandTotal);
       const remainingOnDelivery = Math.max(0, grandTotal - depositRequired);
 
@@ -2093,6 +2130,7 @@
       const emptyState = document.getElementById("empty-cart-state");
       const populatedState = document.getElementById("populated-cart-state");
       const itemsContainer = document.getElementById("cart-items-container");
+      const clearCartBtn = document.getElementById("clear-cart-btn");
 
       if (subtitle) {
         subtitle.textContent = `${totalCount} ${totalCount === 1 ? "قطعة" : "قطع"} في السلة`;
@@ -2101,37 +2139,41 @@
       if (appState.cart.length === 0) {
         emptyState?.classList.remove("hidden");
         populatedState?.classList.add("hidden");
+        clearCartBtn?.classList.add("hidden");
         return;
       }
 
       emptyState?.classList.add("hidden");
       populatedState?.classList.remove("hidden");
+      clearCartBtn?.classList.remove("hidden");
 
       itemsContainer.innerHTML = appState.cart.map(item => {
         const fallbackSvg = createRoseGoldIllustrationUrl(item.category, item.name);
+        const safeImg = sanitizeImageUrl(item.image, fallbackSvg);
+        const safeKeyJs = escapeJsStr(item.key);
         return `
           <div class="bg-white rounded-2xl p-3 border border-blush-border flex items-center gap-3 shadow-2xs">
             <img
-              src="${item.image}"
-              alt="${item.name}"
+              src="${escapeHtml(safeImg)}"
+              alt="${escapeHtml(item.name)}"
               onerror="this.onerror=null; this.src='${fallbackSvg}';"
               class="w-16 h-20 rounded-xl object-cover bg-blush-soft shrink-0"
             />
             <div class="flex-1 min-w-0">
-              <h4 class="text-xs sm:text-sm font-extrabold text-plum truncate">${item.name}</h4>
+              <h4 class="text-xs sm:text-sm font-extrabold text-plum truncate">${escapeHtml(item.name)}</h4>
               <span class="inline-block mt-1 px-2 py-0.5 rounded-md bg-blush-tint text-rosegold text-[10px] font-bold">
-                المقاس / النوع: ${item.variant}
+                المقاس / النوع: ${escapeHtml(item.variant)}
               </span>
               <div class="flex items-center justify-between mt-2">
                 <span class="text-xs sm:text-sm font-extrabold text-plum">${item.price * item.qty} ج.م</span>
                 <div class="flex items-center gap-1 bg-blush rounded-full border border-blush-border px-1.5 py-0.5">
-                  <button type="button" onclick="updateCartQty('${item.key}', -1)" class="w-6 h-6 rounded-full hover:bg-white text-plum font-extrabold text-xs flex items-center justify-center cursor-pointer">-</button>
+                  <button type="button" onclick="updateCartQty('${safeKeyJs}', -1)" class="w-6 h-6 rounded-full hover:bg-white text-plum font-extrabold text-xs flex items-center justify-center cursor-pointer">-</button>
                   <span class="text-xs font-extrabold px-1.5">${item.qty}</span>
-                  <button type="button" onclick="updateCartQty('${item.key}', 1)" class="w-6 h-6 rounded-full hover:bg-white text-plum font-extrabold text-xs flex items-center justify-center cursor-pointer">+</button>
+                  <button type="button" onclick="updateCartQty('${safeKeyJs}', 1)" class="w-6 h-6 rounded-full hover:bg-white text-plum font-extrabold text-xs flex items-center justify-center cursor-pointer">+</button>
                 </div>
               </div>
             </div>
-            <button type="button" onclick="removeCartItem('${item.key}')" class="p-1.5 text-plum-muted hover:text-rose-600 transition-colors cursor-pointer" title="حذف">
+            <button type="button" onclick="removeCartItem('${safeKeyJs}')" class="p-1.5 text-plum-muted hover:text-rose-600 transition-colors cursor-pointer" title="حذف">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
             </button>
           </div>
@@ -2222,7 +2264,6 @@
       const subtotal = appState.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
       const shipping = getShippingRateForGov(gov, subtotal);
       const grandTotal = subtotal + shipping;
-      // Deposit = 20% of the grand total incl. shipping: Math.round(grandTotal * 0.20) at the default rate
       const depositRequired = calcDeposit(grandTotal);
       const remainingOnDelivery = Math.max(0, grandTotal - depositRequired);
 
@@ -2235,7 +2276,6 @@
         minute: "2-digit"
       });
 
-      // Deduct stock from products
       appState.cart.forEach(item => {
         const prod = appState.products.find(p => p.id === item.productId);
         if (prod) {
@@ -2261,9 +2301,7 @@
       };
 
       appState.orders.unshift(orderRecord);
-      persistData();
 
-      // Build neatly formatted Arabic WhatsApp receipt
       const itemsLines = orderRecord.items
         .map((item, idx) => `${idx + 1}. ${item.name} (${item.variant}) × ${item.qty} = ${item.price * item.qty} ج.م`)
         .join("\n");
@@ -2300,23 +2338,21 @@
       const waPhone = formatEgyptianWhatsAppNumber(appState.settings.whatsapp);
       const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(receiptMessage)}`;
 
-      // Clear cart & reset form
       appState.cart = [];
+      persistData();
       document.getElementById("whatsapp-checkout-form").reset();
       updateCartBadge();
       closeCartDrawer();
       renderOffersShowcase();
       renderProductsGrid();
 
-      // Open confirmation modal with deposit screenshot reminder & launch WhatsApp
       openOrderSuccessModal(orderRecord, waUrl);
-      window.open(waUrl, "_blank", "noopener,noreferrer");
     };
 
     function openOrderSuccessModal(order, waUrl) {
       document.getElementById("modal-order-ref").textContent = order.id;
       document.getElementById("modal-deposit-reminder").innerHTML =
-        `لإتمام حجز القطع، يرجى تحويل <strong class="text-rosegold">ديبوزت ${order.depositRequired} ج.م (${getDepositPercent()}% من إجمالي الطلب)</strong> وإرسال صورة التحويل (سكرين شوت) في محادثة واتساب المفتوحة الآن.`;
+        `لإتمام حجز القطع، يرجى تحويل <strong class="text-rosegold">ديبوزت ${order.depositRequired} ج.م (${getDepositPercent()}% من إجمالي الطلب)</strong> وإرسال الفاتورة وصورة التحويل (سكرين شوت) عبر زر واتساب بالأسفل.`;
 
       const linkEl = document.getElementById("modal-whatsapp-launch-link");
       if (linkEl) linkEl.href = waUrl;
@@ -2360,9 +2396,21 @@
     };
 
     // =========================================================================
-    // 12. CLIPBOARD HELPER (IFRAME SAFE execCommand) & TOAST SYSTEM
+    // 12. CLIPBOARD HELPER & TOAST SYSTEM
     // =========================================================================
     function copyTextWithExecCommand(text, successMsg) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(successMsg);
+        }).catch(() => {
+          fallbackCopy(text, successMsg);
+        });
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
       const tempArea = document.createElement("textarea");
       tempArea.value = text;
       tempArea.style.position = "fixed";
@@ -2401,7 +2449,7 @@
       }`;
       toast.innerHTML = `
         <span class="w-2 h-2 rounded-full ${isError ? "bg-white" : "bg-rosegold-champagne"}"></span>
-        <span>${message}</span>
+        <span>${escapeHtml(message)}</span>
       `;
       container.appendChild(toast);
       requestAnimationFrame(() => {
@@ -2463,6 +2511,22 @@
       showToast("تم حفظ إعدادات المتجر والديبوزت بنجاح");
     };
 
+    window.resetStoreDefaults = function () {
+      appState.settings = { ...DEFAULT_SETTINGS };
+      appState.products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+      appState.selectedVariants = {};
+      appState.products.forEach(p => {
+        if (p.variants?.length) appState.selectedVariants[p.id] = p.variants[0];
+      });
+      persistData();
+      syncSettingsToUI();
+      renderOffersShowcase();
+      renderCategoryTabs();
+      renderProductsGrid();
+      openAdminModal();
+      showToast("تمت استعادة البيانات الافتراضية للمتجر");
+    };
+
     window.handleAdminCatDefaultVariants = function (cat) {
       const inp = document.getElementById("add-prod-variants");
       if (!inp) return;
@@ -2479,11 +2543,12 @@
       const price = Number(document.getElementById("add-prod-price").value);
       const stock = Number(document.getElementById("add-prod-stock").value);
       const variants = document.getElementById("add-prod-variants").value.split(",").map(v => v.trim()).filter(Boolean);
-      const imgUrl = document.getElementById("add-prod-img").value.trim();
+      const rawImgUrl = document.getElementById("add-prod-img").value.trim();
       const fabric = document.getElementById("add-prod-desc").value.trim();
 
       if (!name || price <= 0) return;
 
+      const fallbackSvg = createRoseGoldIllustrationUrl(category, name);
       const newProd = {
         id: "rz-" + Date.now(),
         name,
@@ -2496,7 +2561,7 @@
         isBestSeller: false,
         isOffer: category === "العروض",
         variants: variants.length ? variants : ["مقاس موحد"],
-        image: imgUrl || createRoseGoldIllustrationUrl(category, name),
+        image: sanitizeImageUrl(rawImgUrl, fallbackSvg),
         description: fabric || "قطعة مختارة بعناية من تشكيلة رزان."
       };
 
@@ -2520,25 +2585,30 @@
 
       container.innerHTML = appState.products.map(p => {
         const fallbackSvg = createRoseGoldIllustrationUrl(p.category, p.name);
+        const safeImg = sanitizeImageUrl(p.image, fallbackSvg);
+        const safeIdJs = escapeJsStr(p.id);
         return `
           <div class="p-3 rounded-2xl border border-blush-border bg-blush/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div class="flex items-center gap-3 min-w-0">
-              <img src="${p.image}" alt="${p.name}" onerror="this.onerror=null; this.src='${fallbackSvg}';" class="w-12 h-14 rounded-xl object-cover shrink-0" />
+              <img src="${escapeHtml(safeImg)}" alt="${escapeHtml(p.name)}" onerror="this.onerror=null; this.src='${fallbackSvg}';" class="w-12 h-14 rounded-xl object-cover shrink-0" />
               <div class="min-w-0">
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-rosegold border border-blush-border">${p.category}</span>
-                <h4 class="text-xs sm:text-sm font-extrabold text-plum truncate mt-0.5">${p.name}</h4>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-rosegold border border-blush-border">${escapeHtml(p.category)}</span>
+                <h4 class="text-xs sm:text-sm font-extrabold text-plum truncate mt-0.5">${escapeHtml(p.name)}</h4>
               </div>
             </div>
 
             <div class="flex items-center gap-2 shrink-0">
               <div class="flex items-center gap-1 bg-white px-2.5 py-1 rounded-xl border border-blush-border">
                 <span class="text-[11px] text-plum-muted">السعر:</span>
-                <input type="number" value="${p.price}" min="1" onchange="updateAdminProduct('${p.id}', 'price', this.value)" class="w-14 text-xs font-extrabold text-center text-plum focus:outline-none" />
+                <input type="number" value="${p.price}" min="1" onchange="updateAdminProduct('${safeIdJs}', 'price', this.value)" class="w-14 text-xs font-extrabold text-center text-plum focus:outline-none" />
               </div>
               <div class="flex items-center gap-1 bg-white px-2.5 py-1 rounded-xl border border-blush-border">
                 <span class="text-[11px] text-plum-muted">المخزون:</span>
-                <input type="number" value="${p.stock}" min="0" onchange="updateAdminProduct('${p.id}', 'stock', this.value)" class="w-12 text-xs font-extrabold text-center text-plum focus:outline-none" />
+                <input type="number" value="${p.stock}" min="0" onchange="updateAdminProduct('${safeIdJs}', 'stock', this.value)" class="w-12 text-xs font-extrabold text-center text-plum focus:outline-none" />
               </div>
+              <button type="button" onclick="deleteAdminProduct('${safeIdJs}')" class="p-2 rounded-xl bg-white border border-blush-border text-plum-muted hover:text-rose-600 hover:border-rose-300 transition-colors cursor-pointer" title="حذف المنتج">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              </button>
             </div>
           </div>
         `;
@@ -2553,6 +2623,27 @@
       renderOffersShowcase();
       renderProductsGrid();
       showToast("تم تحديث بيانات المنتج");
+    };
+
+    window.deleteAdminProduct = function (id) {
+      appState.products = appState.products.filter(p => p.id !== id);
+      appState.cart = appState.cart.filter(c => c.productId !== id);
+      persistData();
+      updateCartBadge();
+      document.getElementById("admin-prod-count").textContent = appState.products.length;
+      renderAdminProductsList();
+      renderOffersShowcase();
+      renderCategoryTabs();
+      renderProductsGrid();
+      showToast("تم حذف المنتج");
+    };
+
+    window.deleteAdminOrder = function (id) {
+      appState.orders = appState.orders.filter(o => o.id !== id);
+      persistData();
+      document.getElementById("admin-order-count").textContent = appState.orders.length;
+      renderAdminOrdersList();
+      showToast("تم حذف الطلب");
     };
 
     function renderAdminOrdersList() {
@@ -2573,17 +2664,20 @@
         <div class="bg-white rounded-2xl p-4 border border-blush-border shadow-2xs space-y-2 text-xs">
           <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-blush-border">
             <div class="flex items-center gap-2">
-              <span class="px-2.5 py-0.5 rounded-full bg-blush-tint text-rosegold font-extrabold">${o.id}</span>
-              <span class="font-extrabold text-plum">${o.customerName}</span>
-              <span dir="ltr" class="text-plum-muted">(${o.phone})</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-blush-tint text-rosegold font-extrabold">${escapeHtml(o.id)}</span>
+              <span class="font-extrabold text-plum">${escapeHtml(o.customerName)}</span>
+              <span dir="ltr" class="text-plum-muted">(${escapeHtml(o.phone)})</span>
             </div>
-            <span class="text-[11px] text-plum-muted">${o.createdAt}</span>
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] text-plum-muted">${escapeHtml(o.createdAt)}</span>
+              <button type="button" onclick="deleteAdminOrder('${escapeJsStr(o.id)}')" class="px-2 py-0.5 rounded-lg bg-blush-soft text-rose-600 hover:bg-rose-600 hover:text-white text-[11px] font-bold transition-colors cursor-pointer">حذف</button>
+            </div>
           </div>
-          <p class="text-plum-muted"><strong class="text-plum">العنوان:</strong> ${o.governorate} - ${o.address}</p>
-          <p class="text-plum-muted"><strong class="text-plum">المنتجات:</strong> ${o.items.map(i => `${i.name} (${i.variant}) × ${i.qty}`).join(" • ")}</p>
+          <p class="text-plum-muted"><strong class="text-plum">العنوان:</strong> ${escapeHtml(o.governorate)} - ${escapeHtml(o.address)}</p>
+          <p class="text-plum-muted"><strong class="text-plum">المنتجات:</strong> ${o.items.map(i => `${escapeHtml(i.name)} (${escapeHtml(i.variant)}) × ${i.qty}`).join(" • ")}</p>
           <div class="flex flex-wrap items-center justify-between gap-2 pt-1 font-extrabold">
             <span class="text-plum">الإجمالي: ${o.grandTotal} ج.م</span>
-            <span class="text-rosegold">ديبوزت (${o.depositMethod}): ${o.depositRequired} ج.م</span>
+            <span class="text-rosegold">ديبوزت (${escapeHtml(o.depositMethod)}): ${o.depositRequired} ج.م</span>
             <span class="text-plum">المتبقي عند الاستلام: ${o.remainingOnDelivery} ج.م</span>
           </div>
         </div>
@@ -2591,8 +2685,17 @@
     }
 
     // =========================================================================
-    // 14. INITIALIZE APPLICATION ON LOAD
+    // 14. KEYBOARD ESCAPE HANDLER & INITIALIZATION
     // =========================================================================
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeQuickViewModal();
+        closeOrderSuccessModal();
+        closeCartDrawer();
+        closeAdminModal();
+      }
+    });
+
     window.addEventListener("DOMContentLoaded", () => {
       loadPersistedData();
       applyThemeIcon();
