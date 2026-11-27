@@ -2699,8 +2699,23 @@
     window.printOrderInvoice = function (orderId) {
       const order = findOrderForInvoice(orderId);
       if (!order) { showToast("الفاتورة غير موجودة", "error"); return; }
-      document.getElementById("invoice-print-area").innerHTML = buildInvoiceBody(order);
-      window.print();
+      // Mobile browsers often ignore window.print() in the current tab, so
+      // open the invoice in a new tab and print from there. If the popup is
+      // blocked, fall back to printing the current page's invoice area.
+      const win = window.open("", "_blank");
+      if (!win || win.closed) {
+        const area = document.getElementById("invoice-print-area");
+        if (area) area.innerHTML = buildInvoiceBody(order);
+        window.print();
+        showToast("لو نافذة الطباعة مفتحتش، جرّب تحميل الفاتورة واطبعها من الملف");
+        return;
+      }
+      win.document.write(buildInvoiceDocument(order));
+      win.document.close();
+      win.focus();
+      // On phones where window.print() does nothing, the invoice stays open
+      // in the new tab and can be printed from the browser's Share menu.
+      setTimeout(() => { try { win.print(); } catch (_) {} }, 400);
     };
 
     window.downloadOrderInvoice = function (orderId) {
