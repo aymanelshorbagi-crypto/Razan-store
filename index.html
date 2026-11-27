@@ -703,8 +703,8 @@
   <!-- PRODUCT QUICK-VIEW MODAL                                              -->
   <!-- ===================================================================== -->
   <div id="quick-view-modal" onclick="if(event.target===this) closeQuickViewModal()" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-plum/50 backdrop-blur-xs">
-    <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-blush-border relative">
-      <button type="button" onclick="closeQuickViewModal()" class="absolute top-3.5 left-3.5 z-10 w-9 h-9 rounded-full bg-white/95 border border-blush-border flex items-center justify-center text-plum hover:bg-blush-tint hover:text-rosegold transition-colors cursor-pointer" aria-label="إغلاق">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-blush-border relative">
+      <button type="button" onclick="closeQuickViewModal()" class="absolute top-3.5 left-3.5 z-10 w-10 h-10 rounded-full bg-white border border-blush-border shadow-md flex items-center justify-center text-plum hover:bg-blush-tint hover:text-rosegold transition-colors cursor-pointer" aria-label="إغلاق">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
       <div id="quick-view-body" class="grid grid-cols-1 sm:grid-cols-2"></div>
@@ -2152,6 +2152,8 @@
     // =========================================================================
     // 8. QUICK-VIEW MODAL
     // =========================================================================
+    let _quickViewHistoryPushed = false;
+
     window.openQuickViewModal = function (productId) {
       const product = appState.products.find(p => p.id === productId);
       if (!product) return;
@@ -2216,6 +2218,7 @@
             </div>
           </div>
 
+          <div class="space-y-2.5">
           <button
             type="button"
             onclick="addToCart('${safeIdJs}'); closeQuickViewModal();"
@@ -2228,17 +2231,41 @@
           >
             ${isOut ? "نفدت الكمية" : "أضف للسلة الآن"}
           </button>
+
+          <button
+            type="button"
+            onclick="closeQuickViewModal()"
+            class="w-full py-3 rounded-full bg-white border border-blush-border text-plum text-xs sm:text-sm font-extrabold hover:border-rosegold transition-colors cursor-pointer flex items-center justify-center gap-2"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/></svg>
+            رجوع للمتجر
+          </button>
+          </div>
         </div>
       `;
 
       modal.classList.remove("hidden");
       modal.classList.add("flex");
+      // Let the phone's system back button close the quick view instead of
+      // leaving the store: one history entry per modal opening.
+      if (!_quickViewHistoryPushed) {
+        try { history.pushState({ qv: true }, ""); _quickViewHistoryPushed = true; } catch (_) {}
+      }
     };
 
-    window.closeQuickViewModal = function () {
+    window.closeQuickViewModal = function (fromPopstate) {
       const modal = document.getElementById("quick-view-modal");
+      if (!modal || modal.classList.contains("hidden")) { _quickViewHistoryPushed = false; return; }
       modal.classList.add("hidden");
       modal.classList.remove("flex");
+      const wasPushed = _quickViewHistoryPushed;
+      _quickViewHistoryPushed = false;
+      // Undo the history entry this modal opening added, so the next system
+      // back press leaves the store as usual. When the close itself came from
+      // a system back press, the entry is already gone.
+      if (!fromPopstate && wasPushed) {
+        try { if (history.state && history.state.qv) history.back(); } catch (_) {}
+      }
     };
 
     // =========================================================================
@@ -3860,6 +3887,14 @@
         closeAdminModal();
         closeGoogleAuthModal();
         closeEditProductModal();
+      }
+    });
+
+    // System back button on phones closes the quick view instead of leaving the store.
+    window.addEventListener("popstate", () => {
+      const modal = document.getElementById("quick-view-modal");
+      if (modal && !modal.classList.contains("hidden")) {
+        closeQuickViewModal(true);
       }
     });
 
