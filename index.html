@@ -3876,12 +3876,18 @@
       order.updatedAt = Date.now();
       persistData();
       renderAdminOrdersList();
-      saveOrderToFirestore(order).then(ok => {
-        saveTrackingDoc(order);
-        showToast(ok
+      saveOrderToFirestore(order).then(async ok => {
+        if (!ok) {
+          showToast("لم تُحفظ الحالة في قاعدة البيانات — انشر قواعد Firestore الجديدة (firestore.rules) من Firebase Console ثم غيّر الحالة مرة أخرى", "error");
+          return;
+        }
+        // The live tracker only works if this tracking doc saves: surface a
+        // clear warning instead of failing silently when the rules are old.
+        const trackingOk = await saveTrackingDoc(order);
+        showToast(trackingOk
           ? `تم تحديث حالة الطلب إلى "${ORDER_STATUSES[status].label}" وحفظها`
-          : "لم تُحفظ الحالة في قاعدة البيانات — انشر قواعد Firestore الجديدة (firestore.rules) من Firebase Console ثم غيّر الحالة مرة أخرى",
-          ok ? undefined : "error");
+          : `تم حفظ الحالة، لكن التتبع الحي لم يُحفظ — انشر قواعد Firestore الجديدة (firestore.rules) ثم غيّر الحالة مرة أخرى`,
+          trackingOk ? undefined : "error");
       });
     };
 
