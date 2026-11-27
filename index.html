@@ -2546,6 +2546,7 @@
       const orderRecord = {
         id: orderRef,
         status: "pending",
+        updatedAt: Date.now(),
         customerName: name,
         phone,
         governorate: gov,
@@ -3029,14 +3030,16 @@
     async function saveOrderToFirestore(orderRecord) {
       try {
         const fsCtx = await getFirestoreDb();
-        if (!fsCtx || !orderRecord) return;
+        if (!fsCtx || !orderRecord) return false;
         const docId = String(orderRecord.id || ("RZ-" + Date.now())).replace(/[^a-zA-Z0-9_-]/g, "_");
         await fsCtx.setDoc(
           fsCtx.doc(fsCtx.db, "razan_orders", docId),
           { ...orderRecord, createdAtTs: orderRecord.createdAtTs || Date.now() }
         );
+        return true;
       } catch (e) {
         console.warn("Firestore order save error:", e.message);
+        return false;
       }
     }
 
@@ -3142,7 +3145,19 @@
           const o = d.data();
           if (o) cloudOrders.push(o);
         });
-        appState.orders = cloudOrders;
+        // Merge: if an order was changed on this device more recently than
+        // the cloud copy (e.g. status just updated but the cloud write
+        // failed), keep the local version and retry syncing it instead of
+        // silently reverting to the stale cloud status on refresh.
+        const localById = new Map(appState.orders.map(o => [o.id, o]));
+        appState.orders = cloudOrders.map(co => {
+          const lo = localById.get(co.id);
+          if (lo && (lo.updatedAt || 0) > (co.updatedAt || 0)) {
+            saveOrderToFirestore(lo);
+            return lo;
+          }
+          return co;
+        });
         appState.orders.forEach(normalizeOrderStatus);
         try {
           localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(appState.orders));
@@ -3738,10 +3753,15 @@
       const order = appState.orders.find(o => o.id === id);
       if (!order || !ORDER_STATUSES[status]) return;
       order.status = status;
+      order.updatedAt = Date.now();
       persistData();
-      saveOrderToFirestore(order);
       renderAdminOrdersList();
-      showToast(`تم تحديث حالة الطلب إلى "${ORDER_STATUSES[status].label}"`);
+      saveOrderToFirestore(order).then(ok => {
+        showToast(ok
+          ? `تم تحديث حالة الطلب إلى "${ORDER_STATUSES[status].label}" وحفظها`
+          : "لم تُحفظ الحالة في قاعدة البيانات — انشر قواعد Firestore الجديدة (firestore.rules) من Firebase Console ثم غيّر الحالة مرة أخرى",
+          ok ? undefined : "error");
+      });
     };
 
     window.trackOrder = function () {
