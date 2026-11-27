@@ -131,6 +131,12 @@
     html.dark .bg-plum\/50, html.dark .bg-plum\/45, html.dark .bg-plum\/55 { background-color: rgba(0,0,0,.65) !important; }
     html.dark ::-webkit-scrollbar-track { background: #1d1216; }
     html.dark ::-webkit-scrollbar-thumb { background: #6b4350; }
+    /* ================= INVOICE PRINT ================= */
+    @media print {
+      body * { visibility: hidden !important; }
+      #invoice-print-area, #invoice-print-area * { visibility: visible !important; }
+      #invoice-print-area { position: absolute; inset: 0; width: 100%; background: #fff !important; color: #000 !important; padding: 24px; }
+    }
   </style>
 </head>
 <body class="bg-blush text-plum antialiased selection:bg-rosegold/20 selection:text-plum overflow-x-hidden min-h-screen flex flex-col">
@@ -139,6 +145,8 @@
   <!-- TOAST NOTIFICATION CONTAINER                                          -->
   <!-- ===================================================================== -->
   <div id="toast-container" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-2 pointer-events-none w-11/12 max-w-md"></div>
+  <!-- Invoice print area: filled by printOrderInvoice(), only visible when printing -->
+  <div id="invoice-print-area" aria-hidden="true"></div>
 
   <!-- ===================================================================== -->
   <!-- 1. STICKY HEADER & NAVIGATION                                         -->
@@ -912,6 +920,14 @@
           <span>فتح محادثة واتساب وإرسال الطلب والإيصال</span>
         </a>
         <div class="grid grid-cols-2 gap-2">
+          <button type="button" onclick="printLastOrderInvoice()" class="py-2.5 rounded-full bg-plum text-white text-xs font-bold shadow-xs hover:opacity-95 cursor-pointer">
+            طباعة الفاتورة
+          </button>
+          <button type="button" onclick="downloadLastOrderInvoice()" class="py-2.5 rounded-full bg-white hover:bg-blush-soft text-plum text-xs font-bold border border-blush-border cursor-pointer">
+            تحميل الفاتورة
+          </button>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
           <button type="button" onclick="copyLastWhatsAppReceipt()" class="py-2.5 rounded-full bg-blush-soft hover:bg-blush-tint text-plum text-xs font-bold border border-blush-border cursor-pointer">
             نسخ نص الفاتورة
           </button>
@@ -976,9 +992,12 @@
             <p class="text-[11px] text-plum-muted">تعديل بيانات التحويل، الديبوزت، المنتجات، ومتابعة الطلبات</p>
           </div>
         </div>
-        <button type="button" onclick="closeAdminModal()" class="px-4 py-2 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-2xs cursor-pointer">
-          العودة للمتجر
-        </button>
+        <div class="flex items-center gap-2 shrink-0">
+          <span id="low-stock-badge" class="hidden px-3 py-1.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-extrabold border border-amber-200"></span>
+          <button type="button" onclick="closeAdminModal()" class="px-4 py-2 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-2xs cursor-pointer">
+            العودة للمتجر
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1072,6 +1091,15 @@
             <div>
               <label class="block text-xs font-bold text-plum mb-1">رابط الصورة (اختياري)</label>
               <input type="url" id="add-prod-img" placeholder="https://..." class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+              <div class="flex items-center gap-2 mt-2">
+                <input type="file" id="add-prod-img-file" accept="image/*" class="hidden" onchange="handleProductImageFile(this, 'add')" />
+                <button type="button" onclick="document.getElementById('add-prod-img-file').click()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">
+                  <svg class="w-4 h-4 text-rosegold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                  إضافة صورة من الجهاز
+                </button>
+                <img id="add-prod-img-preview" alt="معاينة الصورة" class="hidden w-12 h-14 rounded-xl object-cover border border-blush-border" />
+                <span id="add-prod-img-name" class="text-[11px] text-plum-muted truncate"></span>
+              </div>
             </div>
             <div>
               <label class="block text-xs font-bold text-plum mb-1">وصف الخامة</label>
@@ -1086,7 +1114,9 @@
         </div>
 
         <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs space-y-3">
-          <h3 class="text-sm sm:text-base font-extrabold text-plum">تعديل الأسعار والمخزون</h3>
+          <div id="low-stock-alerts" class="hidden"></div>
+          <h3 class="text-sm sm:text-base font-extrabold text-plum">تعديل المنتجات</h3>
+          <p class="text-[11px] text-plum-muted">عدّلي السعر والمخزون من هنا مباشرة، أو اضغطي زر القلم لتعديل الاسم والقسم والمقاسات والصورة والوصف.</p>
           <div id="admin-products-list" class="space-y-2.5"></div>
         </div>
       </div>
@@ -1096,6 +1126,72 @@
         <div id="admin-orders-list" class="space-y-3"></div>
       </div>
 
+    </div>
+  </div>
+
+  <!-- EDIT PRODUCT MODAL (تعديل منتج بعد إضافته) -->
+  <div id="edit-product-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-plum/55 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-blush-border max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base sm:text-lg font-extrabold text-plum">تعديل المنتج</h3>
+        <button type="button" onclick="closeEditProductModal()" class="w-8 h-8 rounded-full bg-blush-soft text-plum hover:bg-blush-tint flex items-center justify-center cursor-pointer" aria-label="إغلاق">✕</button>
+      </div>
+      <form onsubmit="saveEditProduct(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold text-plum mb-1">اسم المنتج *</label>
+          <input type="text" id="edit-prod-name" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-plum mb-1">القسم *</label>
+          <select id="edit-prod-cat" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold">
+            <option value="بيجامات">بيجامات</option>
+            <option value="إكسسوارات">إكسسوارات</option>
+            <option value="برفانات">برفانات</option>
+            <option value="العروض">العروض</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-plum mb-1">الشارة (اختياري)</label>
+          <input type="text" id="edit-prod-badge" placeholder="مثال: الأكثر طلباً" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-plum mb-1">السعر (ج.م) *</label>
+          <input type="number" id="edit-prod-price" required min="1" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-plum mb-1">السعر قبل الخصم (اختياري)</label>
+          <input type="number" id="edit-prod-oldprice" min="0" placeholder="اتركيه فاضياً لو مفيش خصم" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-plum mb-1">المخزون *</label>
+          <input type="number" id="edit-prod-stock" required min="0" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-plum mb-1">المقاسات / الأنواع (بفاصلة)</label>
+          <input type="text" id="edit-prod-variants" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold text-plum mb-1">رابط الصورة (اتركيه فاضياً للإبقاء على الصورة الحالية)</label>
+          <input type="url" id="edit-prod-img" placeholder="https://..." class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+          <div class="flex items-center gap-2 mt-2">
+            <input type="file" id="edit-prod-img-file" accept="image/*" class="hidden" onchange="handleProductImageFile(this, 'edit')" />
+            <button type="button" onclick="document.getElementById('edit-prod-img-file').click()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">
+              <svg class="w-4 h-4 text-rosegold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              إضافة صورة من الجهاز
+            </button>
+            <img id="edit-prod-img-preview" alt="معاينة الصورة" class="hidden w-12 h-14 rounded-xl object-cover border border-blush-border" />
+            <span id="edit-prod-img-name" class="text-[11px] text-plum-muted truncate"></span>
+          </div>
+        </div>
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold text-plum mb-1">وصف الخامة</label>
+          <input type="text" id="edit-prod-desc" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+        </div>
+        <div class="sm:col-span-2 flex items-center justify-end gap-2 pt-1">
+          <button type="button" onclick="closeEditProductModal()" class="px-5 py-2.5 rounded-full bg-white hover:bg-blush-soft text-plum-muted text-xs font-bold border border-blush-border cursor-pointer">إلغاء</button>
+          <button type="submit" class="px-5 py-2.5 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-xs cursor-pointer">حفظ التعديلات</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -2382,6 +2478,7 @@
     };
 
     function openOrderSuccessModal(order, waUrl) {
+      _lastOrderForInvoice = order;
       document.getElementById("modal-order-ref").textContent = order.id;
       document.getElementById("modal-deposit-reminder").innerHTML =
         `لإتمام حجز القطع، يرجى تحويل <strong class="text-rosegold">ديبوزت ${order.depositRequired} ج.م (${getDepositPercent()}% من إجمالي الطلب)</strong> وإرسال الفاتورة وصورة التحويل (سكرين شوت) عبر زر واتساب بالأسفل.`;
@@ -2392,6 +2489,120 @@
       const modal = document.getElementById("order-success-modal");
       modal.classList.remove("hidden");
       modal.classList.add("flex");
+    }
+
+    // =========================================================================
+    // INVOICE: print + download (HTML file, openable / saveable as PDF via print)
+    // =========================================================================
+    let _lastOrderForInvoice = null;
+
+    function buildInvoiceBody(order) {
+      const rows = (order.items || []).map((item, idx) =>
+        `<tr><td>${idx + 1}</td><td>${escapeHtml(item.name)} (${escapeHtml(item.variant)})</td><td>${item.qty}</td><td>${item.price} ج.م</td><td>${item.price * item.qty} ج.م</td></tr>`
+      ).join("");
+      return `
+        <div style="font-family:Cairo, Tahoma, sans-serif; direction:rtl; text-align:right; color:#111; max-width:640px; margin:0 auto;">
+          <div style="text-align:center; border-bottom:2px solid #B76E79; padding-bottom:12px; margin-bottom:16px;">
+            <div style="font-size:26px; font-weight:800; color:#B76E79;">RAZAN | رزان</div>
+            <div style="font-size:13px; color:#555;">بيجامات وإكسسوارات وعطور حريمي</div>
+            <div style="font-size:16px; font-weight:700; margin-top:8px;">فاتورة طلب ${escapeHtml(order.id)}</div>
+            <div style="font-size:12px; color:#555;">${escapeHtml(order.createdAt || "")}</div>
+          </div>
+          <div style="font-size:13px; line-height:1.9; margin-bottom:14px;">
+            <div><strong>العميلة:</strong> ${escapeHtml(order.customerName)}</div>
+            <div><strong>الموبايل:</strong> <span dir="ltr">${escapeHtml(order.phone)}</span></div>
+            <div><strong>المحافظة:</strong> ${escapeHtml(order.governorate)}</div>
+            <div><strong>العنوان:</strong> ${escapeHtml(order.address)}</div>
+            ${order.notes ? `<div><strong>ملاحظات:</strong> ${escapeHtml(order.notes)}</div>` : ""}
+          </div>
+          <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <thead><tr style="background:#FDF0F4;"><th style="border:1px solid #ccc; padding:8px;">#</th><th style="border:1px solid #ccc; padding:8px;">المنتج</th><th style="border:1px solid #ccc; padding:8px;">الكمية</th><th style="border:1px solid #ccc; padding:8px;">سعر القطعة</th><th style="border:1px solid #ccc; padding:8px;">الإجمالي</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div style="font-size:13px; line-height:2; margin-top:14px; border-top:1px solid #ccc; padding-top:10px;">
+            <div>إجمالي المنتجات: <strong>${order.subtotal} ج.م</strong></div>
+            <div>مصاريف الشحن (${escapeHtml(order.governorate)}): <strong>${order.shipping} ج.م</strong></div>
+            <div>الإجمالي الكلي: <strong>${order.grandTotal} ج.م</strong></div>
+            <div>الديبوزت المدفوع (${getDepositPercent()}% — ${escapeHtml(order.depositMethod)}): <strong>${order.depositRequired} ج.م</strong></div>
+            <div>المتبقي عند الاستلام: <strong>${order.remainingOnDelivery} ج.م</strong></div>
+            <div style="margin-top:6px;">فودافون كاش: <strong dir="ltr">${escapeHtml(appState.settings.vodafone)}</strong> &nbsp;|&nbsp; إنستاباي: <strong dir="ltr">${escapeHtml(appState.settings.instapay)}</strong></div>
+          </div>
+          <p style="text-align:center; font-size:12px; color:#555; margin-top:18px;">شكراً لثقتك في رزان 🌸 — نتمنى تعجبك طلبيتك</p>
+        </div>`;
+    }
+
+    function buildInvoiceDocument(order) {
+      return `<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><title>فاتورة ${escapeHtml(order.id)} — رزان</title></head><body>${buildInvoiceBody(order)}</body></html>`;
+    }
+
+    function findOrderForInvoice(orderId) {
+      return appState.orders.find(o => o.id === orderId) || _lastOrderForInvoice || null;
+    }
+
+    window.printOrderInvoice = function (orderId) {
+      const order = findOrderForInvoice(orderId);
+      if (!order) { showToast("الفاتورة غير موجودة", "error"); return; }
+      document.getElementById("invoice-print-area").innerHTML = buildInvoiceBody(order);
+      window.print();
+    };
+
+    window.downloadOrderInvoice = function (orderId) {
+      const order = findOrderForInvoice(orderId);
+      if (!order) { showToast("الفاتورة غير موجودة", "error"); return; }
+      const blob = new Blob([buildInvoiceDocument(order)], { type: "text/html;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "فاتورة-" + String(order.id).replace(/[^a-zA-Z0-9_-]/g, "_") + ".html";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      showToast("تم تحميل الفاتورة — افتحي الملف واطبعيه أو احفظيه PDF من الطباعة");
+    };
+
+    window.printLastOrderInvoice = function () {
+      if (_lastOrderForInvoice) printOrderInvoice(_lastOrderForInvoice.id);
+      else showToast("لا يوجد طلب حالي للطباعة", "error");
+    };
+
+    window.downloadLastOrderInvoice = function () {
+      if (_lastOrderForInvoice) downloadOrderInvoice(_lastOrderForInvoice.id);
+      else showToast("لا يوجد طلب حالي للتحميل", "error");
+    };
+
+    // =========================================================================
+    // LOW STOCK: count + alerts (threshold 5). Stock is deducted at checkout;
+    // deleting an order returns its quantities to stock.
+    // =========================================================================
+    const LOW_STOCK_THRESHOLD = 5;
+    function getLowStockProducts() {
+      return appState.products.filter(p => (p.stock || 0) <= LOW_STOCK_THRESHOLD);
+    }
+
+    function updateLowStockAlerts() {
+      const low = getLowStockProducts();
+      const out = low.filter(p => (p.stock || 0) <= 0);
+      const badge = document.getElementById("low-stock-badge");
+      if (badge) {
+        badge.textContent = low.length ? `تنبيه مخزون: ${low.length} منتج (${out.length} نفد)` : "";
+        badge.classList.toggle("hidden", low.length === 0);
+      }
+      const box = document.getElementById("low-stock-alerts");
+      if (box) {
+        if (!low.length) { box.classList.add("hidden"); box.innerHTML = ""; return; }
+        box.classList.remove("hidden");
+        box.innerHTML = `
+          <div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 space-y-2">
+            <h4 class="text-xs sm:text-sm font-extrabold text-amber-800">تنبيه: منتجات قربت تخلص (${low.length})</h4>
+            ${low.map(p => `
+              <div class="flex items-center justify-between gap-2 text-xs">
+                <span class="font-bold text-plum truncate">${escapeHtml(p.name)}</span>
+                <span class="shrink-0 font-extrabold ${(p.stock || 0) <= 0 ? "text-rose-600" : "text-amber-700"}">${(p.stock || 0) <= 0 ? "نفدت الكمية" : "متبقي " + p.stock + " قطع"}</span>
+                <button type="button" onclick="openEditProductModal('${escapeJsStr(p.id)}')" class="shrink-0 px-2.5 py-1 rounded-lg bg-white border border-amber-200 text-amber-800 font-bold hover:border-amber-500 cursor-pointer">تعديل المخزون</button>
+              </div>`).join("")}
+          </div>`;
+      }
+      return low;
     }
 
     window.closeOrderSuccessModal = function () {
@@ -2809,6 +3020,8 @@
 
       document.getElementById("admin-modal").classList.remove("hidden");
       switchAdminTab(appState.adminTab);
+      const _low = updateLowStockAlerts();
+      if (_low.length) showToast(`تنبيه مخزون: ${_low.length} منتجات قربت تخلص — شوفي تبويب المنتجات`, "error");
     };
 
     window.closeAdminModal = function () {
@@ -2876,6 +3089,76 @@
       else inp.value = "S, M, L, XL";
     };
 
+    // Product image picked from the device. A phone photo can be several MB,
+    // which would break Firestore (1 MB per document) and localStorage, so the
+    // image is shrunk in the browser to max 900px JPEG first (~100-200 KB).
+    let _addProdImageDataUrl = "";
+    let _editProdImageDataUrl = "";
+
+    function compressImageFile(file, done) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          const MAX = 900;
+          let w = img.width, h = img.height;
+          if (w > MAX || h > MAX) {
+            const scale = MAX / Math.max(w, h);
+            w = Math.round(w * scale);
+            h = Math.round(h * scale);
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+          canvas.toBlob(function (blob) {
+            if (!blob) { done(""); return; }
+            const r2 = new FileReader();
+            r2.onload = function (ev) { done(String(ev.target.result || "")); };
+            r2.readAsDataURL(blob);
+          }, "image/jpeg", 0.82);
+        };
+        img.onerror = function () { done(""); };
+        img.src = String(e.target.result || "");
+      };
+      reader.onerror = function () { done(""); };
+      reader.readAsDataURL(file);
+    }
+
+    window.handleProductImageFile = function (input, kind) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      if (!file.type || !file.type.startsWith("image/")) {
+        showToast("اختاري ملف صورة (JPG أو PNG)", "error");
+        input.value = "";
+        return;
+      }
+      const preview = document.getElementById(kind === "edit" ? "edit-prod-img-preview" : "add-prod-img-preview");
+      const nameEl = document.getElementById(kind === "edit" ? "edit-prod-img-name" : "add-prod-img-name");
+      compressImageFile(file, function (dataUrl) {
+        if (!dataUrl) {
+          showToast("تعذر قراءة الصورة، جربي صورة أخرى", "error");
+          return;
+        }
+        if (kind === "edit") _editProdImageDataUrl = dataUrl;
+        else _addProdImageDataUrl = dataUrl;
+        if (preview) { preview.src = dataUrl; preview.classList.remove("hidden"); }
+        if (nameEl) nameEl.textContent = file.name || "";
+        showToast("تم تجهيز الصورة");
+      });
+    };
+
+    function resetProductImagePicker(kind) {
+      if (kind === "edit") _editProdImageDataUrl = "";
+      else _addProdImageDataUrl = "";
+      const fileInput = document.getElementById(kind === "edit" ? "edit-prod-img-file" : "add-prod-img-file");
+      const preview = document.getElementById(kind === "edit" ? "edit-prod-img-preview" : "add-prod-img-preview");
+      const nameEl = document.getElementById(kind === "edit" ? "edit-prod-img-name" : "add-prod-img-name");
+      if (fileInput) fileInput.value = "";
+      if (preview) { preview.src = ""; preview.classList.add("hidden"); }
+      if (nameEl) nameEl.textContent = "";
+    }
+
     window.handleAdminAddProduct = function (event) {
       event.preventDefault();
       const name = document.getElementById("add-prod-name").value.trim();
@@ -2901,7 +3184,7 @@
         isBestSeller: false,
         isOffer: category === "العروض",
         variants: variants.length ? variants : ["مقاس موحد"],
-        image: sanitizeImageUrl(rawImgUrl, fallbackSvg),
+        image: _addProdImageDataUrl || sanitizeImageUrl(rawImgUrl, fallbackSvg),
         description: fabric || "قطعة مختارة بعناية من تشكيلة رزان."
       };
 
@@ -2911,6 +3194,7 @@
       syncProductToFirestore(newProd);
 
       event.target.reset();
+      resetProductImagePicker("add");
       handleAdminCatDefaultVariants("بيجامات");
       document.getElementById("admin-prod-count").textContent = appState.products.length;
       renderAdminProductsList();
@@ -2923,6 +3207,7 @@
     function renderAdminProductsList() {
       const container = document.getElementById("admin-products-list");
       if (!container) return;
+      updateLowStockAlerts();
 
       container.innerHTML = appState.products.map(p => {
         const fallbackSvg = createRoseGoldIllustrationUrl(p.category, p.name);
@@ -2947,6 +3232,9 @@
                 <span class="text-[11px] text-plum-muted">المخزون:</span>
                 <input type="number" value="${p.stock}" min="0" onchange="updateAdminProduct('${safeIdJs}', 'stock', this.value)" class="w-12 text-xs font-extrabold text-center text-plum focus:outline-none" />
               </div>
+              <button type="button" onclick="openEditProductModal('${safeIdJs}')" class="p-2 rounded-xl bg-white border border-blush-border text-plum-muted hover:text-rosegold hover:border-rosegold transition-colors cursor-pointer" title="تعديل المنتج">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              </button>
               <button type="button" onclick="deleteAdminProduct('${safeIdJs}')" class="p-2 rounded-xl bg-white border border-blush-border text-plum-muted hover:text-rose-600 hover:border-rose-300 transition-colors cursor-pointer" title="حذف المنتج">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
               </button>
@@ -2981,13 +3269,117 @@
       showToast("تم حذف المنتج");
     };
 
+    let _editingProductId = null;
+
+    window.openEditProductModal = function (id) {
+      const prod = appState.products.find(p => p.id === id);
+      if (!prod) return;
+      _editingProductId = id;
+      // Values are assigned as properties (not innerHTML), so quotes / < > in a
+      // product name can never break the form or inject HTML.
+      document.getElementById("edit-prod-name").value = prod.name || "";
+      document.getElementById("edit-prod-cat").value = prod.category || "بيجامات";
+      document.getElementById("edit-prod-badge").value = prod.badge || "";
+      document.getElementById("edit-prod-price").value = prod.price ?? "";
+      document.getElementById("edit-prod-oldprice").value = prod.oldPrice ?? "";
+      document.getElementById("edit-prod-stock").value = prod.stock ?? 0;
+      document.getElementById("edit-prod-variants").value = (prod.variants || []).join(", ");
+      document.getElementById("edit-prod-img").value = "";
+      resetProductImagePicker("edit");
+      document.getElementById("edit-prod-desc").value = prod.description || prod.fabric || "";
+      const m = document.getElementById("edit-product-modal");
+      m.classList.remove("hidden");
+      m.classList.add("flex");
+    };
+
+    window.closeEditProductModal = function () {
+      _editingProductId = null;
+      const m = document.getElementById("edit-product-modal");
+      m.classList.add("hidden");
+      m.classList.remove("flex");
+    };
+
+    window.saveEditProduct = function (event) {
+      event.preventDefault();
+      const prod = appState.products.find(p => p.id === _editingProductId);
+      if (!prod) { closeEditProductModal(); return; }
+
+      const name = document.getElementById("edit-prod-name").value.trim();
+      const category = document.getElementById("edit-prod-cat").value;
+      const price = Number(document.getElementById("edit-prod-price").value);
+      const stock = Number(document.getElementById("edit-prod-stock").value);
+      if (!name || !(price > 0) || isNaN(stock) || stock < 0) {
+        showToast("أدخلي اسماً وسعراً ومخزوناً صحيحاً", "error");
+        return;
+      }
+      const variants = document.getElementById("edit-prod-variants").value.split(",").map(v => v.trim()).filter(Boolean);
+      const imgUrl = document.getElementById("edit-prod-img").value.trim();
+      const desc = document.getElementById("edit-prod-desc").value.trim();
+      const badge = document.getElementById("edit-prod-badge").value.trim();
+      const oldPrice = Number(document.getElementById("edit-prod-oldprice").value);
+
+      prod.name = name;
+      prod.category = category;
+      prod.price = price;
+      prod.stock = Math.max(0, Math.floor(stock));
+      prod.oldPrice = oldPrice > price ? oldPrice : null;
+      prod.badge = badge || prod.badge || null;
+      prod.isOffer = category === "العروض";
+      if (variants.length) {
+        prod.variants = variants;
+        if (!variants.includes(appState.selectedVariants[prod.id])) {
+          appState.selectedVariants[prod.id] = variants[0];
+        }
+      }
+      if (_editProdImageDataUrl) {
+        prod.image = _editProdImageDataUrl;
+      } else if (imgUrl) {
+        prod.image = sanitizeImageUrl(imgUrl, createRoseGoldIllustrationUrl(category, name));
+      }
+      if (desc) {
+        prod.description = desc;
+        prod.fabric = desc;
+      }
+
+      // Keep items already in a customer's cart consistent with the new name/image
+      appState.cart.forEach(c => {
+        if (c.productId === prod.id) { c.name = prod.name; c.image = prod.image; }
+      });
+
+      persistData();
+      syncProductToFirestore(prod);
+      updateCartBadge();
+      renderCartDrawer();
+      renderAdminProductsList();
+      renderOffersShowcase();
+      renderCategoryTabs();
+      renderProductsGrid();
+      resetProductImagePicker("edit");
+      closeEditProductModal();
+      showToast(`تم تعديل "${name}" بنجاح`);
+    };
+
     window.deleteAdminOrder = function (id) {
+      const order = appState.orders.find(o => o.id === id);
+      if (order) {
+        (order.items || []).forEach(item => {
+          const prod = appState.products.find(p => p.id === item.productId);
+          if (prod) {
+            prod.stock = (prod.stock || 0) + (item.qty || 0);
+            syncProductToFirestore(prod);
+          }
+        });
+      }
       appState.orders = appState.orders.filter(o => o.id !== id);
       persistData();
       deleteOrderFromFirestore(id);
       document.getElementById("admin-order-count").textContent = appState.orders.length;
       renderAdminOrdersList();
-      showToast("تم حذف الطلب");
+      renderAdminProductsList();
+      renderOffersShowcase();
+      renderProductsGrid();
+      updateLowStockAlerts();
+      showToast("تم حذف الطلب وإرجاع الكمية للمخزون");
     };
 
     function renderAdminOrdersList() {
@@ -3014,6 +3406,8 @@
             </div>
             <div class="flex items-center gap-2">
               <span class="text-[11px] text-plum-muted">${escapeHtml(o.createdAt)}</span>
+              <button type="button" onclick="printOrderInvoice('${escapeJsStr(o.id)}')" class="px-2 py-0.5 rounded-lg bg-plum text-white hover:opacity-90 text-[11px] font-bold transition-colors cursor-pointer">طباعة</button>
+              <button type="button" onclick="downloadOrderInvoice('${escapeJsStr(o.id)}')" class="px-2 py-0.5 rounded-lg bg-white border border-blush-border text-plum hover:border-rosegold text-[11px] font-bold transition-colors cursor-pointer">تحميل</button>
               <button type="button" onclick="deleteAdminOrder('${escapeJsStr(o.id)}')" class="px-2 py-0.5 rounded-lg bg-blush-soft text-rose-600 hover:bg-rose-600 hover:text-white text-[11px] font-bold transition-colors cursor-pointer">حذف</button>
             </div>
           </div>
@@ -3038,6 +3432,7 @@
         closeCartDrawer();
         closeAdminModal();
         closeGoogleAuthModal();
+        closeEditProductModal();
       }
     });
 
