@@ -1125,15 +1125,6 @@
           </div>
         </div>
 
-        <div class="pt-4 border-t border-blush-border flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h4 class="text-xs font-extrabold text-plum">استعادة البيانات الافتراضية للمتجر</h4>
-            <p class="text-[11px] text-plum-muted">إعادة المنتجات الـ 12 الأصلية وإعدادات المتجر الافتراضية.</p>
-          </div>
-          <button type="button" onclick="resetStoreDefaults()" class="px-4 py-2 rounded-full bg-blush-soft border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">
-            إعادة ضبط المتجر
-          </button>
-        </div>
       </div>
 
       <!-- TAB 2: MANAGE PRODUCTS & ADD NEW -->
@@ -1623,7 +1614,8 @@
       SETTINGS: "razan_store_settings_v1",
       PRODUCTS: "razan_store_products_v1",
       ORDERS: "razan_store_orders_v1",
-      CART: "razan_store_cart_v1"
+      CART: "razan_store_cart_v1",
+      SYNCED_DEFAULTS: "razan_synced_defaults_v1"
     };
 
     const DEFAULT_SETTINGS = {
@@ -3053,14 +3045,33 @@
     // added to index.html after the collection was first seeded). Admin-only:
     // Firestore rules reject product creates from anyone else, and this never
     // touches products that already exist, so admin edits stay safe.
+    // A default id is synced at most once: the id is remembered in localStorage,
+    // so a product the admin deliberately deletes is never re-seeded.
+    function loadSyncedDefaultIds() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.SYNCED_DEFAULTS);
+        const arr = raw ? JSON.parse(raw) : [];
+        return new Set(Array.isArray(arr) ? arr : []);
+      } catch (_) { return new Set(); }
+    }
+    function saveSyncedDefaultIds(set) {
+      try { localStorage.setItem(STORAGE_KEYS.SYNCED_DEFAULTS, JSON.stringify([...set])); } catch (_) {}
+    }
     async function syncMissingDefaultProducts() {
       try {
         const fb = await getFirebaseAuth();
         if (!fb || !fb.auth.currentUser || !isEmailAuthorized(fb.auth.currentUser.email)) return;
         const have = new Set(appState.products.map(p => p.id));
+        const synced = loadSyncedDefaultIds();
+        let changed = false;
         for (const p of DEFAULT_PRODUCTS) {
-          if (!have.has(p.id)) await syncProductToFirestore(p);
+          if (!have.has(p.id) && !synced.has(p.id)) {
+            await syncProductToFirestore(p);
+            synced.add(p.id);
+            changed = true;
+          }
         }
+        if (changed) saveSyncedDefaultIds(synced);
       } catch (_) {}
     }
 
@@ -3383,27 +3394,6 @@
       showToast("تم حفظ إعدادات المتجر والديبوزت بنجاح");
     };
 
-    window.resetStoreDefaults = function () {
-      appState.settings = { ...DEFAULT_SETTINGS };
-      appState.products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
-      appState.selectedVariants = {};
-      appState.products.forEach(p => {
-        if (p.variants?.length) appState.selectedVariants[p.id] = p.variants[0];
-      });
-      persistData();
-      syncSettingsToFirestore();
-      (async () => {
-        const fsCtx = await getFirestoreDb();
-        if (fsCtx) await seedDefaultProductsToFirestore(fsCtx);
-      })();
-      syncSettingsToUI();
-      renderOffersShowcase();
-      renderCategoryTabs();
-      renderProductsGrid();
-      openAdminModal();
-      showToast("تمت استعادة البيانات الافتراضية للمتجر");
-    };
-
     window.handleAdminCatDefaultVariants = function (cat) {
       const inp = document.getElementById("add-prod-variants");
       if (!inp) return;
@@ -3612,6 +3602,9 @@
     };
 
     window.deleteAdminProduct = function (id) {
+      const syncedIds = loadSyncedDefaultIds();
+      syncedIds.add(id);
+      saveSyncedDefaultIds(syncedIds);
       appState.products = appState.products.filter(p => p.id !== id);
       appState.cart = appState.cart.filter(c => c.productId !== id);
       persistData();
