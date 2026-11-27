@@ -290,7 +290,7 @@
             <!-- Trust Pill -->
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-blush-border text-[11px] sm:text-xs font-bold text-rosegold shadow-2xs">
               <span class="w-2 h-2 rounded-full bg-rosegold animate-pulse"></span>
-              <span id="hero-deposit-pill">تأكيد الطلب بديبوزت 20% (فودافون كاش / إنستاباي)</span>
+              <span id="hero-deposit-pill">تأكيد الطلب بديبوزت 25% (فودافون كاش / إنستاباي)</span>
             </div>
 
             <!-- Headline -->
@@ -300,7 +300,7 @@
 
             <!-- Subtext -->
             <p id="hero-subtext" class="text-xs sm:text-sm md:text-base text-plum-muted leading-relaxed">
-              بيجامات قطن وستان فاخرة، إكسسوارات مطلية، وبرفانات ثابتة — احجزي قطعتك الآن بديبوزت 20% من إجمالي الطلب والباقي عند الاستلام.
+              بيجامات قطن وستان فاخرة، إكسسوارات مطلية، وبرفانات ثابتة — احجزي قطعتك الآن بديبوزت 25% من إجمالي الطلب والباقي عند الاستلام.
             </p>
           </div>
 
@@ -471,9 +471,9 @@
         </div>
         <div class="bg-white rounded-2xl p-5 border border-blush-border shadow-2xs">
           <div class="w-9 h-9 rounded-full rose-gold-gradient text-white font-extrabold text-sm flex items-center justify-center mb-3">2</div>
-          <h3 class="text-sm font-extrabold text-plum" id="step2-deposit-title">حولي ديبوزت 20% وابعتي الإيصال</h3>
+          <h3 class="text-sm font-extrabold text-plum" id="step2-deposit-title">حولي ديبوزت 25% وابعتي الإيصال</h3>
           <p class="text-xs text-plum-muted mt-1.5 leading-relaxed" id="step2-deposit-desc">
-            يتم تحويل ديبوزت 20% من إجمالي الطلب على فودافون كاش أو إنستاباي وإرسال صورة التحويل (سكرين شوت) في نفس محادثة الواتساب لتثبيت الحجز فوراً.
+            يتم تحويل ديبوزت 25% من إجمالي الطلب على فودافون كاش أو إنستاباي وإرسال صورة التحويل (سكرين شوت) في نفس محادثة الواتساب لتثبيت الحجز فوراً.
           </p>
         </div>
         <div class="bg-white rounded-2xl p-5 border border-blush-border shadow-2xs">
@@ -682,7 +682,7 @@
 
         <div class="md:text-left space-y-2.5">
           <h4 class="text-xs font-extrabold text-plum">حجز سريع عبر واتساب</h4>
-          <p class="text-xs text-plum-muted" id="footer-deposit-note">تأكيد الحجز بتحويل ديبوزت 20% من إجمالي الطلب والباقي عند الاستلام مع المعاينة.</p>
+          <p class="text-xs text-plum-muted" id="footer-deposit-note">تأكيد الحجز بتحويل ديبوزت 25% من إجمالي الطلب والباقي عند الاستلام مع المعاينة.</p>
           <button type="button" onclick="openDirectWhatsAppChat()" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366]/15 text-[#178d43] hover:bg-[#25D366] hover:text-white text-xs font-extrabold transition-colors cursor-pointer">
             <span>تواصلي معنا على واتساب</span>
           </button>
@@ -765,7 +765,7 @@
             <h3 class="text-xs sm:text-sm font-extrabold text-plum">نظام الدفع بالديبوزت (عربون جدية الحجز)</h3>
           </div>
           <p id="cart-deposit-explanation" class="text-[11px] sm:text-xs text-plum leading-relaxed">
-            لتأكيد طلبك وحجز القطع قبل النفاد، يتم تحويل <strong class="text-rosegold">ديبوزت 20% من إجمالي الطلب</strong> أولاً عبر فودافون كاش أو إنستاباي، ويُخصم من إجمالي الفاتورة والباقي يُدفع عند الاستلام مع المندوب.
+            لتأكيد طلبك وحجز القطع قبل النفاد، يتم تحويل <strong class="text-rosegold">ديبوزت 25% من إجمالي الطلب</strong> أولاً عبر فودافون كاش أو إنستاباي، ويُخصم من إجمالي الفاتورة والباقي يُدفع عند الاستلام مع المندوب.
           </p>
 
           <div class="grid grid-cols-1 gap-2 pt-1">
@@ -878,10 +878,27 @@
 
           <div id="free-shipping-progress" class="hidden text-center text-[11px] sm:text-xs font-extrabold text-rosegold bg-blush-tint border border-rosegold/30 rounded-xl px-3 py-2"></div>
 
+          <div class="bg-white rounded-2xl p-3 border border-blush-border space-y-2">
+            <label for="promo-code-input" class="block text-xs font-bold text-plum">كود الخصم (اختياري)</label>
+            <div class="flex items-center gap-2">
+              <input type="text" id="promo-code-input" dir="ltr" placeholder="مثال: RAZAN10" onkeydown="if(event.key==='Enter'){event.preventDefault();applyPromoCode();}" class="flex-1 min-w-0 rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs font-bold text-plum uppercase focus:bg-white focus:outline-none focus:border-rosegold" />
+              <button type="button" id="promo-apply-btn" onclick="applyPromoCode()" class="px-4 py-2 rounded-full bg-white border border-rosegold text-rosegold text-xs font-extrabold hover:bg-blush-tint cursor-pointer shrink-0">تطبيق</button>
+            </div>
+            <p id="promo-code-msg" class="hidden text-[11px] font-bold"></p>
+            <div id="promo-applied" class="hidden items-center justify-between gap-2 bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2">
+              <span class="text-[11px] font-bold text-emerald-700">الكود <span id="promo-applied-code" dir="ltr"></span> مطبق ✓</span>
+              <button type="button" onclick="removePromoCode()" class="text-[11px] font-extrabold text-red-600 cursor-pointer">إزالة ✕</button>
+            </div>
+          </div>
+
           <div class="bg-blush-soft/90 rounded-2xl p-3.5 space-y-2 border border-blush-border">
             <div class="flex items-center justify-between text-xs text-plum-muted">
               <span>إجمالي المنتجات:</span>
               <span id="summary-subtotal" class="font-bold text-plum">0 ج.م</span>
+            </div>
+            <div id="summary-discount-row" class="hidden flex items-center justify-between text-xs text-emerald-700">
+              <span>خصم كود الخصم:</span>
+              <span id="summary-discount" class="font-bold">0 ج.م</span>
             </div>
             <div class="flex items-center justify-between text-xs text-plum-muted">
               <span>مصاريف الشحن:</span>
@@ -926,7 +943,7 @@
         <span class="px-3 py-1 rounded-full bg-blush-tint text-rosegold text-xs font-extrabold" id="modal-order-ref">#RZ-1001</span>
         <h3 class="text-lg sm:text-xl font-extrabold text-plum mt-2">تم تجهيز طلبك بنجاح!</h3>
         <p id="modal-deposit-reminder" class="text-xs sm:text-sm text-plum-muted mt-1.5 leading-relaxed">
-          لإتمام حجز القطع، يرجى تحويل <strong class="text-rosegold">ديبوزت 20% من إجمالي الطلب</strong> وإرسال صورة التحويل (سكرين شوت) في محادثة واتساب.
+          لإتمام حجز القطع، يرجى تحويل <strong class="text-rosegold">ديبوزت 25% من إجمالي الطلب</strong> وإرسال صورة التحويل (سكرين شوت) في محادثة واتساب.
         </p>
       </div>
 
@@ -1063,6 +1080,9 @@
         <button type="button" onclick="switchAdminTab('orders')" id="admin-tab-btn-orders" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-plum border border-blush-border shrink-0 cursor-pointer">
           الطلبات المسجلة (<span id="admin-order-count">0</span>)
         </button>
+        <button type="button" onclick="switchAdminTab('promos')" id="admin-tab-btn-promos" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-plum border border-blush-border shrink-0 cursor-pointer">
+          أكواد الخصم
+        </button>
       </div>
 
       <!-- TAB 1: PAYMENT & WHATSAPP SETTINGS -->
@@ -1100,7 +1120,7 @@
 
         <div class="pt-4 border-t border-blush-border">
           <h4 class="text-sm font-extrabold text-plum mb-1">إشعار إيميل لكل طلب (EmailJS — مجاني)</h4>
-          <p class="text-[11px] text-plum-muted mb-3 leading-relaxed">كل طلب جديد هيتبعت إيميل تلقائياً للإيميل المكتوب هنا — حتى لو العميلة ما بعتتش واتساب. الخطوات: اعملي حساب مجاني على emailjs.com بحساب جوجل، اربطي Gmail كخدمة (Add New Service)، اعملي قالب إيميل (Email Templates) بالمتغيرات اللي تحت، وبعدين حطي هنا الـ Public Key والـ Service ID والـ Template ID واضغطي حفظ الإعدادات. متغيرات القالب: <span dir="ltr">{{order_id}} {{customer_name}} {{customer_phone}} {{governorate}} {{address}} {{items_text}} {{subtotal}} {{shipping}} {{grand_total}} {{deposit_required}} {{remaining}} {{deposit_method}} {{created_at}}</span></p>
+          <p class="text-[11px] text-plum-muted mb-3 leading-relaxed">كل طلب جديد هيتبعت إيميل تلقائياً للإيميل المكتوب هنا — حتى لو العميلة ما بعتتش واتساب. الخطوات: اعملي حساب مجاني على emailjs.com بحساب جوجل، اربطي Gmail كخدمة (Add New Service)، اعملي قالب إيميل (Email Templates) بالمتغيرات اللي تحت، وبعدين حطي هنا الـ Public Key والـ Service ID والـ Template ID واضغطي حفظ الإعدادات. متغيرات القالب: <span dir="ltr">{{order_id}} {{customer_name}} {{customer_phone}} {{governorate}} {{address}} {{items_text}} {{subtotal}} {{discount}} {{promo_code}} {{shipping}} {{grand_total}} {{deposit_required}} {{remaining}} {{deposit_method}} {{created_at}}</span></p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-bold text-plum mb-1">الإيميل اللي توصله الطلبات</label>
@@ -1156,6 +1176,11 @@
               </div>
             </div>
             <div>
+              <label class="block text-xs font-bold text-plum mb-1">السعر قبل الخصم (اختياري)</label>
+              <input type="number" id="add-prod-oldprice" min="0" placeholder="مثال: 720 — اتركيه فاضياً لو مفيش خصم" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+              <p class="text-[10px] text-plum-muted mt-1">لو كتبت سعر أعلى من سعر البيع، هيظهر السعر القديم مشطوب وشارة خصم % على المنتج.</p>
+            </div>
+            <div>
               <label class="block text-xs font-bold text-plum mb-1">المقاسات / الأنواع (بفاصلة)</label>
               <input type="text" id="add-prod-variants" value="S, M, L, XL" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
             </div>
@@ -1194,6 +1219,44 @@
       <!-- TAB 3: SAVED ORDERS -->
       <div id="admin-panel-orders" class="hidden space-y-3">
         <div id="admin-orders-list" class="space-y-3"></div>
+      </div>
+
+      <!-- TAB 4: PROMO CODES (أكواد الخصم) -->
+      <div id="admin-panel-promos" class="hidden space-y-6">
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs max-w-2xl space-y-4">
+          <h3 class="text-sm font-extrabold text-plum">إضافة كود خصم جديد</h3>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">الكود *</label>
+              <input type="text" id="promo-new-code" dir="ltr" placeholder="RAZAN10" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm font-bold focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">نوع الخصم</label>
+              <select id="promo-new-type" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold">
+                <option value="percent">نسبة %</option>
+                <option value="fixed">مبلغ ثابت (ج.م)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">قيمة الخصم *</label>
+              <input type="number" id="promo-new-value" min="1" placeholder="10" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+              <p class="text-[10px] text-plum-muted mt-1">لو النوع نسبة، اكتبي الرقم بس (10 = خصم 10%). النسبة القصوى 90%.</p>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">حد أدنى للطلب (ج.م)</label>
+              <input type="number" id="promo-new-min" min="0" value="0" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+          </div>
+          <label class="flex items-center gap-2 text-xs font-bold text-plum cursor-pointer">
+            <input type="checkbox" id="promo-new-active" checked class="accent-[#B76E79]" /> الكود مفعّل
+          </label>
+          <button type="button" onclick="addAdminPromo()" class="px-5 py-2.5 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-xs cursor-pointer">إضافة الكود</button>
+          <p class="text-[11px] text-plum-muted leading-relaxed">العميلة تكتب الكود في سلة التسوق قبل تأكيد الطلب. الديبوزت 25% بيتحسب بعد الخصم، والشحن المجاني (فوق 1200 ج.م) بيتحسب على إجمالي المنتجات قبل الخصم — يعني الكود عمره ما يضيّع الشحن المجاني.</p>
+        </div>
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs max-w-2xl">
+          <h3 class="text-sm font-extrabold text-plum mb-3">أكواد الخصم الحالية</h3>
+          <div id="admin-promos-list" class="space-y-2"></div>
+        </div>
       </div>
 
     </div>
@@ -1615,6 +1678,8 @@
       PRODUCTS: "razan_store_products_v1",
       ORDERS: "razan_store_orders_v1",
       CART: "razan_store_cart_v1",
+      PROMOS: "razan_store_promos_v1",
+      APPLIED_PROMO: "razan_applied_promo_v1",
       SYNCED_DEFAULTS: "razan_synced_defaults_v1"
     };
 
@@ -1623,7 +1688,7 @@
       whatsapp2: "01024604385",
       vodafone: "01008485337",
       instapay: "razan.store@instapay",
-      depositPercent: 20,
+      depositPercent: 25,
       notifyEmail: "aymanelshorbagi@gmail.com",
       emailjsPublicKey: "",
       emailjsServiceId: "service_b2il5hq",
@@ -1641,7 +1706,9 @@
       sortBy: "featured",
       selectedVariants: {},
       lastWhatsAppReceiptText: "",
-      adminTab: "settings"
+      adminTab: "settings",
+      promos: [],
+      appliedPromoCode: ""
     };
 
     function loadPersistedData() {
@@ -1651,7 +1718,7 @@
           appState.settings = { ...DEFAULT_SETTINGS, ...JSON.parse(savedSettings) };
         }
         if (appState.settings.depositPercent == null) {
-          appState.settings.depositPercent = 20;
+          appState.settings.depositPercent = 25;
           delete appState.settings.deposit;
         }
         const savedProducts = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
@@ -1666,6 +1733,13 @@
           appState.orders = JSON.parse(savedOrders) || [];
           appState.orders.forEach(normalizeOrderStatus);
         }
+        const savedPromos = localStorage.getItem(STORAGE_KEYS.PROMOS);
+        if (savedPromos) {
+          const parsedPromos = JSON.parse(savedPromos);
+          if (Array.isArray(parsedPromos)) appState.promos = parsedPromos.filter(p => p && p.code);
+        }
+        const savedPromoCode = localStorage.getItem(STORAGE_KEYS.APPLIED_PROMO);
+        if (savedPromoCode) appState.appliedPromoCode = savedPromoCode;
         const savedCart = localStorage.getItem(STORAGE_KEYS.CART);
         if (savedCart) {
           const parsedCart = JSON.parse(savedCart);
@@ -1695,6 +1769,8 @@
     function persistCart() {
       try {
         localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(appState.cart));
+        localStorage.setItem(STORAGE_KEYS.PROMOS, JSON.stringify(appState.promos));
+        localStorage.setItem(STORAGE_KEYS.APPLIED_PROMO, appState.appliedPromoCode || "");
       } catch (e) {
         console.warn("Cart save skipped:", e.message);
       }
@@ -1706,6 +1782,8 @@
         localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(appState.products));
         localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(appState.orders));
         localStorage.setItem(STORAGE_KEYS.CART, JSON.stringify(appState.cart));
+        localStorage.setItem(STORAGE_KEYS.PROMOS, JSON.stringify(appState.promos));
+        localStorage.setItem(STORAGE_KEYS.APPLIED_PROMO, appState.appliedPromoCode || "");
       } catch (e) {
         console.warn("Storage save skipped:", e.message);
       }
@@ -1990,6 +2068,24 @@
       }
 
       return list;
+    }
+
+    // First-visit flash fix: show loading placeholders instead of the stale
+    // baked-in product list until the first Firestore snapshot arrives.
+    let _productsCloudReady = false;
+    let _productsFallbackTimer = null;
+    function renderProductsLoading() {
+      const grid = document.getElementById("products-grid");
+      const countLbl = document.getElementById("catalog-count");
+      if (countLbl) countLbl.textContent = "جاري التحميل...";
+      if (!grid) return;
+      grid.innerHTML = Array.from({ length: 6 }).map(() => `
+        <div class="rounded-3xl border border-blush-border bg-white p-3 space-y-3">
+          <div class="aspect-[4/5] rounded-2xl bg-blush-soft animate-pulse"></div>
+          <div class="h-3 rounded-full bg-blush-soft animate-pulse"></div>
+          <div class="h-3 w-2/3 rounded-full bg-blush-soft animate-pulse"></div>
+          <div class="h-8 rounded-full bg-blush-soft animate-pulse"></div>
+        </div>`).join("");
     }
 
     function renderProductsGrid() {
@@ -2383,7 +2479,7 @@
     function getDepositPercent() {
       const v = Number(appState.settings.depositPercent);
       if (!isNaN(v)) return Math.min(50, Math.max(0, v));
-      return 20;
+      return 25;
     }
 
     function calcDeposit(grandTotal) {
@@ -2401,25 +2497,225 @@
       return 75;
     }
 
-    window.updateCartFinancials = function () {
+    // =========================================================================
+    // PROMO CODES (أكواد الخصم)
+    // A promo is { id, code, type: "percent"|"fixed", value, minOrder, active }.
+    // Codes are stored in the `razan_promos` Firestore collection (public read:
+    // codes are meant to be shared) and mirrored in localStorage. The admin
+    // manages them from the "أكواد الخصم" tab; the customer applies one code
+    // per order in the cart drawer.
+    // =========================================================================
+    function normalizePromoCode(code) {
+      return (code || "").trim().toUpperCase().replace(/\s+/g, "");
+    }
+
+    function findPromo(code) {
+      const c = normalizePromoCode(code);
+      if (!c) return null;
+      return appState.promos.find(p => normalizePromoCode(p.code) === c) || null;
+    }
+
+    function calcPromoDiscount(promo, subtotal) {
+      if (!promo || !promo.active) return 0;
+      if ((promo.minOrder || 0) > 0 && subtotal < promo.minOrder) return 0;
+      if (promo.type === "percent") {
+        const pct = Math.max(0, Math.min(90, Number(promo.value) || 0));
+        return Math.min(subtotal, Math.round(subtotal * pct / 100));
+      }
+      return Math.min(subtotal, Math.max(0, Number(promo.value) || 0));
+    }
+
+    function getAppliedPromo() {
+      if (!appState.appliedPromoCode) return null;
+      const p = findPromo(appState.appliedPromoCode);
+      return p && p.active ? p : null;
+    }
+
+    // Single source of truth for cart money: subtotal -> promo discount ->
+    // shipping (the free-shipping threshold uses the PRE-discount subtotal, so
+    // a code never costs the customer her free shipping) -> grand total -> deposit.
+    function calculateCartTotals(gov) {
       const subtotal = appState.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-      const gov = document.getElementById("checkout-gov")?.value || "";
+      const promo = getAppliedPromo();
+      const discount = promo ? calcPromoDiscount(promo, subtotal) : 0;
       const shipping = getShippingRateForGov(gov, subtotal);
-      const grandTotal = subtotal + shipping;
+      const grandTotal = Math.max(0, subtotal - discount + shipping);
       const depositRequired = calcDeposit(grandTotal);
       const remainingOnDelivery = Math.max(0, grandTotal - depositRequired);
+      return { subtotal, discount, promoCode: promo ? promo.code : null, shipping, grandTotal, depositRequired, remainingOnDelivery };
+    }
+
+    function renderPromoState() {
+      const input = document.getElementById("promo-code-input");
+      const applyBtn = document.getElementById("promo-apply-btn");
+      const appliedEl = document.getElementById("promo-applied");
+      const appliedCodeEl = document.getElementById("promo-applied-code");
+      const promo = getAppliedPromo();
+      if (appliedEl) {
+        appliedEl.classList.toggle("hidden", !promo);
+        appliedEl.classList.toggle("flex", !!promo);
+      }
+      if (appliedCodeEl && promo) appliedCodeEl.textContent = promo.code;
+      if (input) {
+        input.disabled = !!promo;
+        if (promo) input.value = promo.code;
+        else if (!appState.appliedPromoCode) input.value = "";
+      }
+      if (applyBtn) applyBtn.disabled = !!promo;
+    }
+
+    window.applyPromoCode = function () {
+      const input = document.getElementById("promo-code-input");
+      const msgEl = document.getElementById("promo-code-msg");
+      const code = normalizePromoCode(input?.value);
+      const setMsg = (t, ok) => {
+        if (!msgEl) return;
+        msgEl.textContent = t;
+        msgEl.classList.remove("hidden");
+        msgEl.className = "text-[11px] font-bold " + (ok ? "text-emerald-700" : "text-red-600");
+      };
+      if (!code) { setMsg("اكتبي كود الخصم الأول", false); return; }
+      const promo = findPromo(code);
+      if (!promo) { setMsg("الكود غير صحيح", false); return; }
+      if (!promo.active) { setMsg("الكود متوقف حالياً", false); return; }
+      const subtotal = appState.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      if ((promo.minOrder || 0) > 0 && subtotal < promo.minOrder) {
+        setMsg(`الكود يشتغل للطلبات من ${promo.minOrder} ج.م فأكثر`, false);
+        return;
+      }
+      if (calcPromoDiscount(promo, subtotal) <= 0) { setMsg("الكود غير صالح لهذا الطلب", false); return; }
+      appState.appliedPromoCode = promo.code;
+      persistData();
+      updateCartFinancials();
+      renderPromoState();
+      setMsg(`تم تطبيق الكود ${promo.code} 🎉`, true);
+    };
+
+    window.removePromoCode = function () {
+      appState.appliedPromoCode = "";
+      persistData();
+      updateCartFinancials();
+      renderPromoState();
+      const msgEl = document.getElementById("promo-code-msg");
+      if (msgEl) { msgEl.textContent = ""; msgEl.classList.add("hidden"); }
+    };
+
+    function persistPromos() {
+      try { localStorage.setItem(STORAGE_KEYS.PROMOS, JSON.stringify(appState.promos)); } catch (_) {}
+    }
+
+    async function syncPromoToFirestore(promo) {
+      try {
+        const fsCtx = await getFirestoreDb();
+        if (!fsCtx || !promo?.id) return;
+        await fsCtx.setDoc(fsCtx.doc(fsCtx.db, "razan_promos", promo.id), promo);
+      } catch (e) {
+        console.warn("Firestore promo sync error:", e.message);
+      }
+    }
+
+    async function deletePromoFromFirestore(promo) {
+      try {
+        const fsCtx = await getFirestoreDb();
+        if (!fsCtx || !promo?.id) return;
+        await fsCtx.deleteDoc(fsCtx.doc(fsCtx.db, "razan_promos", promo.id));
+      } catch (e) {
+        console.warn("Firestore promo delete error:", e.message);
+      }
+    }
+
+    window.addAdminPromo = function () {
+      const code = normalizePromoCode(document.getElementById("promo-new-code")?.value);
+      const type = document.getElementById("promo-new-type")?.value === "fixed" ? "fixed" : "percent";
+      const value = Number(document.getElementById("promo-new-value")?.value);
+      const minOrder = Math.max(0, Number(document.getElementById("promo-new-min")?.value) || 0);
+      const active = document.getElementById("promo-new-active")?.checked !== false;
+      if (!code) { showToast("اكتبي كود الخصم الأول", "error"); return; }
+      if (!/^[A-Z0-9_-]+$/.test(code)) { showToast("الكود لازم يكون حروف إنجليزية وأرقام بس (من غير مسافات)", "error"); return; }
+      if (!(value > 0)) { showToast("اكتبي قيمة خصم أكبر من صفر", "error"); return; }
+      if (type === "percent" && value > 90) { showToast("النسبة القصوى 90%", "error"); return; }
+      if (findPromo(code)) { showToast("الكود ده موجود بالفعل — اختاري كود تاني", "error"); return; }
+      const promo = { id: "promo-" + code.toLowerCase(), code, type, value, minOrder, active, createdAt: Date.now() };
+      appState.promos.unshift(promo);
+      persistPromos();
+      syncPromoToFirestore(promo);
+      ["promo-new-code", "promo-new-value"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+      const minEl = document.getElementById("promo-new-min");
+      if (minEl) minEl.value = "0";
+      renderAdminPromosList();
+      showToast(`تمت إضافة كود الخصم ${code}`);
+    };
+
+    window.deleteAdminPromo = function (id) {
+      appState.promos = appState.promos.filter(p => p.id !== id);
+      if (appState.appliedPromoCode && !findPromo(appState.appliedPromoCode)) appState.appliedPromoCode = "";
+      persistPromos();
+      persistData();
+      deletePromoFromFirestore({ id });
+      renderAdminPromosList();
+      updateCartFinancials();
+      showToast("تم حذف كود الخصم");
+    };
+
+    window.toggleAdminPromo = function (id) {
+      const promo = appState.promos.find(p => p.id === id);
+      if (!promo) return;
+      promo.active = !promo.active;
+      persistPromos();
+      syncPromoToFirestore(promo);
+      renderAdminPromosList();
+      updateCartFinancials();
+    };
+
+    function renderAdminPromosList() {
+      const list = document.getElementById("admin-promos-list");
+      if (!list) return;
+      if (!appState.promos.length) {
+        list.innerHTML = `<p class="text-xs text-plum-muted">لسه مفيش أكواد خصم — ضيفي أول كود من النموذج اللي فوق.</p>`;
+        return;
+      }
+      list.innerHTML = appState.promos.map(p => `
+        <div class="flex items-center justify-between gap-2 rounded-2xl border border-blush-border bg-blush-soft/60 px-3 py-2.5">
+          <div class="min-w-0">
+            <div class="text-xs font-extrabold text-plum" dir="ltr">${escapeHtml(p.code)}</div>
+            <div class="text-[11px] text-plum-muted">${p.type === "percent" ? `خصم ${p.value}%` : `خصم ${p.value} ج.م`}${p.minOrder > 0 ? ` • حد أدنى ${p.minOrder} ج.م` : ""} • ${p.active ? "مفعّل" : "متوقف"}</div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button type="button" onclick="toggleAdminPromo('${escapeJsStr(p.id)}')" class="px-3 py-1.5 rounded-full bg-white border border-blush-border text-[11px] font-bold text-plum cursor-pointer">${p.active ? "إيقاف" : "تفعيل"}</button>
+            <button type="button" onclick="deleteAdminPromo('${escapeJsStr(p.id)}')" class="px-3 py-1.5 rounded-full bg-white border border-red-200 text-[11px] font-bold text-red-600 cursor-pointer">حذف</button>
+          </div>
+        </div>`).join("");
+    }
+
+    window.updateCartFinancials = function () {
+      const gov = document.getElementById("checkout-gov")?.value || "";
+      let t = calculateCartTotals(gov);
+      // A code that no longer qualifies (deactivated, or the cart dropped
+      // below its minimum) is cleared instead of silently giving 0 discount.
+      if (appState.appliedPromoCode && (!t.promoCode || (t.discount <= 0 && t.subtotal > 0))) {
+        appState.appliedPromoCode = "";
+        persistData();
+        showToast("كود الخصم لم يعد صالحاً لهذا الطلب", "error");
+        t = calculateCartTotals(gov);
+      }
+      const { subtotal, discount, shipping, grandTotal, depositRequired, remainingOnDelivery } = t;
 
       const subEl = document.getElementById("summary-subtotal");
       const shipEl = document.getElementById("summary-shipping");
       const grandEl = document.getElementById("summary-grand-total");
       const depEl = document.getElementById("summary-deposit");
       const remEl = document.getElementById("summary-remaining");
+      const discRow = document.getElementById("summary-discount-row");
+      const discEl = document.getElementById("summary-discount");
 
       if (subEl) subEl.textContent = `${subtotal} ج.م`;
+      if (discRow) discRow.classList.toggle("hidden", !(discount > 0));
+      if (discEl) discEl.textContent = `-${discount} ج.م${t.promoCode ? ` (${t.promoCode})` : ""}`;
       if (shipEl) shipEl.textContent = subtotal >= FREE_SHIPPING_THRESHOLD ? "مجاني 🎉" : (gov ? `${shipping} ج.م` : "يُحدد باختيار المحافظة");
       if (grandEl) grandEl.textContent = `${grandTotal} ج.م`;
       if (depEl) depEl.textContent = `${depositRequired} ج.م (${getDepositPercent()}%)`;
       if (remEl) remEl.textContent = `${remainingOnDelivery} ج.م`;
+      renderPromoState();
 
       const progEl = document.getElementById("free-shipping-progress");
       if (progEl) {
@@ -2574,11 +2870,17 @@
         return;
       }
 
-      const subtotal = appState.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-      const shipping = getShippingRateForGov(gov, subtotal);
-      const grandTotal = subtotal + shipping;
-      const depositRequired = calcDeposit(grandTotal);
-      const remainingOnDelivery = Math.max(0, grandTotal - depositRequired);
+      // Re-validate the promo at checkout: a code deactivated after it was
+      // applied must not silently discount the order.
+      if (appState.appliedPromoCode) {
+        const _t = calculateCartTotals(gov);
+        if (!_t.promoCode || (_t.discount <= 0 && _t.subtotal > 0)) {
+          appState.appliedPromoCode = "";
+          persistData();
+          showToast("كود الخصم لم يعد صالحاً لهذا الطلب", "error");
+        }
+      }
+      const { subtotal, discount, promoCode, shipping, grandTotal, depositRequired, remainingOnDelivery } = calculateCartTotals(gov);
 
       const orderRef = "#RZ-" + Math.floor(1000 + Math.random() * 9000);
       const nowStr = new Date().toLocaleString("ar-EG", {
@@ -2608,6 +2910,8 @@
         notes,
         items: appState.cart.map(c => ({ ...c })),
         subtotal,
+        promoCode: promoCode || null,
+        discount,
         shipping,
         grandTotal,
         depositRequired,
@@ -2648,6 +2952,7 @@
         itemsLines,
         `───────────────`,
         `💵 *إجمالي المنتجات:* ${subtotal} ج.م`,
+        discount > 0 ? `🎟️ *خصم كود ${promoCode}:* -${discount} ج.م` : null,
         `🚚 *مصاريف الشحن (${gov}):* ${shipping} ج.م`,
         `💰 *الإجمالي الكلي للطلب:* ${grandTotal} ج.م`,
         `💎 *قيمة الديبوزت المطلوب تحويله الآن (${getDepositPercent()}%):* ${depositRequired} ج.م`,
@@ -2663,10 +2968,12 @@
       const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(receiptMessage)}`;
 
       appState.cart = [];
+      appState.appliedPromoCode = "";
       persistData();
       document.getElementById("whatsapp-checkout-form").reset();
       updateCartBadge();
       closeCartDrawer();
+      renderPromoState();
       renderOffersShowcase();
       renderProductsGrid();
 
@@ -2733,6 +3040,7 @@
           </table>
           <div style="font-size:13px; line-height:2; margin-top:14px; border-top:1px solid #ccc; padding-top:10px;">
             <div>إجمالي المنتجات: <strong>${order.subtotal} ج.م</strong></div>
+            ${order.discount > 0 ? `<div>خصم كود ${escapeHtml(order.promoCode || "")}: <strong>-${order.discount} ج.م</strong></div>` : ""}
             <div>مصاريف الشحن (${escapeHtml(order.governorate)}): <strong>${order.shipping} ج.م</strong></div>
             <div>الإجمالي الكلي: <strong>${order.grandTotal} ج.م</strong></div>
             <div>الديبوزت المدفوع (${getDepositPercent()}% — ${escapeHtml(order.depositMethod)}): <strong>${order.depositRequired} ج.م</strong></div>
@@ -2867,6 +3175,8 @@
           notes: order.notes || "",
           items_text: itemsText,
           subtotal: order.subtotal,
+          discount: order.discount || 0,
+          promo_code: order.promoCode || "",
           shipping: order.shipping,
           grand_total: order.grandTotal,
           deposit_required: order.depositRequired,
@@ -3258,6 +3568,10 @@
               return String(b.id).localeCompare(String(a.id));
             });
             appState.products = cloudProducts;
+            if (!_productsCloudReady) {
+              _productsCloudReady = true;
+              if (_productsFallbackTimer) { clearTimeout(_productsFallbackTimer); _productsFallbackTimer = null; }
+            }
             appState.products.forEach(p => normalizeProductImages(p));
             appState.products.forEach((p) => {
               if (!appState.selectedVariants[p.id] && p.variants?.length) {
@@ -3279,6 +3593,24 @@
           }
         }
       }, (err) => console.warn("Products snapshot error:", err.message));
+
+      // 4. Promos listener (public read: codes are meant to be shared, so any
+      // visitor can validate one at checkout; only the admin can write).
+      onSnapshot(collection(db, "razan_promos"), (snapshot) => {
+        const cloudPromos = [];
+        snapshot.forEach((d) => {
+          const p = d.data();
+          if (p && p.code) cloudPromos.push({ ...p, id: p.id || d.id });
+        });
+        appState.promos = cloudPromos;
+        try {
+          localStorage.setItem(STORAGE_KEYS.PROMOS, JSON.stringify(appState.promos));
+        } catch (_) {}
+        if (!document.getElementById("admin-modal")?.classList.contains("hidden") && appState.adminTab === "promos") {
+          renderAdminPromosList();
+        }
+        updateCartFinancials();
+      }, (err) => console.warn("Promos snapshot error:", err.message));
 
       // 3. Orders listener (ordered newest first)
       const ordersQuery = query(collection(db, "razan_orders"), orderBy("createdAtTs", "desc"));
@@ -3451,7 +3783,7 @@
 
     window.switchAdminTab = function (tab) {
       appState.adminTab = tab;
-      ["settings", "products", "orders"].forEach(t => {
+      ["settings", "products", "orders", "promos"].forEach(t => {
         const panel = document.getElementById(`admin-panel-${t}`);
         const btn = document.getElementById(`admin-tab-btn-${t}`);
         if (t === tab) {
@@ -3465,13 +3797,14 @@
 
       if (tab === "products") renderAdminProductsList();
       if (tab === "orders") renderAdminOrdersList();
+      if (tab === "promos") renderAdminPromosList();
     };
 
     function readSettingsFromForm() {
       const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ""; };
       appState.settings.whatsapp = g("admin-set-whatsapp") || "01008485337";
       appState.settings.whatsapp2 = g("admin-set-whatsapp2");
-      appState.settings.depositPercent = Math.min(50, Math.max(0, Number(g("admin-set-deposit")) || 20));
+      appState.settings.depositPercent = Math.min(50, Math.max(0, Number(g("admin-set-deposit")) || 25));
       appState.settings.vodafone = g("admin-set-vodafone") || "01008485337";
       appState.settings.instapay = g("admin-set-instapay") || "razan.store@instapay";
       appState.settings.notifyEmail = g("admin-set-notify-email") || "aymanelshorbagi@gmail.com";
@@ -3601,6 +3934,8 @@
       const name = document.getElementById("add-prod-name").value.trim();
       const category = document.getElementById("add-prod-cat").value;
       const price = Number(document.getElementById("add-prod-price").value);
+      const oldPriceInput = Number(document.getElementById("add-prod-oldprice")?.value) || 0;
+      const oldPrice = oldPriceInput > price ? oldPriceInput : null;
       const stock = Number(document.getElementById("add-prod-stock").value);
       const variants = document.getElementById("add-prod-variants").value.split(",").map(v => v.trim()).filter(Boolean);
       const rawImgUrl = document.getElementById("add-prod-img").value.trim();
@@ -3618,7 +3953,7 @@
         category,
         fabric: fabric || "تصميم راقٍ من تشكيلة رزان",
         price,
-        oldPrice: null,
+        oldPrice,
         stock,
         badge: category === "العروض" ? "عرض خاص" : "جديد",
         isBestSeller: false,
@@ -3990,9 +4325,18 @@
       loadPersistedData();
       applyThemeIcon();
       syncSettingsToUI();
-      renderOffersShowcase();
-      renderCategoryTabs();
-      renderProductsGrid();
+      // Don't paint the stale baked-in list first: show loading placeholders
+      // until the live products arrive from Firestore (see the products
+      // listener). If Firestore doesn't answer within 3s (offline / slow),
+      // fall back to the locally saved list so the page never stays stuck.
+      renderProductsLoading();
+      _productsFallbackTimer = setTimeout(() => {
+        if (!_productsCloudReady) {
+          renderOffersShowcase();
+          renderCategoryTabs();
+          renderProductsGrid();
+        }
+      }, 3000);
       updateCartBadge();
       initFirestoreRealtimeSync();
       if (new URLSearchParams(window.location.search).get("admin") === "1") {
