@@ -1,0 +1,2607 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="assets/logo-short.png">
+  <title>رزان | RAZAN — بيجامات، إكسسوارات وعطور فاخرة</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    /* RAZAN dark mode: saved choice wins, otherwise respect device preference */
+    (function () { try { var s = localStorage.getItem('razan_theme'); var dark = s ? s === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches; if (dark) document.documentElement.classList.add('dark'); } catch (e) {} })();
+  </script>
+
+  <!-- Google Fonts: Cairo & Amiri -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            blush: {
+              DEFAULT: '#FFF8FA',
+              soft: '#FDF0F4',
+              tint: '#F8E5EA',
+              border: '#F3DCE3'
+            },
+            rosegold: {
+              DEFAULT: '#B76E79',
+              hover: '#9E5662',
+              light: '#F8E5EA',
+              champagne: '#D49B9E'
+            },
+            plum: {
+              DEFAULT: '#2B1B1F',
+              muted: '#6E545B'
+            }
+          },
+          fontFamily: {
+            cairo: ['"Cairo"', 'sans-serif'],
+            amiri: ['"Amiri"', 'serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+      font-family: 'Cairo', sans-serif;
+      background-color: #FFF8FA;
+      color: #2B1B1F;
+    }
+
+    .rose-gold-gradient {
+      background: linear-gradient(135deg, #C9828D 0%, #B76E79 50%, #D49B9E 100%);
+    }
+
+    .rose-gold-soft-gradient {
+      background: linear-gradient(135deg, #FFF8FA 0%, #FDF0F4 55%, #F8E5EA 100%);
+    }
+
+    .rose-gold-text-gradient {
+      background: linear-gradient(135deg, #9E5662 0%, #B76E79 50%, #C9828D 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Subtle custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FFF8FA;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E4C3CC;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #B76E79;
+    }
+
+    /* Hide scrollbar for horizontal mobile scrollers */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    @keyframes popCheck {
+      0% { transform: scale(0.85); }
+      50% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+    .animate-pop {
+      animation: popCheck 0.25s ease-out;
+    }
+
+    /* ================= RAZAN DARK MODE ================= */
+    html.dark { color-scheme: dark; }
+    html.dark, html.dark body { background-color: #1d1216 !important; color: #f7e8ec !important; }
+    html.dark .bg-white { background-color: #2b1b1f !important; }
+    html.dark .bg-white\/90 { background-color: rgba(43,27,31,.92) !important; }
+    html.dark .bg-white\/95 { background-color: rgba(43,27,31,.95) !important; }
+    html.dark .bg-blush { background-color: #1d1216 !important; }
+    html.dark .bg-blush-soft { background-color: #33222a !important; }
+    html.dark .bg-blush-soft\/80 { background-color: rgba(51,34,42,.85) !important; }
+    html.dark .bg-blush\/40 { background-color: rgba(51,34,42,.4) !important; }
+    html.dark .bg-blush\/50 { background-color: rgba(51,34,42,.5) !important; }
+    html.dark .bg-blush-tint { background-color: #3a2530 !important; }
+    html.dark .text-plum { color: #f7e8ec !important; }
+    html.dark .text-plum-muted { color: #c9a8b2 !important; }
+    html.dark .border-blush-border { border-color: #4a2f39 !important; }
+    html.dark .rose-gold-soft-gradient { background: linear-gradient(135deg, #2b1b1f 0%, #33222a 55%, #3a2530 100%) !important; }
+    html.dark header, html.dark footer { background-color: rgba(43,27,31,.95) !important; }
+    html.dark input, html.dark select, html.dark textarea { background-color: #33222a !important; color: #f7e8ec !important; border-color: #4a2f39 !important; }
+    html.dark input::placeholder, html.dark textarea::placeholder { color: #a5838f !important; }
+    html.dark .bg-plum\/50, html.dark .bg-plum\/45, html.dark .bg-plum\/55 { background-color: rgba(0,0,0,.65) !important; }
+    html.dark ::-webkit-scrollbar-track { background: #1d1216; }
+    html.dark ::-webkit-scrollbar-thumb { background: #6b4350; }
+  </style>
+</head>
+<body class="bg-blush text-plum antialiased selection:bg-rosegold/20 selection:text-plum overflow-x-hidden min-h-screen flex flex-col">
+
+  <!-- ===================================================================== -->
+  <!-- TOAST NOTIFICATION CONTAINER (Replaces browser alert/confirm)         -->
+  <!-- ===================================================================== -->
+  <div id="toast-container" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-2 pointer-events-none w-11/12 max-w-md"></div>
+
+  <!-- ===================================================================== -->
+  <!-- 1. STICKY HEADER & NAVIGATION                                         -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-blush-border shadow-2xs">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
+
+        <!-- Right Side (RTL Start): Custom Rose-Gold Monogram Logo -->
+        <button onclick="navigateToStore('الكل')" class="flex items-center gap-2.5 text-right group focus:outline-none shrink-0 cursor-pointer">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl rose-gold-soft-gradient border border-blush-border flex items-center justify-center shadow-xs group-hover:border-rosegold transition-all">
+            <!-- Custom Rose-Gold Monogram SVG ('R' intertwined with botanical silk curves) -->
+            <svg viewBox="0 0 64 64" class="w-7 h-7 sm:w-8 sm:h-8 text-rosegold" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="rgLogoGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#C9828D"/>
+                  <stop offset="50%" stop-color="#B76E79"/>
+                  <stop offset="100%" stop-color="#9E5662"/>
+                </linearGradient>
+              </defs>
+              <!-- Delicate Silk Orbit Ring -->
+              <path d="M13 38C10 26 18 14 31 12C43 10 53 19 52 31" stroke="url(#rgLogoGrad)" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="2 2"/>
+              <!-- Botanical Silk Curve -->
+              <path d="M16 47C13 39 15 28 23 21C29 16 37 14 45 15" stroke="url(#rgLogoGrad)" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M18 36C25 35 32 30 37 23" stroke="url(#rgLogoGrad)" stroke-width="1.3" stroke-linecap="round"/>
+              <!-- Botanical Leaves -->
+              <path d="M15 29C11.5 28 10.5 25 12 22.8C14.5 23.8 15.8 26.2 15 29Z" fill="url(#rgLogoGrad)" fill-opacity="0.8"/>
+              <path d="M33 14.5C34 11 37 9.8 39.2 11C38.2 13.6 35.8 14.8 33 14.5Z" fill="url(#rgLogoGrad)" fill-opacity="0.8"/>
+              <path d="M44 33C47.5 31.5 50.2 32.8 51 35C48.4 36 45.8 35 44 33Z" fill="url(#rgLogoGrad)" fill-opacity="0.8"/>
+              <!-- Luxury Serif 'R' -->
+              <path d="M23 49V18H35.2C41.2 18 45 21.2 45 26.3C45 30.5 42.2 33.4 37.9 34.3L46.4 49H40.8L33.2 35H27.8V49H23ZM27.8 31.1H34.5C38.2 31.1 40.3 29.2 40.3 26.3C40.3 23.4 38.2 21.7 34.5 21.7H27.8V31.1Z" fill="url(#rgLogoGrad)"/>
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-amiri text-xl sm:text-2xl font-bold text-plum leading-none">رزان</span>
+              <span class="text-rosegold font-light text-sm">|</span>
+              <span class="text-sm sm:text-base font-extrabold tracking-widest text-rosegold">RAZAN</span>
+            </div>
+            <span class="text-[10px] sm:text-[11px] text-plum-muted font-medium mt-0.5">بيجامات • إكسسوارات • عطور</span>
+          </div>
+        </button>
+
+        <!-- Center Navigation Links (Desktop) -->
+        <nav class="hidden lg:flex items-center gap-1 bg-blush-soft/80 p-1.5 rounded-full border border-blush-border">
+          <button onclick="navigateToStore('الكل')" data-nav="الرئيسية" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-rosegold text-white shadow-2xs">
+            الرئيسية
+          </button>
+          <button onclick="navigateToStore('بيجامات')" data-nav="بيجامات" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold">
+            بيجامات
+          </button>
+          <button onclick="navigateToStore('إكسسوارات')" data-nav="إكسسوارات" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold">
+            إكسسوارات
+          </button>
+          <button onclick="navigateToStore('برفانات')" data-nav="برفانات" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold">
+            برفانات
+          </button>
+          <button onclick="scrollToOffersSection()" data-nav="العروض" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold flex items-center gap-1">
+            <span>الأكثر طلباً وعروض</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-rosegold"></span>
+          </button>
+          <button onclick="openShippingContactPage()" data-nav="الشحن والتواصل" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all text-plum hover:text-rosegold">
+            الشحن والتواصل
+          </button>
+        </nav>
+
+        <!-- Left Side (RTL End): Store Admin Gear + Cart Button -->
+        <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <!-- Subtle Store Management Gear Button -->
+          <button
+            onclick="openAdminModal()"
+            class="inline-flex items-center gap-1.5 px-2.5 py-2 sm:px-3 sm:py-2 rounded-full text-xs font-semibold text-plum-muted hover:text-rosegold bg-blush-soft border border-blush-border hover:border-rosegold transition-all cursor-pointer"
+            title="إدارة المتجر والأسعار"
+            aria-label="إدارة المتجر"
+          >
+            <svg class="w-4 h-4 text-rosegold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span class="hidden sm:inline">إدارة المتجر</span>
+          </button>
+
+          <!-- Dark Mode Toggle -->
+          <button
+            id="dark-mode-toggle"
+            onclick="toggleDarkMode()"
+            class="inline-flex items-center gap-1.5 px-2.5 py-2 sm:px-3 sm:py-2 rounded-full text-xs font-semibold text-plum-muted hover:text-rosegold bg-blush-soft border border-blush-border hover:border-rosegold transition-all cursor-pointer"
+            title="الوضع الداكن / الفاتح"
+            aria-label="تبديل الوضع الداكن"
+          >
+            <svg id="icon-moon" class="w-4 h-4 text-rosegold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" /></svg>
+            <svg id="icon-sun" class="w-4 h-4 text-rosegold hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            <span id="dark-mode-label" class="hidden sm:inline">داكن</span>
+          </button>
+
+          <!-- Cart Button -->
+          <button
+            onclick="openCartDrawer()"
+            class="relative inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold rose-gold-gradient text-white shadow-sm hover:opacity-95 active:scale-95 transition-all cursor-pointer"
+            aria-label="سلة التسوق"
+          >
+            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span>السلة</span>
+            <span id="cart-count-badge" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-extrabold rounded-full bg-white text-rosegold shadow-2xs">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile & Tablet Horizontal Scrollable Navigation Bar -->
+      <nav class="lg:hidden flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-2.5 pt-0.5">
+        <button onclick="navigateToStore('الكل')" data-nav="الرئيسية" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-rosegold text-white">
+          الرئيسية
+        </button>
+        <button onclick="navigateToStore('بيجامات')" data-nav="بيجامات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border">
+          بيجامات
+        </button>
+        <button onclick="navigateToStore('إكسسوارات')" data-nav="إكسسوارات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border">
+          إكسسوارات
+        </button>
+        <button onclick="navigateToStore('برفانات')" data-nav="برفانات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border">
+          برفانات
+        </button>
+        <button onclick="scrollToOffersSection()" data-nav="العروض" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border">
+          الأكثر طلباً وعروض
+        </button>
+        <button onclick="openShippingContactPage()" data-nav="الشحن والتواصل" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border">
+          الشحن والتواصل
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW A: MAIN STOREFRONT VIEW (HERO + OFFERS + CATALOG)                -->
+  <!-- ===================================================================== -->
+  <div id="storefront-view" class="flex-1">
+
+    <!-- 2. COMPACT LUXURY HERO & QUICK CATEGORY STRIP -->
+    <section class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3 sm:pt-5">
+      <div class="relative overflow-hidden rounded-3xl rose-gold-soft-gradient border border-blush-border p-4 sm:p-7 lg:p-8 shadow-2xs">
+        <!-- Decorative Soft Rose Gold Glow Circles -->
+        <div class="pointer-events-none absolute -top-16 -left-16 w-48 h-48 rounded-full bg-rosegold/10 blur-2xl"></div>
+        <div class="pointer-events-none absolute -bottom-20 right-10 w-56 h-56 rounded-full bg-rosegold-champagne/15 blur-2xl"></div>
+
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-6">
+          <div class="max-w-2xl space-y-2 sm:space-y-3">
+            <!-- Trust Pill -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-blush-border text-[11px] sm:text-xs font-bold text-rosegold shadow-2xs">
+              <span class="w-2 h-2 rounded-full bg-rosegold animate-pulse"></span>
+              <span id="hero-deposit-pill">تأكيد الطلب بديبوزت 20% (فودافون كاش / إنستاباي)</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="text-xl sm:text-3xl lg:text-[34px] font-extrabold text-plum leading-snug">
+              أناقتك تبدأ من تفاصيلك.. <span class="rose-gold-text-gradient">تشكيلة رزان الجديدة</span>
+            </h1>
+
+            <!-- Subtext -->
+            <p id="hero-subtext" class="text-xs sm:text-sm md:text-base text-plum-muted leading-relaxed">
+              بيجامات قطن وستان فاخرة، إكسسوارات مطلية، وبرفانات ثابتة — احجزي قطعتك الآن بديبوزت 20% من إجمالي الطلب والباقي عند الاستلام.
+            </p>
+          </div>
+
+          <!-- Quick CTA Buttons -->
+          <div class="flex flex-wrap items-center gap-2.5 sm:gap-3 shrink-0">
+            <button
+              onclick="selectCategoryAndScroll('بيجامات')"
+              class="px-4 py-2.5 sm:px-5 sm:py-3 rounded-full rose-gold-gradient text-white text-xs sm:text-sm font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all cursor-pointer"
+            >
+              تسوقي البيجامات
+            </button>
+            <button
+              onclick="selectCategoryAndScroll('إكسسوارات')"
+              class="px-4 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white text-plum hover:text-rosegold border border-blush-border hover:border-rosegold text-xs sm:text-sm font-bold shadow-2xs active:scale-95 transition-all cursor-pointer"
+            >
+              اكتشفي الإكسسوارات
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. BEST SELLERS & OFFERS SECTION (قسم الأكثر طلباً وعروض) -->
+    <section id="offers-section" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-6 sm:pt-8">
+      <div class="bg-blush-soft/75 rounded-3xl border border-blush-border p-4 sm:p-6">
+        <div class="flex items-center justify-between gap-2 mb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold rose-gold-gradient text-white">عروض حصرية</span>
+              <h2 class="text-base sm:text-xl font-extrabold text-plum">الأكثر طلباً وعروض رزان</h2>
+            </div>
+            <p class="text-[11px] sm:text-xs text-plum-muted mt-0.5">باكدجات التوفير والقطع الأعلى مبيعاً — احجزيها قبل نفاد الكمية</p>
+          </div>
+          <button onclick="selectCategoryAndScroll('العروض')" class="text-xs font-bold text-rosegold hover:text-rosegold-hover underline underline-offset-4 shrink-0 cursor-pointer">
+            عرض كل العروض ←
+          </button>
+        </div>
+
+        <!-- Horizontal Scroll on Mobile / 3-Column Showcase on Desktop -->
+        <div id="offers-showcase-grid" class="flex md:grid md:grid-cols-3 gap-3 sm:gap-5 overflow-x-auto no-scrollbar pb-1 snap-x snap-mandatory">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. PRODUCT CATALOG & INTERACTIVE PRODUCT CARDS -->
+    <main id="catalog-section" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-16">
+      
+      <!-- Filter Tabs + Search + Sort Bar -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-4 border-b border-blush-border">
+        
+        <!-- Category Filter Tabs -->
+        <div id="category-tabs" class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar py-1">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Search Input & Sort Dropdown -->
+        <div class="flex items-center gap-2">
+          <div class="relative flex-1 sm:w-60">
+            <input
+              type="text"
+              id="catalog-search-input"
+              oninput="handleCatalogSearch(this.value)"
+              placeholder="ابحثي عن موديل، عطر، أو إكسسوار..."
+              class="w-full bg-white border border-blush-border rounded-full py-2 pr-9 pl-8 text-xs text-plum placeholder:text-plum-muted focus:outline-none focus:border-rosegold focus:ring-2 focus:ring-rosegold/15 transition-all"
+            />
+            <svg class="w-4 h-4 text-rosegold absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+            </svg>
+            <button
+              id="clear-catalog-search"
+              onclick="clearCatalogSearch()"
+              class="hidden absolute left-2.5 top-1/2 -translate-y-1/2 text-plum-muted hover:text-plum p-0.5"
+              title="مسح"
+            >
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+
+          <select
+            id="catalog-sort-select"
+            onchange="handleCatalogSort(this.value)"
+            class="bg-white border border-blush-border rounded-full px-3 py-2 text-xs font-bold text-plum focus:outline-none focus:border-rosegold cursor-pointer shrink-0"
+            aria-label="ترتيب المنتجات"
+          >
+            <option value="featured">الأكثر تميزاً</option>
+            <option value="price-asc">السعر: الأقل للأعلى</option>
+            <option value="price-desc">السعر: الأعلى للأقل</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Active Section Header -->
+      <div class="flex items-center justify-between py-3">
+        <h2 id="catalog-heading" class="text-base sm:text-lg font-extrabold text-plum">جميع منتجات رزان</h2>
+        <span class="flex items-center gap-2"><span id="catalog-count" class="text-xs font-semibold text-plum-muted">12 منتج</span><button onclick="document.getElementById('size-chart-section').scrollIntoView({behavior:'smooth'})" class="px-3 py-1.5 rounded-full bg-blush-soft border border-blush-border text-xs font-bold text-rosegold hover:border-rosegold cursor-pointer">جدول المقاسات (سم)</button></span>
+      </div>
+
+      <!-- Responsive Product Grid: Strictly 2 cols Mobile, 3 cols Tablet, 4 cols Desktop -->
+      <div id="products-grid" class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5 lg:grid-cols-4 lg:gap-6">
+        <!-- Product cards rendered via JS -->
+      </div>
+
+      <!-- Empty Filter State -->
+      <div id="empty-catalog-state" class="hidden text-center py-14 px-4 bg-white rounded-3xl border border-blush-border mt-4">
+        <div class="w-14 h-14 mx-auto rounded-full bg-blush-tint text-rosegold flex items-center justify-center mb-3">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
+          </svg>
+        </div>
+        <h3 class="text-base font-extrabold text-plum">لم نجد منتجات مطابقة لبحثك</h3>
+        <p class="text-xs text-plum-muted mt-1">جربي البحث بكلمة أخرى أو استعرضي كل أقسام تشكيلة رزان.</p>
+        <button onclick="navigateToStore('الكل')" class="mt-4 px-5 py-2.5 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-xs cursor-pointer">
+          عرض كل المنتجات
+        </button>
+      </div>
+    </main>
+
+    <!-- SIZE CHART (cm) — kept from the RAZAN store design, no reviews added -->
+    <section id="size-chart-section" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-16">
+      <div class="bg-white rounded-3xl border border-blush-border p-5 sm:p-6 shadow-2xs">
+        <h2 class="text-base sm:text-lg font-extrabold text-plum">جدول مقاسات البيجامات (بالسنتيمتر)</h2>
+        <p class="text-xs text-plum-muted mt-1">قيسي بالمازورة على قطعة عندك وقارني بالأرقام دي. المقاسات تقريبية وقد تختلف 1-2 سم حسب الموديل والخامة.</p>
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-right text-xs sm:text-sm">
+            <thead class="bg-blush-soft text-plum font-extrabold">
+              <tr><th class="py-3 px-4">المقاس</th><th class="py-3 px-4">محيط الصدر</th><th class="py-3 px-4">محيط الوسط</th><th class="py-3 px-4">طول البلوزة</th></tr>
+            </thead>
+            <tbody class="divide-y divide-blush-border bg-white">
+              <tr><td class="py-3 px-4 font-bold text-plum">S</td><td class="py-3 px-4">52 سم</td><td class="py-3 px-4">48 سم</td><td class="py-3 px-4">62 سم</td></tr>
+              <tr><td class="py-3 px-4 font-bold text-plum">M</td><td class="py-3 px-4">56 سم</td><td class="py-3 px-4">52 سم</td><td class="py-3 px-4">64 سم</td></tr>
+              <tr><td class="py-3 px-4 font-bold text-plum">L</td><td class="py-3 px-4">60 سم</td><td class="py-3 px-4">56 سم</td><td class="py-3 px-4">66 سم</td></tr>
+              <tr><td class="py-3 px-4 font-bold text-plum">XL</td><td class="py-3 px-4">64 سم</td><td class="py-3 px-4">60 سم</td><td class="py-3 px-4">68 سم</td></tr>
+              <tr><td class="py-3 px-4 font-bold text-plum">XXL</td><td class="py-3 px-4">68 سم</td><td class="py-3 px-4">64 سم</td><td class="py-3 px-4">70 سم</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW B: DEDICATED SHIPPING & CONTACT PAGE (صفحة تواصل وشحن)           -->
+  <!-- ===================================================================== -->
+  <div id="shipping-contact-view" class="hidden flex-1 max-w-7xl mx-auto w-full px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-8">
+    
+    <!-- Back to Store Breadcrumb & Header -->
+    <div class="flex flex-wrap items-center justify-between gap-3 bg-white rounded-3xl p-5 sm:p-7 border border-blush-border shadow-2xs">
+      <div>
+        <span class="inline-block px-3 py-1 rounded-full bg-blush-tint text-rosegold text-xs font-bold mb-2">خدمة عملاء رزان</span>
+        <h1 class="text-xl sm:text-2xl font-extrabold text-plum">الشحن والتوصيل ونظام حجز الديبوزت</h1>
+        <p class="text-xs sm:text-sm text-plum-muted mt-1">كل التفاصيل الخاصة بمواعيد الشحن للمحافظات، خطوات تأكيد الطلب، وطرق التواصل المباشر.</p>
+      </div>
+      <button onclick="navigateToStore('الكل')" class="px-5 py-2.5 rounded-full rose-gold-gradient text-white text-xs sm:text-sm font-bold shadow-xs hover:opacity-95 transition-all cursor-pointer">
+        ← العودة للتسوق
+      </button>
+    </div>
+
+    <!-- 3 Visual Steps for Deposit Payment System -->
+    <section class="bg-blush-soft/75 rounded-3xl p-5 sm:p-7 border border-blush-border">
+      <h2 class="text-base sm:text-lg font-extrabold text-plum mb-4 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-rosegold"></span>
+        <span>خطوات تأكيد الطلب بنظام الديبوزت (عربون جدية الحجز)</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white rounded-2xl p-5 border border-blush-border shadow-2xs">
+          <div class="w-9 h-9 rounded-full rose-gold-gradient text-white font-extrabold text-sm flex items-center justify-center mb-3">1</div>
+          <h3 class="text-sm font-extrabold text-plum">اختاري منتجاتك وأكدي على واتساب</h3>
+          <p class="text-xs text-plum-muted mt-1.5 leading-relaxed">
+            أضيفي البيجامات أو الإكسسوارات أو العطور للسلة، أدخلي عنوانك واضغطي على "تأكيد الطلب على واتساب" ليتم تسجيل فاتورتك برقم مرجعي.
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-blush-border shadow-2xs">
+          <div class="w-9 h-9 rounded-full rose-gold-gradient text-white font-extrabold text-sm flex items-center justify-center mb-3">2</div>
+          <h3 class="text-sm font-extrabold text-plum" id="step2-deposit-title">حولي ديبوزت 20% من إجمالي الطلب وابعتي الإيصال</h3>
+          <p class="text-xs text-plum-muted mt-1.5 leading-relaxed" id="step2-deposit-desc">
+            يتم تحويل ديبوزت 20% من إجمالي الطلب على فودافون كاش أو إنستاباي وإرسال صورة التحويل (سكرين شوت) في نفس محادثة الواتساب لتثبيت الحجز فوراً.
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 border border-blush-border shadow-2xs">
+          <div class="w-9 h-9 rounded-full rose-gold-gradient text-white font-extrabold text-sm flex items-center justify-center mb-3">3</div>
+          <h3 class="text-sm font-extrabold text-plum">استلمي شحنتك وادفعي الباقي عند الاستلام</h3>
+          <p class="text-xs text-plum-muted mt-1.5 leading-relaxed">
+            يُخصم مبلغ الديبوزت بالكامل من إجمالي الفاتورة، وتدفعي المتبقي فقط للمندوب عند استلام الشحنة مع حق المعاينة الكاملة.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shipping Rates Table & Return Policy -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- Governorate Shipping Rates & Delivery Times -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs">
+        <h2 class="text-base sm:text-lg font-extrabold text-plum mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-rosegold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+          <span>أسعار ومواعيد الشحن للمحافظات</span>
+        </h2>
+        <div class="overflow-hidden rounded-2xl border border-blush-border">
+          <table class="w-full text-right text-xs sm:text-sm">
+            <thead class="bg-blush-soft text-plum font-extrabold">
+              <tr>
+                <th class="py-3 px-4">المحافظة / المنطقة</th>
+                <th class="py-3 px-4">مدة التوصيل</th>
+                <th class="py-3 px-4">تكلفة الشحن</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-blush-border bg-white">
+              <tr>
+                <td class="py-3 px-4 font-bold text-plum">محافظة الشرقية</td>
+                <td class="py-3 px-4 text-plum-muted">24 - 48 ساعة</td>
+                <td class="py-3 px-4 font-extrabold text-rosegold">50 ج.م</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-plum">القاهرة والجيزة</td>
+                <td class="py-3 px-4 text-plum-muted">2 - 3 أيام عمل</td>
+                <td class="py-3 px-4 font-extrabold text-rosegold">60 ج.م</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-plum">الإسكندرية ومحافظات الدلتا</td>
+                <td class="py-3 px-4 text-plum-muted">2 - 3 أيام عمل</td>
+                <td class="py-3 px-4 font-extrabold text-rosegold">65 ج.م</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 font-bold text-plum">الصعيد ومدن القناة والمحافظات الحدودية</td>
+                <td class="py-3 px-4 text-plum-muted">3 - 4 أيام عمل</td>
+                <td class="py-3 px-4 font-extrabold text-rosegold">75 ج.م</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Inspection & Exchange Policy -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs space-y-4">
+        <h2 class="text-base sm:text-lg font-extrabold text-plum flex items-center gap-2">
+          <svg class="w-5 h-5 text-rosegold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          <span>سياسة المعاينة والاستبدال</span>
+        </h2>
+        <ul class="space-y-3 text-xs sm:text-sm text-plum-muted leading-relaxed">
+          <li class="flex items-start gap-2">
+            <span class="text-rosegold font-bold mt-0.5">✓</span>
+            <span><strong class="text-plum">حق المعاينة الكاملة:</strong> يحق لكِ فتح الشحنة ومعاينة الخامات والتقفيل أمام مندوب الشحن قبل دفع المبلغ المتبقي.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-rosegold font-bold mt-0.5">✓</span>
+            <span><strong class="text-plum">استبدال المقاسات:</strong> متاح استبدال مقاس البيجامات خلال 7 أيام من الاستلام بشرط وجود التيكت الأصلي وعدم الاستخدام.</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-rosegold font-bold mt-0.5">✓</span>
+            <span><strong class="text-plum">ضمان الإكسسوارات والعطور:</strong> جميع الإكسسوارات مطلية بضمان ثبات اللون، والعطور تأتي بتغليف محكم.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Direct Contact Section + Quick WhatsApp Message Form -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- Transfer & Contact Copy Cards -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs space-y-4">
+        <h2 class="text-base sm:text-lg font-extrabold text-plum">بيانات التحويل والتواصل المباشر</h2>
+        <p class="text-xs text-plum-muted">اضغطي على زر النسخ بجوار أي رقم لنسخه مباشرة:</p>
+
+        <div class="space-y-3">
+          <!-- WhatsApp Number Card -->
+          <div class="flex items-center justify-between p-3.5 rounded-2xl bg-blush-soft border border-blush-border">
+            <div>
+              <span class="block text-[11px] font-bold text-plum-muted">رقم واتساب وخدمة العملاء</span>
+              <span id="contact-wa-display" dir="ltr" class="text-sm font-extrabold text-plum">01008485337</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="copySettingValue('whatsapp')" class="px-3 py-1.5 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">نسخ</button>
+              <button onclick="openDirectWhatsAppChat()" class="px-3 py-1.5 rounded-xl bg-[#25D366] text-white text-xs font-bold hover:opacity-95 cursor-pointer">مراسلة</button>
+            </div>
+          </div>
+
+          <!-- Vodafone Cash Card -->
+          <div class="flex items-center justify-between p-3.5 rounded-2xl bg-blush-soft border border-blush-border">
+            <div>
+              <span class="block text-[11px] font-bold text-plum-muted">رقم تحويل الديبوزت (فودافون كاش)</span>
+              <span id="contact-vf-display" dir="ltr" class="text-sm font-extrabold text-plum">01008485337</span>
+            </div>
+            <button onclick="copySettingValue('vodafone')" class="px-3.5 py-1.5 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">نسخ الرقم</button>
+          </div>
+
+          <!-- InstaPay Card -->
+          <div class="flex items-center justify-between p-3.5 rounded-2xl bg-blush-soft border border-blush-border">
+            <div>
+              <span class="block text-[11px] font-bold text-plum-muted">عنوان إنستاباي (InstaPay)</span>
+              <span id="contact-ip-display" dir="ltr" class="text-sm font-extrabold text-plum">razan.store@instapay</span>
+            </div>
+            <button onclick="copySettingValue('instapay')" class="px-3.5 py-1.5 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">نسخ العنوان</button>
+          </div>
+        </div>
+
+        <!-- Social Media Links -->
+        <div class="pt-2 flex flex-wrap items-center gap-2.5">
+          <a href="#instagram" onclick="event.preventDefault(); showToast('تابعي حساب @razan.store.eg على إنستجرام')" class="px-4 py-2 rounded-full bg-blush-tint text-rosegold text-xs font-bold hover:bg-rosegold hover:text-white transition-colors">Instagram</a>
+          <a href="#tiktok" onclick="event.preventDefault(); showToast('تابعي حساب رزان على تيك توك لمشاهدة الخامات على الطبيعة')" class="px-4 py-2 rounded-full bg-blush-tint text-rosegold text-xs font-bold hover:bg-rosegold hover:text-white transition-colors">TikTok</a>
+          <a href="#facebook" onclick="event.preventDefault(); showToast('صفحة رزان الرسمية على فيسبوك')" class="px-4 py-2 rounded-full bg-blush-tint text-rosegold text-xs font-bold hover:bg-rosegold hover:text-white transition-colors">Facebook</a>
+        </div>
+      </div>
+
+      <!-- Quick Contact Form -> Sends directly to WhatsApp -->
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs">
+        <h2 class="text-base sm:text-lg font-extrabold text-plum mb-1">أرسلي استفسارك مباشرة على واتساب</h2>
+        <p class="text-xs text-plum-muted mb-4">عندك سؤال عن مقاس معين أو ترشيح عطر؟ اكتبي رسالتك وهنرد عليكِ فوراً.</p>
+        <form onsubmit="submitQuickContactWhatsApp(event)" class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-plum mb-1">الاسم *</label>
+            <input type="text" id="contact-form-name" required placeholder="اسمك الكريم" class="w-full rounded-xl border border-blush-border bg-blush/50 px-3.5 py-2.5 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-plum mb-1">نوع الاستفسار</label>
+            <select id="contact-form-topic" class="w-full rounded-xl border border-blush-border bg-blush/50 px-3.5 py-2.5 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold">
+              <option value="استفسار عن مقاس بيجامة">استفسار عن مقاس بيجامة</option>
+              <option value="استفسار عن إكسسوارات أو برفانات">استفسار عن إكسسوارات أو برفانات</option>
+              <option value="متابعة طلب حالي">متابعة طلب حالي</option>
+              <option value="تجهيز عروسة / هدية">تجهيز عروسة / هدية</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-plum mb-1">رسالتك *</label>
+            <textarea id="contact-form-msg" rows="3" required placeholder="اكتبي تفاصيل استفسارك هنا..." class="w-full rounded-xl border border-blush-border bg-blush/50 px-3.5 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold"></textarea>
+          </div>
+          <button type="submit" class="w-full py-3 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-xs sm:text-sm shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <span>إرسال الرسالة عبر واتساب</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- LUXURY BLUSH & ROSE GOLD FOOTER                                       -->
+  <!-- ===================================================================== -->
+  <footer class="bg-white border-t border-blush-border mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <div class="flex items-center gap-2 mb-2.5">
+            <span class="font-amiri text-2xl font-bold text-plum">رزان</span>
+            <span class="text-rosegold">|</span>
+            <span class="text-base font-extrabold tracking-widest text-rosegold">RAZAN</span>
+          </div>
+          <p class="text-xs text-plum-muted leading-relaxed max-w-sm">
+            علامة مصرية متخصصة في البيجامات الراقية، الإكسسوارات المطلية بلمسة دهبي وردي، والعطور النسائية الجذابة.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <h4 class="text-xs font-extrabold text-plum mb-2.5">أقسام المتجر</h4>
+            <ul class="space-y-1.5 text-xs text-plum-muted">
+              <li><button onclick="navigateToStore('بيجامات')" class="hover:text-rosegold transition-colors cursor-pointer">بيجامات حريمي</button></li>
+              <li><button onclick="navigateToStore('إكسسوارات')" class="hover:text-rosegold transition-colors cursor-pointer">إكسسوارات</button></li>
+              <li><button onclick="navigateToStore('برفانات')" class="hover:text-rosegold transition-colors cursor-pointer">برفانات</button></li>
+              <li><button onclick="navigateToStore('العروض')" class="hover:text-rosegold transition-colors cursor-pointer">الأكثر طلباً وعروض</button></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-xs font-extrabold text-plum mb-2.5">خدمة العملاء</h4>
+            <ul class="space-y-1.5 text-xs text-plum-muted">
+              <li><button onclick="openShippingContactPage()" class="hover:text-rosegold transition-colors cursor-pointer">الشحن والتوصيل</button></li>
+              <li><button onclick="openShippingContactPage()" class="hover:text-rosegold transition-colors cursor-pointer">نظام الدفع بالديبوزت</button></li>
+              <li><button onclick="openCartDrawer()" class="hover:text-rosegold transition-colors cursor-pointer">سلة التسوق</button></li>
+              <li><button onclick="openAdminModal()" class="hover:text-rosegold transition-colors cursor-pointer">إدارة المتجر</button></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="md:text-left space-y-2.5">
+          <h4 class="text-xs font-extrabold text-plum">حجز سريع عبر واتساب</h4>
+          <p class="text-xs text-plum-muted" id="footer-deposit-note">تأكيد الحجز بتحويل ديبوزت 20% من إجمالي الطلب والباقي عند الاستلام مع المعاينة.</p>
+          <button onclick="openDirectWhatsAppChat()" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366]/15 text-[#178d43] hover:bg-[#25D366] hover:text-white text-xs font-extrabold transition-colors cursor-pointer">
+            <span>تواصلي معنا على واتساب</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="border-t border-blush-border mt-8 pt-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-plum-muted">
+        <p>© 2026 رزان | RAZAN. جميع الحقوق محفوظة.</p>
+        <p>صُمم بكل حب وأناقة لعميلات رزان</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- PRODUCT QUICK-VIEW MODAL                                              -->
+  <!-- ===================================================================== -->
+  <div id="quick-view-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-plum/50 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-blush-border relative">
+      <button onclick="closeQuickViewModal()" class="absolute top-3.5 left-3.5 z-10 w-9 h-9 rounded-full bg-white/95 border border-blush-border flex items-center justify-center text-plum hover:bg-blush-tint hover:text-rosegold transition-colors cursor-pointer" aria-label="إغلاق">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      <div id="quick-view-body" class="grid grid-cols-1 sm:grid-cols-2">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 5. SLIDE-OVER CART DRAWER, DEPOSIT BOX & WHATSAPP CHECKOUT            -->
+  <!-- ===================================================================== -->
+  <div id="cart-backdrop" onclick="closeCartDrawer()" class="fixed inset-0 z-50 hidden bg-plum/45 backdrop-blur-xs transition-opacity"></div>
+  <aside id="cart-drawer" class="fixed top-0 left-0 bottom-0 z-50 w-full sm:w-[470px] bg-blush shadow-2xl border-r border-blush-border transform -translate-x-full transition-transform duration-300 ease-out flex flex-col">
+    
+    <!-- Drawer Top Header -->
+    <div class="px-5 py-4 bg-white border-b border-blush-border flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-full bg-blush-tint text-rosegold flex items-center justify-center">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        </div>
+        <div>
+          <h2 class="text-sm sm:text-base font-extrabold text-plum">سلة التسوق وتأكيد الطلب</h2>
+          <p id="cart-drawer-subtitle" class="text-[11px] text-plum-muted">0 قطع في السلة</p>
+        </div>
+      </div>
+      <button onclick="closeCartDrawer()" class="w-9 h-9 rounded-full bg-blush-soft text-plum hover:bg-rosegold hover:text-white flex items-center justify-center transition-colors cursor-pointer" aria-label="إغلاق السلة">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Scrollable Drawer Content -->
+    <div class="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4">
+      
+      <!-- Empty Cart State -->
+      <div id="empty-cart-state" class="py-14 text-center">
+        <div class="w-16 h-16 mx-auto rounded-full bg-blush-tint text-rosegold flex items-center justify-center mb-3">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        </div>
+        <h3 class="text-base font-extrabold text-plum">سلتك فارغة حالياً</h3>
+        <p class="text-xs text-plum-muted mt-1 max-w-xs mx-auto">اختاري قطعك المفضلة من بيجامات، إكسسوارات، أو عطور رزان لتأكيد طلبك عبر واتساب.</p>
+        <button onclick="closeCartDrawer()" class="mt-5 px-6 py-2.5 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-xs cursor-pointer">
+          تصفحي التشكيلة الآن
+        </button>
+      </div>
+
+      <!-- Populated Cart + Deposit System + WhatsApp Checkout Form -->
+      <div id="populated-cart-state" class="hidden space-y-4">
+        
+        <!-- Cart Items List -->
+        <div id="cart-items-container" class="space-y-2.5">
+          <!-- Cart item cards rendered via JS -->
+        </div>
+
+        <!-- Prominent Deposit Payment System Box (نظام الدفع بالديبوزت) -->
+        <div class="rounded-2xl rose-gold-soft-gradient border border-rosegold/40 p-4 space-y-3 shadow-2xs">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-full rose-gold-gradient text-white flex items-center justify-center text-xs font-extrabold shrink-0">!</span>
+            <h3 class="text-xs sm:text-sm font-extrabold text-plum">نظام الدفع بالديبوزت (عربون جدية الحجز)</h3>
+          </div>
+          <p id="cart-deposit-explanation" class="text-[11px] sm:text-xs text-plum leading-relaxed">
+            لتأكيد طلبك وحجز القطع قبل النفاد، يتم تحويل <strong class="text-rosegold">ديبوزت 20% من إجمالي الطلب</strong> أولاً عبر فودافون كاش أو إنستاباي، ويُخصم من إجمالي الفاتورة والباقي يُدفع عند الاستلام مع المندوب.
+          </p>
+
+          <!-- Quick-Copy Transfer Details -->
+          <div class="grid grid-cols-1 gap-2 pt-1">
+            <div class="flex items-center justify-between bg-white/95 rounded-xl px-3 py-2 border border-blush-border">
+              <div class="text-right">
+                <span class="block text-[10px] font-bold text-plum-muted">رقم فودافون كاش:</span>
+                <span id="cart-vf-number" dir="ltr" class="text-xs font-extrabold text-plum">01008485337</span>
+              </div>
+              <button type="button" onclick="copySettingValue('vodafone')" class="px-2.5 py-1 rounded-lg bg-blush-tint hover:bg-rosegold hover:text-white text-rosegold text-[11px] font-extrabold transition-colors cursor-pointer">
+                نسخ الرقم
+              </button>
+            </div>
+
+            <div class="flex items-center justify-between bg-white/95 rounded-xl px-3 py-2 border border-blush-border">
+              <div class="text-right">
+                <span class="block text-[10px] font-bold text-plum-muted">عنوان إنستاباي (InstaPay):</span>
+                <span id="cart-ip-address" dir="ltr" class="text-xs font-extrabold text-plum">razan.store@instapay</span>
+              </div>
+              <button type="button" onclick="copySettingValue('instapay')" class="px-2.5 py-1 rounded-lg bg-blush-tint hover:bg-rosegold hover:text-white text-rosegold text-[11px] font-extrabold transition-colors cursor-pointer">
+                نسخ العنوان
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Integrated Arabic Checkout Form -->
+        <form id="whatsapp-checkout-form" onsubmit="handleWhatsAppCheckout(event)" novalidate class="bg-white rounded-2xl p-4 border border-blush-border space-y-3 shadow-2xs">
+          <h3 class="text-xs sm:text-sm font-extrabold text-plum pb-2 border-b border-blush-border flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-rosegold"></span>
+            <span>بيانات الشحن وتأكيد الحجز</span>
+          </h3>
+
+          <!-- Full Name -->
+          <div>
+            <label for="checkout-name" class="block text-xs font-bold text-plum mb-1">الاسم بالكامل <span class="text-rose-500">*</span></label>
+            <input type="text" id="checkout-name" placeholder="مثال: سارة محمد أحمد" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-xs sm:text-sm text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+            <p id="err-checkout-name" class="hidden text-[11px] text-rose-600 font-semibold mt-1">يرجى إدخال الاسم بالكامل (3 أحرف على الأقل).</p>
+          </div>
+
+          <!-- 11-Digit Egyptian Mobile Number -->
+          <div>
+            <label for="checkout-phone" class="block text-xs font-bold text-plum mb-1">رقم الموبايل (11 رقم) <span class="text-rose-500">*</span></label>
+            <input type="tel" id="checkout-phone" maxlength="11" dir="ltr" placeholder="01012345678" class="w-full text-right rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-xs sm:text-sm text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+            <p id="err-checkout-phone" class="hidden text-[11px] text-rose-600 font-semibold mt-1">يرجى إدخال رقم موبايل مصري صحيح (11 رقم يبدأ بـ 01).</p>
+          </div>
+
+          <!-- Governorate Dropdown (Auto-calculates Shipping) -->
+          <div>
+            <label for="checkout-gov" class="block text-xs font-bold text-plum mb-1">المحافظة <span class="text-rose-500">*</span></label>
+            <select id="checkout-gov" onchange="updateCartFinancials()" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-xs sm:text-sm text-plum focus:bg-white focus:outline-none focus:border-rosegold cursor-pointer">
+              <option value="">اختاري المحافظة لحساب الشحن...</option>
+              <option value="الشرقية">الشرقية (شحن 50 ج.م)</option>
+              <option value="القاهرة">القاهرة (شحن 60 ج.م)</option>
+              <option value="الجيزة">الجيزة (شحن 60 ج.م)</option>
+              <option value="الإسكندرية">الإسكندرية (شحن 65 ج.م)</option>
+              <option value="الدقهلية">الدقهلية (شحن 65 ج.م)</option>
+              <option value="الغربية">الغربية (شحن 65 ج.م)</option>
+              <option value="المنوفية">المنوفية (شحن 65 ج.م)</option>
+              <option value="القليوبية">القليوبية (شحن 65 ج.م)</option>
+              <option value="البحيرة">البحيرة (شحن 65 ج.م)</option>
+              <option value="كفر الشيخ">كفر الشيخ (شحن 65 ج.م)</option>
+              <option value="دمياط">دمياط (شحن 65 ج.م)</option>
+              <option value="بورسعيد">بورسعيد (شحن 75 ج.م)</option>
+              <option value="الإسماعيلية">الإسماعيلية (شحن 75 ج.م)</option>
+              <option value="السويس">السويس (شحن 75 ج.م)</option>
+              <option value="الفيوم">الفيوم (شحن 75 ج.م)</option>
+              <option value="بني سويف">بني سويف (شحن 75 ج.م)</option>
+              <option value="المنيا">المنيا (شحن 75 ج.م)</option>
+              <option value="أسيوط">أسيوط (شحن 75 ج.م)</option>
+              <option value="سوهاج">سوهاج (شحن 75 ج.م)</option>
+              <option value="قنا">قنا (شحن 75 ج.م)</option>
+              <option value="الأقصر">الأقصر (شحن 75 ج.م)</option>
+              <option value="أسوان">أسوان (شحن 75 ج.م)</option>
+              <option value="البحر الأحمر">البحر الأحمر (شحن 75 ج.م)</option>
+              <option value="مطروح">مطروح (شحن 75 ج.م)</option>
+              <option value="شمال سيناء">شمال سيناء (شحن 75 ج.م)</option>
+              <option value="جنوب سيناء">جنوب سيناء (شحن 75 ج.م)</option>
+              <option value="الوادي الجديد">الوادي الجديد (شحن 75 ج.م)</option>
+            </select>
+            <p id="err-checkout-gov" class="hidden text-[11px] text-rose-600 font-semibold mt-1">يرجى اختيار المحافظة.</p>
+          </div>
+
+          <!-- Detailed Address -->
+          <div>
+            <label for="checkout-address" class="block text-xs font-bold text-plum mb-1">العنوان بالتفصيل <span class="text-rose-500">*</span></label>
+            <textarea id="checkout-address" rows="2" placeholder="المركز / الحي / اسم الشارع / علامة مميزة" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-xs sm:text-sm text-plum focus:bg-white focus:outline-none focus:border-rosegold"></textarea>
+            <p id="err-checkout-address" class="hidden text-[11px] text-rose-600 font-semibold mt-1">يرجى كتابة العنوان بالتفصيل (المركز / الحي / الشارع).</p>
+          </div>
+
+          <!-- Preferred Deposit Transfer Method -->
+          <div>
+            <label class="block text-xs font-bold text-plum mb-1.5">طريقة تحويل الديبوزت المفضلة</label>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="cursor-pointer">
+                <input type="radio" name="deposit-method" value="فودافون كاش" checked class="peer sr-only" />
+                <div class="rounded-xl border border-blush-border bg-blush/40 p-2.5 text-center peer-checked:border-rosegold peer-checked:bg-blush-tint transition-all">
+                  <span class="block text-xs font-extrabold text-plum">فودافون كاش</span>
+                  <span class="block text-[10px] text-plum-muted">Vodafone Cash</span>
+                </div>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="deposit-method" value="إنستاباي InstaPay" class="peer sr-only" />
+                <div class="rounded-xl border border-blush-border bg-blush/40 p-2.5 text-center peer-checked:border-rosegold peer-checked:bg-blush-tint transition-all">
+                  <span class="block text-xs font-extrabold text-plum">إنستاباي</span>
+                  <span class="block text-[10px] text-plum-muted">InstaPay</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Optional Notes -->
+          <div>
+            <label for="checkout-notes" class="block text-xs font-bold text-plum mb-1">ملاحظات إضافية (اختياري)</label>
+            <input type="text" id="checkout-notes" placeholder="مثال: تغليف هدية، أو ميعاد مناسب للاستلام" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-xs text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+          </div>
+
+          <!-- Free Shipping Progress -->
+          <div id="free-shipping-progress" class="hidden text-center text-[11px] sm:text-xs font-extrabold text-rosegold bg-blush-tint border border-rosegold/30 rounded-xl px-3 py-2"></div>
+
+          <!-- Live Order Financial Summary Box -->
+          <div class="bg-blush-soft/90 rounded-2xl p-3.5 space-y-2 border border-blush-border">
+            <div class="flex items-center justify-between text-xs text-plum-muted">
+              <span>إجمالي المنتجات:</span>
+              <span id="summary-subtotal" class="font-bold text-plum">0 ج.م</span>
+            </div>
+            <div class="flex items-center justify-between text-xs text-plum-muted">
+              <span>مصاريف الشحن:</span>
+              <span id="summary-shipping" class="font-bold text-plum">يُحدد باختيار المحافظة</span>
+            </div>
+            <div class="flex items-center justify-between text-xs font-bold text-plum pt-1.5 border-t border-blush-border">
+              <span>الإجمالي الكلي للطلب:</span>
+              <span id="summary-grand-total">0 ج.م</span>
+            </div>
+            <div class="flex items-center justify-between text-xs font-extrabold text-rosegold bg-white px-2.5 py-1.5 rounded-xl border border-rosegold/30">
+              <span>قيمة الديبوزت المطلوب تحويله الآن:</span>
+              <span id="summary-deposit">0 ج.م</span>
+            </div>
+            <div class="flex items-center justify-between text-sm font-extrabold text-plum pt-1">
+              <span>المتبقي للدفع عند الاستلام:</span>
+              <span id="summary-remaining" class="text-rosegold-hover">0 ج.م</span>
+            </div>
+          </div>
+
+          <!-- Primary CTA: WhatsApp Checkout Button -->
+          <button
+            type="submit"
+            class="w-full py-3.5 px-4 rounded-full bg-[#25D366] hover:bg-[#1fb858] text-white font-extrabold text-xs sm:text-sm shadow-md border-2 border-rosegold/35 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+            <span>تأكيد الطلب على واتساب</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===================================================================== -->
+  <!-- ORDER CONFIRMATION & DEPOSIT REMINDER MODAL                           -->
+  <!-- ===================================================================== -->
+  <div id="order-success-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-plum/55 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-blush-border text-center space-y-4">
+      <div class="w-16 h-16 mx-auto rounded-full bg-[#25D366]/15 text-[#178d43] flex items-center justify-center">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M5 13l4 4L19 7"/></svg>
+      </div>
+
+      <div>
+        <span class="px-3 py-1 rounded-full bg-blush-tint text-rosegold text-xs font-extrabold" id="modal-order-ref">#RZ-1001</span>
+        <h3 class="text-lg sm:text-xl font-extrabold text-plum mt-2">تم تجهيز طلبك بنجاح!</h3>
+        <p id="modal-deposit-reminder" class="text-xs sm:text-sm text-plum-muted mt-1.5 leading-relaxed">
+          لإتمام حجز القطع، يرجى تحويل <strong class="text-rosegold">ديبوزت 20% من إجمالي الطلب</strong> وإرسال صورة التحويل (سكرين شوت) في محادثة واتساب المفتوحة الآن.
+        </p>
+      </div>
+
+      <!-- Quick Copy Transfer Box Inside Confirmation -->
+      <div class="bg-blush-soft rounded-2xl p-3.5 border border-blush-border text-right space-y-2 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-plum-muted">فودافون كاش: <strong id="modal-vf-num" dir="ltr" class="text-plum">01008485337</strong></span>
+          <button onclick="copySettingValue('vodafone')" class="px-2.5 py-1 rounded-lg bg-white border border-blush-border text-[11px] font-bold text-rosegold cursor-pointer">نسخ</button>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-plum-muted">إنستاباي: <strong id="modal-ip-id" dir="ltr" class="text-plum">razan.store@instapay</strong></span>
+          <button onclick="copySettingValue('instapay')" class="px-2.5 py-1 rounded-lg bg-white border border-blush-border text-[11px] font-bold text-rosegold cursor-pointer">نسخ</button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-2 pt-1">
+        <a
+          id="modal-whatsapp-launch-link"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full py-3 rounded-full bg-[#25D366] hover:bg-[#1fb858] text-white text-xs sm:text-sm font-extrabold shadow-sm flex items-center justify-center gap-2 transition-all"
+        >
+          <span>فتح محادثة واتساب وإرسال الإيصال</span>
+        </a>
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="copyLastWhatsAppReceipt()" class="py-2.5 rounded-full bg-blush-soft hover:bg-blush-tint text-plum text-xs font-bold border border-blush-border cursor-pointer">
+            نسخ نص الفاتورة
+          </button>
+          <button onclick="closeOrderSuccessModal()" class="py-2.5 rounded-full bg-white hover:bg-blush-soft text-plum-muted text-xs font-bold border border-blush-border cursor-pointer">
+            متابعة التسوق
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- 7. LIGHTWEIGHT STORE OWNER ADMIN MODAL (إدارة المتجر)                 -->
+  <!-- ===================================================================== -->
+  <div id="admin-modal" class="fixed inset-0 z-50 hidden bg-blush overflow-y-auto">
+    <div class="sticky top-0 z-20 bg-white border-b border-blush-border px-4 sm:px-8 py-3.5">
+      <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl rose-gold-gradient text-white flex items-center justify-center font-amiri font-bold text-xl">ر</div>
+          <div>
+            <h2 class="text-sm sm:text-base font-extrabold text-plum">إدارة متجر رزان | RAZAN</h2>
+            <p class="text-[11px] text-plum-muted">تعديل بيانات التحويل، الديبوزت، المنتجات، ومتابعة الطلبات</p>
+          </div>
+        </div>
+        <button onclick="closeAdminModal()" class="px-4 py-2 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-2xs cursor-pointer">
+          العودة للمتجر
+        </button>
+      </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-8 py-6 space-y-6">
+      
+      <!-- Admin Tabs -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar border-b border-blush-border pb-2">
+        <button onclick="switchAdminTab('settings')" id="admin-tab-btn-settings" class="px-4 py-2 rounded-full text-xs font-bold rose-gold-gradient text-white shrink-0 cursor-pointer">
+          إعدادات واتساب والديبوزت
+        </button>
+        <button onclick="switchAdminTab('products')" id="admin-tab-btn-products" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-plum border border-blush-border shrink-0 cursor-pointer">
+          المنتجات والأسعار (<span id="admin-prod-count">12</span>)
+        </button>
+        <button onclick="switchAdminTab('orders')" id="admin-tab-btn-orders" class="px-4 py-2 rounded-full text-xs font-bold bg-white text-plum border border-blush-border shrink-0 cursor-pointer">
+          الطلبات المسجلة (<span id="admin-order-count">0</span>)
+        </button>
+      </div>
+
+      <!-- TAB 1: PAYMENT & WHATSAPP SETTINGS -->
+      <div id="admin-panel-settings" class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs max-w-2xl">
+        <h3 class="text-sm sm:text-base font-extrabold text-plum mb-4">تحديث بيانات الاستلام والديبوزت</h3>
+        <form onsubmit="saveAdminSettings(event)" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">رقم واتساب لاستقبال الطلبات *</label>
+              <input type="text" id="admin-set-whatsapp" dir="ltr" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">نسبة الديبوزت % *</label>
+              <input type="number" id="admin-set-deposit" min="0" max="50" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">رقم فودافون كاش *</label>
+              <input type="text" id="admin-set-vodafone" dir="ltr" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">عنوان إنستاباي (InstaPay) *</label>
+              <input type="text" id="admin-set-instapay" dir="ltr" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+          </div>
+          <button type="submit" class="px-6 py-2.5 rounded-full rose-gold-gradient text-white text-xs sm:text-sm font-bold shadow-xs cursor-pointer">
+            حفظ الإعدادات وتطبيقها فوراً
+          </button>
+        </form>
+      </div>
+
+      <!-- TAB 2: MANAGE PRODUCTS & ADD NEW -->
+      <div id="admin-panel-products" class="hidden space-y-6">
+        <!-- Add New Product Card -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs">
+          <h3 class="text-sm sm:text-base font-extrabold text-plum mb-4">+ إضافة منتج جديد</h3>
+          <form onsubmit="handleAdminAddProduct(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">اسم المنتج *</label>
+              <input type="text" id="add-prod-name" required placeholder="مثال: بيجامة ستان تركي - روز" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">القسم *</label>
+              <select id="add-prod-cat" onchange="handleAdminCatDefaultVariants(this.value)" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold">
+                <option value="بيجامات">بيجامات</option>
+                <option value="إكسسوارات">إكسسوارات</option>
+                <option value="برفانات">برفانات</option>
+                <option value="العروض">العروض</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-xs font-bold text-plum mb-1">السعر (ج.م) *</label>
+                <input type="number" id="add-prod-price" required min="1" placeholder="550" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-plum mb-1">المخزون *</label>
+                <input type="number" id="add-prod-stock" required min="0" value="10" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">المقاسات / الأنواع (بفاصلة)</label>
+              <input type="text" id="add-prod-variants" value="S, M, L, XL" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">رابط الصورة (اختياري)</label>
+              <input type="url" id="add-prod-img" placeholder="https://..." class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">وصف الخامة</label>
+              <input type="text" id="add-prod-desc" placeholder="خامة ناعمة ومريحة..." class="w-full rounded-xl border border-blush-border bg-blush/40 px-3 py-2 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div class="sm:col-span-2 lg:col-span-3 flex justify-end">
+              <button type="submit" class="px-5 py-2.5 rounded-full rose-gold-gradient text-white text-xs font-bold shadow-xs cursor-pointer">
+                إضافة المنتج للمتجر
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Existing Products List -->
+        <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs space-y-3">
+          <h3 class="text-sm sm:text-base font-extrabold text-plum">تعديل الأسعار والمخزون</h3>
+          <div id="admin-products-list" class="space-y-2.5">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: SAVED ORDERS -->
+      <div id="admin-panel-orders" class="hidden space-y-3">
+        <div id="admin-orders-list" class="space-y-3">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT APPLICATION LOGIC                                          -->
+  <!-- ===================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. BESPOKE ROSE-GOLD SVG ILLUSTRATION FALLBACK GENERATOR (NO BASE64)
+    // =========================================================================
+    function createRoseGoldIllustrationUrl(category, title) {
+      let iconPath = "";
+      if (category === "بيجامات") {
+        // Elegant silk pajama top & collar silhouette
+        iconPath = `
+          <path d="M115 95 L145 80 L175 80 L205 95 L225 140 L200 152 L190 128 L190 215 L130 215 L130 128 L120 152 L95 140 Z" fill="#F8E5EA" stroke="#B76E79" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M145 80 L160 112 L175 80" fill="none" stroke="#B76E79" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="160" cy="132" r="2.5" fill="#B76E79"/>
+          <circle cx="160" cy="152" r="2.5" fill="#B76E79"/>
+          <circle cx="160" cy="172" r="2.5" fill="#B76E79"/>
+        `;
+      } else if (category === "إكسسوارات") {
+        // Delicate rose-gold necklace & pendant silhouette
+        iconPath = `
+          <path d="M115 95 C115 150, 205 150, 205 95" fill="none" stroke="#B76E79" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="160" cy="142" r="6" fill="#F8E5EA" stroke="#B76E79" stroke-width="2"/>
+          <path d="M160 152 L174 172 L160 194 L146 172 Z" fill="#F8E5EA" stroke="#B76E79" stroke-width="2.5" stroke-linejoin="round"/>
+          <circle cx="160" cy="172" r="4" fill="#B76E79"/>
+        `;
+      } else if (category === "برفانات") {
+        // Luxury glass perfume flacon silhouette
+        iconPath = `
+          <rect x="146" y="78" width="28" height="20" rx="5" fill="#B76E79"/>
+          <rect x="152" y="98" width="16" height="12" fill="#D49B9E"/>
+          <rect x="122" y="110" width="76" height="96" rx="18" fill="#F8E5EA" stroke="#B76E79" stroke-width="2.5"/>
+          <rect x="136" y="132" width="48" height="46" rx="8" fill="#FFFFFF" stroke="#B76E79" stroke-width="1.5"/>
+          <text x="160" y="159" font-family="serif" font-size="13" font-weight="bold" fill="#B76E79" text-anchor="middle">RAZAN</text>
+        `;
+      } else {
+        // Luxury gift bundle box with ribbon
+        iconPath = `
+          <rect x="115" y="122" width="90" height="82" rx="10" fill="#F8E5EA" stroke="#B76E79" stroke-width="2.5"/>
+          <rect x="108" y="106" width="104" height="18" rx="6" fill="#FFFFFF" stroke="#B76E79" stroke-width="2.5"/>
+          <line x1="160" y1="106" x2="160" y2="204" stroke="#B76E79" stroke-width="2.5"/>
+          <path d="M160 106 C142 84, 128 96, 145 106 C152 106, 160 106, 160 106 Z" fill="#F8E5EA" stroke="#B76E79" stroke-width="2"/>
+          <path d="M160 106 C178 84, 192 96, 175 106 C168 106, 160 106, 160 106 Z" fill="#F8E5EA" stroke="#B76E79" stroke-width="2"/>
+        `;
+      }
+
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 380" width="320" height="380">
+          <defs>
+            <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FFF8FA"/>
+              <stop offset="100%" stop-color="#FDF0F4"/>
+            </linearGradient>
+          </defs>
+          <rect width="320" height="380" fill="url(#bg)"/>
+          <circle cx="160" cy="148" r="88" fill="#FFFFFF" stroke="#F3DCE3" stroke-width="2"/>
+          ${iconPath}
+          <text x="160" y="275" font-family="sans-serif" font-size="14" font-weight="bold" fill="#B76E79" text-anchor="middle">RAZAN | رزان</text>
+          <text x="160" y="300" font-family="sans-serif" font-size="12" fill="#6E545B" text-anchor="middle">${category}</text>
+        </svg>
+      `.trim();
+
+      return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+    }
+
+    // =========================================================================
+    // 2. PRE-POPULATED 12 REALISTIC EGYPTIAN MARKET PRODUCTS
+    // =========================================================================
+    const DEFAULT_PRODUCTS = [
+      {
+        id: "rz-1",
+        name: "طقم بيجامة ستان حريري - وردي ناعم",
+        category: "بيجامات",
+        fabric: "ستان تركي ناعم بقصة انسيابية مريحة",
+        price: 580,
+        oldPrice: 720,
+        stock: 4,
+        badge: "الأكثر طلباً",
+        isBestSeller: true,
+        isOffer: false,
+        variants: ["S", "M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1616530940355-351fabd9524b?auto=format&fit=crop&w=800&q=80",
+        description: "طقم بيجامة من الستان التركي الفاخر بلون وردي هادئ وأزرار مغلفة بالستان، ناعم على البشرة ومناسب لجميع الفصول."
+      },
+      {
+        id: "rz-2",
+        name: "باكدج الدلع: بيجامة ستان + برفان رزان 50ml",
+        category: "العروض",
+        fabric: "وفر 180 ج.م — العرض الأقوى من رزان",
+        price: 890,
+        oldPrice: 1070,
+        stock: 5,
+        badge: "وفر 180 ج.م",
+        isBestSeller: true,
+        isOffer: true,
+        variants: ["S", "M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1596484552834-6a58f850e0a1?auto=format&fit=crop&w=800&q=80",
+        description: "باكدج متكامل يضم بيجامة ستان فاخرة مع زجاجة عطر رزان أورا 50ml بتركيبة الفانيليا والمسك الأبيض."
+      },
+      {
+        id: "rz-3",
+        name: "بيجامة قطن مصري 100% - أوف وايت وروز",
+        category: "بيجامات",
+        fabric: "قطن مصري معالج ضد الوبرة والانكماش",
+        price: 490,
+        oldPrice: null,
+        stock: 14,
+        badge: "الأكثر طلباً",
+        isBestSeller: true,
+        isOffer: false,
+        variants: ["S", "M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1583846783214-7229a91b20ed?auto=format&fit=crop&w=800&q=80",
+        description: "بيجامة قطن صافي فائقة النعومة بتطريز شعار رزان باللون الذهبي الوردي على الجيب."
+      },
+      {
+        id: "rz-4",
+        name: "طقم روب وبيجامة دانتيل عرايسي - شامبين",
+        category: "بيجامات",
+        fabric: "شيفون ناعم مع دانتيل فرنسي رقيق",
+        price: 750,
+        oldPrice: 890,
+        stock: 3,
+        badge: "خصم 15%",
+        isBestSeller: false,
+        isOffer: false,
+        variants: ["S", "M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?auto=format&fit=crop&w=800&q=80",
+        description: "طقم مكون من قطعتين مع روب انسيابي بحزام خصر، مثالي للعرائس وأوقات الاسترخاء الراقية."
+      },
+      {
+        id: "rz-5",
+        name: "عقد لؤلؤ طبيعي بتعليقة R دهبي وردي",
+        category: "إكسسوارات",
+        fabric: "طلاء دهبي وردي عيار 18 مقاوم للصدأ",
+        price: 320,
+        oldPrice: 400,
+        stock: 11,
+        badge: "الأكثر طلباً",
+        isBestSeller: true,
+        isOffer: false,
+        variants: ["ذهبي وردي", "فضي", "مقاس موحد"],
+        image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80",
+        description: "عقد أنيق يجمع بين اللؤلؤ الأبيض الناعم وتعليقة حرف R باللون الذهبي الوردي اللامع."
+      },
+      {
+        id: "rz-6",
+        name: "سوار تنس كلاسيك مرصع بفصوص زركون",
+        category: "إكسسوارات",
+        fabric: "ستانلس ستيل مطلي لا يغير اللون",
+        price: 380,
+        oldPrice: null,
+        stock: 3,
+        badge: null,
+        isBestSeller: false,
+        isOffer: false,
+        variants: ["ذهبي وردي", "فضي", "مقاس موحد"],
+        image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=800&q=80",
+        description: "إسورة رقيقة بلمعة هادئة تناسب الخروجات اليومية والمناسبات، مزودة بقفل أمان محكم."
+      },
+      {
+        id: "rz-7",
+        name: "طقم إكسسوارات رزان الملكي (عقد + حلق + خاتم)",
+        category: "العروض",
+        fabric: "وفر 150 ج.م — علبة هدايا مخملية مجاناً",
+        price: 590,
+        oldPrice: 740,
+        stock: 6,
+        badge: "وفر 150 ج.م",
+        isBestSeller: true,
+        isOffer: true,
+        variants: ["ذهبي وردي", "فضي", "مقاس موحد"],
+        image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80",
+        description: "طقم كامل مطلي بالدهبي الوردي مقاوم للماء والعطور، يأتي داخل بوكس هدايا رزان الفاخر."
+      },
+      {
+        id: "rz-8",
+        name: "حلق دائري مجدول بلمسة روز جولد",
+        category: "إكسسوارات",
+        fabric: "خفيف الوزن ومريح للأذن طوال اليوم",
+        price: 240,
+        oldPrice: 290,
+        stock: 16,
+        badge: "خصم 17%",
+        isBestSeller: false,
+        isOffer: false,
+        variants: ["ذهبي وردي", "فضي", "مقاس موحد"],
+        image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=800&q=80",
+        description: "تصميم عصري ناعم يضيف إشراقة فورية لوجهك دون أي ثقل على الأذن."
+      },
+      {
+        id: "rz-9",
+        name: "برفان رزان أورا - Razan Aura EDP",
+        category: "برفانات",
+        fabric: "فانيليا مدغشقر، زهر البرتقال ومسك أبيض",
+        price: 480,
+        oldPrice: 580,
+        stock: 5,
+        badge: "الأكثر طلباً",
+        isBestSeller: true,
+        isOffer: false,
+        variants: ["50ml", "100ml"],
+        image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=80",
+        description: "عطر رزان المميز بتركيز Eau de Parfum وثبات يدوم أكثر من 12 ساعة على الملابس."
+      },
+      {
+        id: "rz-10",
+        name: "برفان فيلفيت مسك - Velvet Musk",
+        category: "برفانات",
+        fabric: "مسك بودري ناعم مع ياسمين وخشب الصندل",
+        price: 440,
+        oldPrice: null,
+        stock: 12,
+        badge: null,
+        isBestSeller: false,
+        isOffer: false,
+        variants: ["50ml", "100ml"],
+        image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80",
+        description: "رائحة نظافة وأنوثة هادئة مثالية للاستخدام اليومي وبعد الاستحمام."
+      },
+      {
+        id: "rz-11",
+        name: "عرض الثنائي العطري (رزان أورا + فيلفيت مسك)",
+        category: "العروض",
+        fabric: "وفر 200 ج.م — عبوتين 50ml بسعر خاص",
+        price: 720,
+        oldPrice: 920,
+        stock: 4,
+        badge: "وفر 200 ج.م",
+        isBestSeller: true,
+        isOffer: true,
+        variants: ["50ml", "100ml"],
+        image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=800&q=80",
+        description: "احصلي على أكثر عطرين مبيعاً في متجر رزان معاً بخصم 200 ج.م وتغليف هدايا أنيق."
+      },
+      {
+        id: "rz-12",
+        name: "برفان روز جولد نايت - Rose Gold Night",
+        category: "برفانات",
+        fabric: "ورد دمشقي، توت أحمر وعنبر دافئ",
+        price: 510,
+        oldPrice: 600,
+        stock: 9,
+        badge: "خصم 15%",
+        isBestSeller: false,
+        isOffer: false,
+        variants: ["50ml", "100ml"],
+        image: "https://images.unsplash.com/photo-1588405748880-12d1d2a59f75?auto=format&fit=crop&w=800&q=80",
+        description: "عطر مسائي جذاب يمنحك حضوراً ساحراً وثباتاً عالياً في السهرات والمناسبات."
+      }
+    ];
+
+    // =========================================================================
+    // 3. STATE MANAGEMENT & LOCALSTORAGE PERSISTENCE
+    // =========================================================================
+    const STORAGE_KEYS = {
+      SETTINGS: "razan_store_settings_v1",
+      PRODUCTS: "razan_store_products_v1",
+      ORDERS: "razan_store_orders_v1"
+    };
+
+    const DEFAULT_SETTINGS = {
+      whatsapp: "01008485337",
+      vodafone: "01008485337",
+      instapay: "razan.store@instapay",
+      depositPercent: 20
+    };
+
+    const appState = {
+      settings: { ...DEFAULT_SETTINGS },
+      products: [...DEFAULT_PRODUCTS],
+      orders: [],
+      cart: [], // { key, productId, name, category, price, variant, qty, image }
+      activeView: "store", // 'store' | 'shipping'
+      selectedCategory: "الكل",
+      searchQuery: "",
+      sortBy: "featured",
+      selectedVariants: {},
+      lastWhatsAppReceiptText: "",
+      adminTab: "settings"
+    };
+
+    function loadPersistedData() {
+      try {
+        const savedSettings = localStorage.getItem(STORAGE_KEYS.SETTINGS);
+        if (savedSettings) {
+          appState.settings = { ...DEFAULT_SETTINGS, ...JSON.parse(savedSettings) };
+        }
+        if (appState.settings.depositPercent == null) {
+          // Migrate legacy fixed-amount deposit (was 100 EGP) to the 20% rate
+          appState.settings.depositPercent = 20;
+          delete appState.settings.deposit;
+        }
+        const savedProducts = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+        if (savedProducts) {
+          const parsedProds = JSON.parse(savedProducts);
+          if (Array.isArray(parsedProds) && parsedProds.length > 0) {
+            appState.products = parsedProds;
+          }
+        }
+        const savedOrders = localStorage.getItem(STORAGE_KEYS.ORDERS);
+        if (savedOrders) {
+          appState.orders = JSON.parse(savedOrders) || [];
+        }
+      } catch (e) {
+        console.warn("Storage load skipped:", e.message);
+      }
+
+      // Initialize default variant selection for each product
+      appState.products.forEach(p => {
+        if (!appState.selectedVariants[p.id] && p.variants?.length) {
+          appState.selectedVariants[p.id] = p.variants[0];
+        }
+      });
+    }
+
+    function persistData() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(appState.settings));
+        localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(appState.products));
+        localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(appState.orders));
+      } catch (e) {
+        console.warn("Storage save skipped:", e.message);
+      }
+    }
+
+    // =========================================================================
+    // 4. DYNAMIC SETTINGS SYNC ACROSS UI
+    // =========================================================================
+    function syncSettingsToUI() {
+      const { whatsapp, vodafone, instapay } = appState.settings;
+      const depPct = getDepositPercent();
+
+      const heroPill = document.getElementById("hero-deposit-pill");
+      if (heroPill) {
+        heroPill.textContent = `تأكيد الطلب بديبوزت ${depPct}% (فودافون كاش / إنستاباي)`;
+      }
+
+      const heroSub = document.getElementById("hero-subtext");
+      if (heroSub) {
+        heroSub.textContent = `بيجامات قطن وستان فاخرة، إكسسوارات مطلية، وبرفانات ثابتة — احجزي قطعتك الآن بديبوزت ${depPct}% من إجمالي الطلب والباقي عند الاستلام.`;
+      }
+
+      const cartExp = document.getElementById("cart-deposit-explanation");
+      if (cartExp) {
+        cartExp.innerHTML = `لتأكيد طلبك وحجز القطع قبل النفاد، يتم تحويل <strong class="text-rosegold">ديبوزت ${depPct}% من إجمالي الطلب</strong> أولاً عبر فودافون كاش أو إنستاباي، ويُخصم من إجمالي الفاتورة والباقي يُدفع عند الاستلام مع المندوب.`;
+      }
+
+      const vfCart = document.getElementById("cart-vf-number");
+      const ipCart = document.getElementById("cart-ip-address");
+      if (vfCart) vfCart.textContent = vodafone;
+      if (ipCart) ipCart.textContent = instapay;
+
+      const waDisp = document.getElementById("contact-wa-display");
+      const vfDisp = document.getElementById("contact-vf-display");
+      const ipDisp = document.getElementById("contact-ip-display");
+      if (waDisp) waDisp.textContent = whatsapp;
+      if (vfDisp) vfDisp.textContent = vodafone;
+      if (ipDisp) ipDisp.textContent = instapay;
+
+      const step2Title = document.getElementById("step2-deposit-title");
+      const step2Desc = document.getElementById("step2-deposit-desc");
+      if (step2Title) step2Title.textContent = `حولي ديبوزت ${depPct}% وابعتي الإيصال`;
+      if (step2Desc) step2Desc.textContent = `يتم تحويل ديبوزت ${depPct}% من إجمالي الطلب على فودافون كاش أو إنستاباي وإرسال صورة التحويل (سكرين شوت) في نفس محادثة الواتساب لتثبيت الحجز فوراً.`;
+
+      const footerNote = document.getElementById("footer-deposit-note");
+      if (footerNote) {
+        footerNote.textContent = `تأكيد الحجز بتحويل ديبوزت ${depPct}% من إجمالي الطلب والباقي عند الاستلام مع المعاينة.`;
+      }
+
+      const modalVf = document.getElementById("modal-vf-num");
+      const modalIp = document.getElementById("modal-ip-id");
+      if (modalVf) modalVf.textContent = vodafone;
+      if (modalIp) modalIp.textContent = instapay;
+
+      updateCartFinancials();
+    }
+
+    // =========================================================================
+    // 4b. DARK MODE TOGGLE (persisted, respects device preference by default)
+    // =========================================================================
+    function applyThemeIcon() {
+      const dark = document.documentElement.classList.contains('dark');
+      const moon = document.getElementById('icon-moon');
+      const sun = document.getElementById('icon-sun');
+      const label = document.getElementById('dark-mode-label');
+      if (moon) moon.classList.toggle('hidden', dark);
+      if (sun) sun.classList.toggle('hidden', !dark);
+      if (label) label.textContent = dark ? 'فاتح' : 'داكن';
+    }
+
+    window.toggleDarkMode = function () {
+      const dark = document.documentElement.classList.toggle('dark');
+      try { localStorage.setItem('razan_theme', dark ? 'dark' : 'light'); } catch (e) {}
+      applyThemeIcon();
+    };
+
+    // =========================================================================
+    // 5. NAVIGATION & VIEW SWITCHING
+    // =========================================================================
+    function highlightNavButtons(activeLabel) {
+      document.querySelectorAll(".nav-link-btn").forEach(btn => {
+        const target = btn.getAttribute("data-nav");
+        if (target === activeLabel) {
+          btn.className = "nav-link-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-rosegold text-white shadow-2xs cursor-pointer";
+        } else {
+          btn.className = "nav-link-btn shrink-0 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-blush-soft/80 text-plum hover:text-rosegold border border-blush-border lg:border-transparent cursor-pointer";
+        }
+      });
+    }
+
+    window.navigateToStore = function (category = "الكل") {
+      appState.activeView = "store";
+      document.getElementById("shipping-contact-view").classList.add("hidden");
+      document.getElementById("storefront-view").classList.remove("hidden");
+
+      appState.selectedCategory = category;
+      highlightNavButtons(category === "الكل" ? "الرئيسية" : category);
+      renderCategoryTabs();
+      renderProductsGrid();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    window.selectCategoryAndScroll = function (category) {
+      appState.activeView = "store";
+      document.getElementById("shipping-contact-view").classList.add("hidden");
+      document.getElementById("storefront-view").classList.remove("hidden");
+
+      appState.selectedCategory = category;
+      highlightNavButtons(category === "الكل" ? "الرئيسية" : category);
+      renderCategoryTabs();
+      renderProductsGrid();
+
+      const catEl = document.getElementById("catalog-section");
+      if (catEl) {
+        catEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
+    window.scrollToOffersSection = function () {
+      appState.activeView = "store";
+      document.getElementById("shipping-contact-view").classList.add("hidden");
+      document.getElementById("storefront-view").classList.remove("hidden");
+      highlightNavButtons("العروض");
+
+      const offersEl = document.getElementById("offers-section");
+      if (offersEl) {
+        offersEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
+    window.openShippingContactPage = function () {
+      appState.activeView = "shipping";
+      document.getElementById("storefront-view").classList.add("hidden");
+      document.getElementById("shipping-contact-view").classList.remove("hidden");
+      highlightNavButtons("الشحن والتواصل");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    // =========================================================================
+    // 6. BEST SELLERS & OFFERS SHOWCASE RENDERING
+    // =========================================================================
+    function renderOffersShowcase() {
+      const container = document.getElementById("offers-showcase-grid");
+      if (!container) return;
+
+      // Pick combo offers & top sellers
+      const showcaseItems = appState.products.filter(p => p.isOffer || p.id === "rz-1" || p.id === "rz-9").slice(0, 3);
+
+      container.innerHTML = showcaseItems.map(item => {
+        const selectedVar = appState.selectedVariants[item.id] || (item.variants?.[0] ?? "");
+        const fallbackSvg = createRoseGoldIllustrationUrl(item.category, item.name);
+        const isOut = item.stock <= 0;
+
+        return `
+          <div class="snap-start shrink-0 w-[82%] sm:w-[60%] md:w-auto bg-white rounded-2xl border border-blush-border p-3 flex flex-col justify-between shadow-2xs hover:border-rosegold transition-all">
+            <div class="flex gap-3">
+              <div onclick="openQuickViewModal('${item.id}')" class="relative w-24 h-28 sm:w-28 sm:h-32 rounded-xl overflow-hidden bg-blush-soft shrink-0 cursor-pointer">
+                <img
+                  src="${item.image}"
+                  alt="${item.name}"
+                  onerror="this.onerror=null; this.src='${fallbackSvg}';"
+                  class="w-full h-full object-cover"
+                />
+                ${item.badge ? `<span class="absolute top-1.5 right-1.5 px-2 py-0.5 rounded-full text-[10px] font-extrabold rose-gold-gradient text-white shadow-2xs">${item.badge}</span>` : ""}
+              </div>
+
+              <div class="flex-1 min-w-0 flex flex-col justify-between">
+                <div>
+                  <span class="text-[10px] font-bold text-rosegold">${item.category}</span>
+                  <h3 onclick="openQuickViewModal('${item.id}')" class="text-xs sm:text-sm font-extrabold text-plum line-clamp-2 leading-snug cursor-pointer hover:text-rosegold">
+                    ${item.name}
+                  </h3>
+                  <p class="text-[11px] text-plum-muted line-clamp-1 mt-0.5">${item.fabric}</p>
+                </div>
+
+                <div class="flex items-baseline gap-1.5 mt-1.5">
+                  <span class="text-sm sm:text-base font-extrabold text-rosegold">${item.price} ج.م</span>
+                  ${item.oldPrice ? `<span class="text-[11px] text-plum-muted line-through">${item.oldPrice} ج.م</span>` : ""}
+                </div>
+              </div>
+            </div>
+
+            <!-- Direct Variant Selection & Add Offer Button -->
+            <div class="mt-3 pt-2.5 border-t border-blush-border flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1 overflow-x-auto no-scrollbar">
+                ${(item.variants || []).map(v => `
+                  <button
+                    type="button"
+                    onclick="selectVariant('${item.id}', '${v}')"
+                    class="px-2 py-0.5 rounded-lg text-[10px] font-bold border transition-all cursor-pointer ${
+                      selectedVar === v
+                        ? "bg-blush-tint border-rosegold text-plum"
+                        : "bg-blush/50 border-blush-border text-plum-muted hover:border-rosegold"
+                    }"
+                  >${v}</button>
+                `).join("")}
+              </div>
+
+              <button
+                type="button"
+                id="offer-btn-${item.id}"
+                onclick="handleAddToCartWithFeedback('${item.id}', 'offer-btn-${item.id}')"
+                ${isOut ? "disabled" : ""}
+                class="shrink-0 px-3 py-1.5 rounded-full text-[11px] font-extrabold transition-all cursor-pointer ${
+                  isOut
+                    ? "bg-blush-soft text-plum-muted cursor-not-allowed"
+                    : "rose-gold-gradient text-white shadow-2xs hover:opacity-95"
+                }"
+              >
+                ${isOut ? "نفدت" : "أضف العرض للسلة"}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // =========================================================================
+    // 7. MAIN CATALOG FILTER TABS & PRODUCT GRID RENDERING
+    // =========================================================================
+    const FILTER_TABS = ["الكل", "بيجامات", "إكسسوارات", "برفانات", "العروض"];
+
+    function renderCategoryTabs() {
+      const container = document.getElementById("category-tabs");
+      if (!container) return;
+
+      container.innerHTML = FILTER_TABS.map(tab => {
+        const isActive = appState.selectedCategory === tab;
+        const count = tab === "الكل"
+          ? appState.products.length
+          : tab === "العروض"
+          ? appState.products.filter(p => p.isOffer || p.oldPrice).length
+          : appState.products.filter(p => p.category === tab).length;
+
+        return `
+          <button
+            type="button"
+            onclick="setCatalogCategory('${tab}')"
+            class="shrink-0 px-3.5 py-2 rounded-full text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer ${
+              isActive
+                ? "rose-gold-gradient text-white shadow-2xs"
+                : "bg-white text-plum hover:text-rosegold border border-blush-border"
+            }"
+          >
+            <span>${tab}</span>
+            <span class="text-[10px] ${isActive ? "text-white/90" : "text-plum-muted"}">(${count})</span>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function getFilteredCatalogProducts() {
+      let list = [...appState.products];
+
+      if (appState.selectedCategory === "العروض") {
+        list = list.filter(p => p.isOffer || p.oldPrice);
+      } else if (appState.selectedCategory !== "الكل") {
+        list = list.filter(p => p.category === appState.selectedCategory);
+      }
+
+      if (appState.searchQuery.trim() !== "") {
+        const q = appState.searchQuery.trim().toLowerCase();
+        list = list.filter(p =>
+          p.name.toLowerCase().includes(q) ||
+          p.category.toLowerCase().includes(q) ||
+          (p.fabric && p.fabric.toLowerCase().includes(q)) ||
+          (p.description && p.description.toLowerCase().includes(q))
+        );
+      }
+
+      if (appState.sortBy === "price-asc") {
+        list.sort((a, b) => a.price - b.price);
+      } else if (appState.sortBy === "price-desc") {
+        list.sort((a, b) => b.price - a.price);
+      }
+
+      return list;
+    }
+
+    function renderProductsGrid() {
+      const grid = document.getElementById("products-grid");
+      const emptyState = document.getElementById("empty-catalog-state");
+      const heading = document.getElementById("catalog-heading");
+      const countLbl = document.getElementById("catalog-count");
+      if (!grid) return;
+
+      const filtered = getFilteredCatalogProducts();
+
+      const headingMap = {
+        "الكل": "جميع منتجات رزان",
+        "بيجامات": "قسم البيجامات الحريمي",
+        "إكسسوارات": "قسم الإكسسوارات المطلية",
+        "برفانات": "قسم البرفانات والعطور",
+        "العروض": "الأكثر طلباً وعروض التوفير"
+      };
+      if (heading) heading.textContent = headingMap[appState.selectedCategory] || "منتجات رزان";
+      if (countLbl) countLbl.textContent = `${filtered.length} ${filtered.length === 1 ? "منتج" : "منتجات"}`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+
+      grid.innerHTML = filtered.map(product => {
+        const selectedVar = appState.selectedVariants[product.id] || (product.variants?.[0] ?? "");
+        const fallbackSvg = createRoseGoldIllustrationUrl(product.category, product.name);
+        const isOut = product.stock <= 0;
+        const isLow = product.stock > 0 && product.stock <= 5;
+
+        let topBadgeHtml = "";
+        if (product.badge) {
+          topBadgeHtml = `<span class="absolute top-2.5 right-2.5 z-10 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-extrabold rose-gold-gradient text-white shadow-2xs">${product.badge}</span>`;
+        }
+
+        let stockWarningHtml = "";
+        if (isOut) {
+          stockWarningHtml = `<span class="absolute bottom-2.5 right-2.5 z-10 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-plum/85 text-white">نفدت الكمية</span>`;
+        } else if (isLow) {
+          stockWarningHtml = `<span class="absolute bottom-2.5 right-2.5 z-10 px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-white/95 text-rosegold border border-rosegold/40 shadow-2xs">متبقي ${product.stock} قطع</span>`;
+        }
+
+        const variantPills = (product.variants || []).map(v => {
+          const active = selectedVar === v;
+          return `
+            <button
+              type="button"
+              onclick="selectVariant('${product.id}', '${v}')"
+              class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-[10px] sm:text-[11px] font-bold border transition-all cursor-pointer ${
+                active
+                  ? "bg-blush-tint border-rosegold text-plum shadow-2xs"
+                  : "bg-blush/60 border-blush-border text-plum-muted hover:border-rosegold hover:text-plum"
+              }"
+            >
+              ${v}
+            </button>
+          `;
+        }).join("");
+
+        return `
+          <article class="bg-white rounded-2xl sm:rounded-3xl border border-blush-border overflow-hidden flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-rosegold/60 transition-all duration-300 group">
+            <div>
+              <!-- Product Image -->
+              <div onclick="openQuickViewModal('${product.id}')" class="relative aspect-[4/5] bg-blush-soft overflow-hidden cursor-pointer">
+                ${topBadgeHtml}
+                <span class="absolute top-2.5 left-2.5 z-10 px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/90 text-plum-muted border border-blush-border">
+                  ${product.category}
+                </span>
+                ${stockWarningHtml}
+                <img
+                  src="${product.image}"
+                  alt="${product.name}"
+                  loading="lazy"
+                  onerror="this.onerror=null; this.src='${fallbackSvg}';"
+                  class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ${isOut ? "opacity-60 grayscale-[30%]" : ""}"
+                />
+              </div>
+
+              <!-- Title, Fabric Note & Interactive Sizes -->
+              <div class="p-3 sm:p-4 pb-2">
+                <h3 onclick="openQuickViewModal('${product.id}')" class="text-xs sm:text-sm font-extrabold text-plum line-clamp-1 cursor-pointer hover:text-rosegold transition-colors">
+                  ${product.name}
+                </h3>
+                <p class="text-[11px] text-plum-muted line-clamp-1 mt-0.5">${product.fabric || ""}</p>
+
+                <!-- Variant / Size Selector Pills -->
+                <div class="flex flex-wrap items-center gap-1 sm:gap-1.5 mt-2.5">
+                  ${variantPills}
+                </div>
+              </div>
+            </div>
+
+            <!-- Price & Full-Width Rose-Gold Add to Cart Button -->
+            <div class="p-3 sm:p-4 pt-2 space-y-2.5">
+              <div class="flex items-baseline gap-1.5">
+                <span class="text-sm sm:text-base font-extrabold text-rosegold">${product.price} ج.م</span>
+                ${product.oldPrice ? `<span class="text-[11px] text-plum-muted line-through">${product.oldPrice} ج.م</span>` : ""}
+              </div>
+
+              <button
+                type="button"
+                id="card-add-btn-${product.id}"
+                onclick="handleAddToCartWithFeedback('${product.id}', 'card-add-btn-${product.id}')"
+                ${isOut ? "disabled" : ""}
+                class="w-full py-2.5 px-3 rounded-full text-xs font-extrabold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                  isOut
+                    ? "bg-blush-soft text-plum-muted cursor-not-allowed"
+                    : "rose-gold-gradient text-white shadow-xs hover:opacity-95 active:scale-95"
+                }"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                <span>${isOut ? "نفدت الكمية" : "أضف للسلة"}</span>
+              </button>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    window.setCatalogCategory = function (cat) {
+      appState.selectedCategory = cat;
+      highlightNavButtons(cat === "الكل" ? "الرئيسية" : cat);
+      renderCategoryTabs();
+      renderProductsGrid();
+    };
+
+    window.handleCatalogSearch = function (val) {
+      appState.searchQuery = val;
+      const clearBtn = document.getElementById("clear-catalog-search");
+      if (val.length > 0) clearBtn?.classList.remove("hidden");
+      else clearBtn?.classList.add("hidden");
+      renderProductsGrid();
+    };
+
+    window.clearCatalogSearch = function () {
+      const inp = document.getElementById("catalog-search-input");
+      if (inp) inp.value = "";
+      handleCatalogSearch("");
+    };
+
+    window.handleCatalogSort = function (val) {
+      appState.sortBy = val;
+      renderProductsGrid();
+    };
+
+    window.selectVariant = function (productId, variant) {
+      appState.selectedVariants[productId] = variant;
+      renderOffersShowcase();
+      renderProductsGrid();
+    };
+
+    // =========================================================================
+    // 8. QUICK-VIEW MODAL
+    // =========================================================================
+    window.openQuickViewModal = function (productId) {
+      const product = appState.products.find(p => p.id === productId);
+      if (!product) return;
+
+      const modal = document.getElementById("quick-view-modal");
+      const body = document.getElementById("quick-view-body");
+      const selectedVar = appState.selectedVariants[product.id] || (product.variants?.[0] ?? "");
+      const fallbackSvg = createRoseGoldIllustrationUrl(product.category, product.name);
+      const isOut = product.stock <= 0;
+
+      body.innerHTML = `
+        <div class="aspect-[4/5] sm:aspect-auto sm:h-full bg-blush-soft relative">
+          <img
+            src="${product.image}"
+            alt="${product.name}"
+            onerror="this.onerror=null; this.src='${fallbackSvg}';"
+            class="w-full h-full object-cover"
+          />
+          ${product.badge ? `<span class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-extrabold rose-gold-gradient text-white shadow-xs">${product.badge}</span>` : ""}
+        </div>
+
+        <div class="p-5 sm:p-7 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <span class="inline-block px-3 py-0.5 rounded-full text-xs font-bold bg-blush-tint text-rosegold">${product.category}</span>
+            <h3 class="text-lg sm:text-xl font-extrabold text-plum leading-snug">${product.name}</h3>
+            <div class="flex items-baseline gap-2">
+              <span class="text-xl font-extrabold text-rosegold">${product.price} ج.م</span>
+              ${product.oldPrice ? `<span class="text-xs text-plum-muted line-through">${product.oldPrice} ج.م</span>` : ""}
+            </div>
+            <p class="text-xs sm:text-sm text-plum-muted leading-relaxed">${product.description || product.fabric}</p>
+
+            <div class="pt-1">
+              <span class="block text-xs font-extrabold text-plum mb-2">اختاري المقاس / النوع:</span>
+              <div class="flex flex-wrap gap-2">
+                ${(product.variants || []).map(v => `
+                  <button
+                    type="button"
+                    onclick="selectVariant('${product.id}', '${v}'); openQuickViewModal('${product.id}')"
+                    class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold border transition-all cursor-pointer ${
+                      selectedVar === v
+                        ? "rose-gold-gradient text-white border-transparent shadow-2xs"
+                        : "bg-blush border-blush-border text-plum hover:border-rosegold"
+                    }"
+                  >${v}</button>
+                `).join("")}
+              </div>
+            </div>
+
+            <div class="bg-blush-soft rounded-xl p-2.5 text-[11px] text-plum border border-blush-border">
+              ✦ يحجز بديبوزت <strong>${getDepositPercent()}%</strong> من إجمالي الطلب والباقي عند الاستلام مع المعاينة.
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onclick="addToCart('${product.id}'); closeQuickViewModal();"
+            ${isOut ? "disabled" : ""}
+            class="w-full py-3.5 rounded-full text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+              isOut
+                ? "bg-blush-soft text-plum-muted cursor-not-allowed"
+                : "rose-gold-gradient text-white shadow-md hover:opacity-95"
+            }"
+          >
+            ${isOut ? "نفدت الكمية" : "أضف للسلة الآن"}
+          </button>
+        </div>
+      `;
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    };
+
+    window.closeQuickViewModal = function () {
+      const modal = document.getElementById("quick-view-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    };
+
+    // =========================================================================
+    // 9. SHOPPING CART & DEPOSIT FINANCIAL CALCULATIONS
+    // =========================================================================
+    window.handleAddToCartWithFeedback = function (productId, btnId) {
+      const added = addToCart(productId);
+      if (!added) return;
+
+      const btn = document.getElementById(btnId);
+      if (btn) {
+        const originalHtml = btn.innerHTML;
+        btn.classList.add("animate-pop");
+        btn.innerHTML = `<span>✓ تمت الإضافة</span>`;
+        setTimeout(() => {
+          btn.classList.remove("animate-pop");
+          btn.innerHTML = originalHtml;
+        }, 950);
+      }
+    };
+
+    window.addToCart = function (productId) {
+      const product = appState.products.find(p => p.id === productId);
+      if (!product || product.stock <= 0) return false;
+
+      const variant = appState.selectedVariants[product.id] || (product.variants?.[0] ?? "");
+      const key = `${product.id}__${variant}`;
+
+      const totalQtyInCart = appState.cart
+        .filter(item => item.productId === product.id)
+        .reduce((sum, item) => sum + item.qty, 0);
+
+      if (totalQtyInCart >= product.stock) {
+        showToast(`الحد الأقصى المتاح بالمخزون هو ${product.stock} قطع`, "error");
+        return false;
+      }
+
+      const existing = appState.cart.find(item => item.key === key);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        appState.cart.push({
+          key,
+          productId: product.id,
+          name: product.name,
+          category: product.category,
+          price: product.price,
+          variant,
+          qty: 1,
+          image: product.image
+        });
+      }
+
+      updateCartBadge();
+      renderCartDrawer();
+      showToast(`تمت إضافة "${product.name}" (${variant}) للسلة`);
+      return true;
+    };
+
+    window.updateCartQty = function (key, delta) {
+      const idx = appState.cart.findIndex(item => item.key === key);
+      if (idx === -1) return;
+
+      const item = appState.cart[idx];
+      const product = appState.products.find(p => p.id === item.productId);
+      const maxStock = product ? product.stock : 0;
+
+      if (delta > 0) {
+        const totalForProd = appState.cart
+          .filter(c => c.productId === item.productId)
+          .reduce((sum, c) => sum + c.qty, 0);
+        if (totalForProd >= maxStock) {
+          showToast(`المتاح بالمخزون ${maxStock} قطع فقط`, "error");
+          return;
+        }
+        item.qty += 1;
+      } else {
+        item.qty -= 1;
+        if (item.qty <= 0) {
+          appState.cart.splice(idx, 1);
+        }
+      }
+
+      updateCartBadge();
+      renderCartDrawer();
+    };
+
+    window.removeCartItem = function (key) {
+      appState.cart = appState.cart.filter(item => item.key !== key);
+      updateCartBadge();
+      renderCartDrawer();
+    };
+
+    function updateCartBadge() {
+      const count = appState.cart.reduce((sum, item) => sum + item.qty, 0);
+      const badge = document.getElementById("cart-count-badge");
+      if (badge) badge.textContent = count;
+    }
+
+    // Free shipping for orders of 1200 EGP or more (subtotal, before shipping)
+    const FREE_SHIPPING_THRESHOLD = 1200;
+    // Default deposit rate is 20% -> 0.20 of the grand total (incl. shipping)
+    const DEFAULT_DEPOSIT_RATE = 0.20;
+
+    function getDepositPercent() {
+      const v = Number(appState.settings.depositPercent);
+      if (!isNaN(v)) return Math.min(50, Math.max(0, v));
+      return 20;
+    }
+
+    function calcDeposit(grandTotal) {
+      const rate = getDepositPercent() / 100; // 0.20 at the default 20%
+      return grandTotal > 0 ? Math.round(grandTotal * rate) : 0;
+    }
+
+    function getShippingRateForGov(gov, subtotal) {
+      if ((subtotal || 0) >= FREE_SHIPPING_THRESHOLD) return 0; // free shipping over 1200 EGP
+      if (!gov) return 0;
+      if (gov === "الشرقية") return 50;
+      if (gov === "القاهرة" || gov === "الجيزة") return 60;
+      const deltaAndAlex = ["الإسكندرية", "الدقهلية", "الغربية", "المنوفية", "القليوبية", "البحيرة", "كفر الشيخ", "دمياط"];
+      if (deltaAndAlex.includes(gov)) return 65;
+      return 75;
+    }
+
+    window.updateCartFinancials = function () {
+      const subtotal = appState.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const gov = document.getElementById("checkout-gov")?.value || "";
+      const shipping = getShippingRateForGov(gov, subtotal);
+      const grandTotal = subtotal + shipping;
+      // Deposit = 20% of the grand total incl. shipping: Math.round(grandTotal * 0.20) at the default rate
+      const depositRequired = calcDeposit(grandTotal);
+      const remainingOnDelivery = Math.max(0, grandTotal - depositRequired);
+
+      const subEl = document.getElementById("summary-subtotal");
+      const shipEl = document.getElementById("summary-shipping");
+      const grandEl = document.getElementById("summary-grand-total");
+      const depEl = document.getElementById("summary-deposit");
+      const remEl = document.getElementById("summary-remaining");
+
+      if (subEl) subEl.textContent = `${subtotal} ج.م`;
+      if (shipEl) shipEl.textContent = subtotal >= FREE_SHIPPING_THRESHOLD ? "مجاني 🎉" : (gov ? `${shipping} ج.م` : "يُحدد باختيار المحافظة");
+      if (grandEl) grandEl.textContent = `${grandTotal} ج.م`;
+      if (depEl) depEl.textContent = `${depositRequired} ج.م (${getDepositPercent()}%)`;
+      if (remEl) remEl.textContent = `${remainingOnDelivery} ج.م`;
+
+      const progEl = document.getElementById("free-shipping-progress");
+      if (progEl) {
+        if (subtotal <= 0) {
+          progEl.textContent = "";
+          progEl.classList.add("hidden");
+        } else if (subtotal >= FREE_SHIPPING_THRESHOLD) {
+          progEl.classList.remove("hidden");
+          progEl.textContent = "🎉 مبروك! طلبك مؤهل للشحن المجاني";
+        } else {
+          progEl.classList.remove("hidden");
+          progEl.textContent = `أضيفي ${FREE_SHIPPING_THRESHOLD - subtotal} ج.م للوصول للشحن المجاني (الطلبات من 1200 ج.م فأكثر)`;
+        }
+      }
+    };
+
+    function renderCartDrawer() {
+      const totalCount = appState.cart.reduce((sum, item) => sum + item.qty, 0);
+      const subtitle = document.getElementById("cart-drawer-subtitle");
+      const emptyState = document.getElementById("empty-cart-state");
+      const populatedState = document.getElementById("populated-cart-state");
+      const itemsContainer = document.getElementById("cart-items-container");
+
+      if (subtitle) {
+        subtitle.textContent = `${totalCount} ${totalCount === 1 ? "قطعة" : "قطع"} في السلة`;
+      }
+
+      if (appState.cart.length === 0) {
+        emptyState?.classList.remove("hidden");
+        populatedState?.classList.add("hidden");
+        return;
+      }
+
+      emptyState?.classList.add("hidden");
+      populatedState?.classList.remove("hidden");
+
+      itemsContainer.innerHTML = appState.cart.map(item => {
+        const fallbackSvg = createRoseGoldIllustrationUrl(item.category, item.name);
+        return `
+          <div class="bg-white rounded-2xl p-3 border border-blush-border flex items-center gap-3 shadow-2xs">
+            <img
+              src="${item.image}"
+              alt="${item.name}"
+              onerror="this.onerror=null; this.src='${fallbackSvg}';"
+              class="w-16 h-20 rounded-xl object-cover bg-blush-soft shrink-0"
+            />
+            <div class="flex-1 min-w-0">
+              <h4 class="text-xs sm:text-sm font-extrabold text-plum truncate">${item.name}</h4>
+              <span class="inline-block mt-1 px-2 py-0.5 rounded-md bg-blush-tint text-rosegold text-[10px] font-bold">
+                المقاس / النوع: ${item.variant}
+              </span>
+              <div class="flex items-center justify-between mt-2">
+                <span class="text-xs sm:text-sm font-extrabold text-plum">${item.price * item.qty} ج.م</span>
+                <div class="flex items-center gap-1 bg-blush rounded-full border border-blush-border px-1.5 py-0.5">
+                  <button type="button" onclick="updateCartQty('${item.key}', -1)" class="w-6 h-6 rounded-full hover:bg-white text-plum font-extrabold text-xs flex items-center justify-center cursor-pointer">-</button>
+                  <span class="text-xs font-extrabold px-1.5">${item.qty}</span>
+                  <button type="button" onclick="updateCartQty('${item.key}', 1)" class="w-6 h-6 rounded-full hover:bg-white text-plum font-extrabold text-xs flex items-center justify-center cursor-pointer">+</button>
+                </div>
+              </div>
+            </div>
+            <button type="button" onclick="removeCartItem('${item.key}')" class="p-1.5 text-plum-muted hover:text-rose-600 transition-colors cursor-pointer" title="حذف">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        `;
+      }).join("");
+
+      updateCartFinancials();
+    }
+
+    window.openCartDrawer = function () {
+      renderCartDrawer();
+      const backdrop = document.getElementById("cart-backdrop");
+      const drawer = document.getElementById("cart-drawer");
+      backdrop.classList.remove("hidden");
+      requestAnimationFrame(() => {
+        drawer.classList.remove("-translate-x-full");
+      });
+    };
+
+    window.closeCartDrawer = function () {
+      const backdrop = document.getElementById("cart-backdrop");
+      const drawer = document.getElementById("cart-drawer");
+      drawer.classList.add("-translate-x-full");
+      setTimeout(() => {
+        backdrop.classList.add("hidden");
+      }, 280);
+    };
+
+    // =========================================================================
+    // 10. WHATSAPP CHECKOUT, ORDER SAVE & DEPOSIT REMINDER MODAL
+    // =========================================================================
+    function formatEgyptianWhatsAppNumber(rawNumber) {
+      let digits = (rawNumber || "01008485337").replace(/\D/g, "");
+      if (digits.startsWith("01")) {
+        return "2" + digits;
+      }
+      if (digits.startsWith("20")) {
+        return digits;
+      }
+      return "201008485337";
+    }
+
+    window.handleWhatsAppCheckout = function (event) {
+      event.preventDefault();
+      if (appState.cart.length === 0) return;
+
+      const name = document.getElementById("checkout-name").value.trim();
+      const phone = document.getElementById("checkout-phone").value.trim();
+      const gov = document.getElementById("checkout-gov").value;
+      const address = document.getElementById("checkout-address").value.trim();
+      const notes = document.getElementById("checkout-notes").value.trim();
+      const depositMethod = document.querySelector('input[name="deposit-method"]:checked')?.value || "فودافون كاش";
+
+      let isValid = true;
+      if (name.length < 3) {
+        document.getElementById("err-checkout-name").classList.remove("hidden");
+        isValid = false;
+      } else {
+        document.getElementById("err-checkout-name").classList.add("hidden");
+      }
+
+      if (!/^01[0125][0-9]{8}$/.test(phone)) {
+        document.getElementById("err-checkout-phone").classList.remove("hidden");
+        isValid = false;
+      } else {
+        document.getElementById("err-checkout-phone").classList.add("hidden");
+      }
+
+      if (!gov) {
+        document.getElementById("err-checkout-gov").classList.remove("hidden");
+        isValid = false;
+      } else {
+        document.getElementById("err-checkout-gov").classList.add("hidden");
+      }
+
+      if (address.length < 4) {
+        document.getElementById("err-checkout-address").classList.remove("hidden");
+        isValid = false;
+      } else {
+        document.getElementById("err-checkout-address").classList.add("hidden");
+      }
+
+      if (!isValid) {
+        showToast("يرجى استكمال البيانات المطلوبة بشكل صحيح", "error");
+        return;
+      }
+
+      const subtotal = appState.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      const shipping = getShippingRateForGov(gov, subtotal);
+      const grandTotal = subtotal + shipping;
+      // Deposit = 20% of the grand total incl. shipping: Math.round(grandTotal * 0.20) at the default rate
+      const depositRequired = calcDeposit(grandTotal);
+      const remainingOnDelivery = Math.max(0, grandTotal - depositRequired);
+
+      const orderRef = "#RZ-" + Math.floor(1000 + Math.random() * 9000);
+      const nowStr = new Date().toLocaleString("ar-EG", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      // Deduct stock from products
+      appState.cart.forEach(item => {
+        const prod = appState.products.find(p => p.id === item.productId);
+        if (prod) {
+          prod.stock = Math.max(0, prod.stock - item.qty);
+        }
+      });
+
+      const orderRecord = {
+        id: orderRef,
+        customerName: name,
+        phone,
+        governorate: gov,
+        address,
+        depositMethod,
+        notes,
+        items: appState.cart.map(c => ({ ...c })),
+        subtotal,
+        shipping,
+        grandTotal,
+        depositRequired,
+        remainingOnDelivery,
+        createdAt: nowStr
+      };
+
+      appState.orders.unshift(orderRecord);
+      persistData();
+
+      // Build neatly formatted Arabic WhatsApp receipt
+      const itemsLines = orderRecord.items
+        .map((item, idx) => `${idx + 1}. ${item.name} (${item.variant}) × ${item.qty} = ${item.price * item.qty} ج.م`)
+        .join("\n");
+
+      const transferTarget = depositMethod === "فودافون كاش"
+        ? `فودافون كاش (${appState.settings.vodafone})`
+        : `إنستاباي (${appState.settings.instapay})`;
+
+      const receiptMessage = [
+        `✨ *طلب جديد من متجر رزان | RAZAN* ✨`,
+        `📌 *رقم الطلب:* ${orderRef}`,
+        `───────────────`,
+        `👤 *الاسم:* ${name}`,
+        `📱 *الموبايل:* ${phone}`,
+        `📍 *المحافظة:* ${gov}`,
+        `🏠 *العنوان:* ${address}`,
+        notes ? `📝 *ملاحظات:* ${notes}` : null,
+        `───────────────`,
+        `🛍️ *المنتجات المطلوبة:*`,
+        itemsLines,
+        `───────────────`,
+        `💵 *إجمالي المنتجات:* ${subtotal} ج.م`,
+        `🚚 *مصاريف الشحن (${gov}):* ${shipping} ج.م`,
+        `💰 *الإجمالي الكلي للطلب:* ${grandTotal} ج.م`,
+        `💎 *قيمة الديبوزت المطلوب تحويله الآن (${getDepositPercent()}%):* ${depositRequired} ج.م`,
+        `📦 *المتبقي للدفع عند الاستلام:* ${remainingOnDelivery} ج.م`,
+        `💳 *طريقة تحويل الديبوزت:* ${transferTarget}`,
+        `───────────────`,
+        `سأقوم بإرسال صورة إيصال تحويل الديبوزت الآن لتأكيد الحجز 🌸`
+      ].filter(Boolean).join("\n");
+
+      appState.lastWhatsAppReceiptText = receiptMessage;
+
+      const waPhone = formatEgyptianWhatsAppNumber(appState.settings.whatsapp);
+      const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(receiptMessage)}`;
+
+      // Clear cart & reset form
+      appState.cart = [];
+      document.getElementById("whatsapp-checkout-form").reset();
+      updateCartBadge();
+      closeCartDrawer();
+      renderOffersShowcase();
+      renderProductsGrid();
+
+      // Open confirmation modal with deposit screenshot reminder & launch WhatsApp
+      openOrderSuccessModal(orderRecord, waUrl);
+      window.open(waUrl, "_blank", "noopener,noreferrer");
+    };
+
+    function openOrderSuccessModal(order, waUrl) {
+      document.getElementById("modal-order-ref").textContent = order.id;
+      document.getElementById("modal-deposit-reminder").innerHTML =
+        `لإتمام حجز القطع، يرجى تحويل <strong class="text-rosegold">ديبوزت ${order.depositRequired} ج.م (${getDepositPercent()}% من إجمالي الطلب)</strong> وإرسال صورة التحويل (سكرين شوت) في محادثة واتساب المفتوحة الآن.`;
+
+      const linkEl = document.getElementById("modal-whatsapp-launch-link");
+      if (linkEl) linkEl.href = waUrl;
+
+      const modal = document.getElementById("order-success-modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    window.closeOrderSuccessModal = function () {
+      const modal = document.getElementById("order-success-modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    };
+
+    window.copyLastWhatsAppReceipt = function () {
+      if (!appState.lastWhatsAppReceiptText) return;
+      copyTextWithExecCommand(appState.lastWhatsAppReceiptText, "تم نسخ تفاصيل الفاتورة بالكامل");
+    };
+
+    // =========================================================================
+    // 11. SHIPPING & CONTACT PAGE INTERACTIONS
+    // =========================================================================
+    window.openDirectWhatsAppChat = function () {
+      const waPhone = formatEgyptianWhatsAppNumber(appState.settings.whatsapp);
+      const msg = "أهلاً متجر رزان 🌸 حابة أستفسر عن المنتجات المتاحة وطريقة الحجز.";
+      window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
+    };
+
+    window.submitQuickContactWhatsApp = function (event) {
+      event.preventDefault();
+      const name = document.getElementById("contact-form-name").value.trim();
+      const topic = document.getElementById("contact-form-topic").value;
+      const msg = document.getElementById("contact-form-msg").value.trim();
+      if (!name || !msg) return;
+
+      const waPhone = formatEgyptianWhatsAppNumber(appState.settings.whatsapp);
+      const fullText = `أهلاً متجر رزان 🌸\nالاسم: ${name}\nالموضوع: ${topic}\nالرسالة: ${msg}`;
+      window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(fullText)}`, "_blank", "noopener,noreferrer");
+      event.target.reset();
+    };
+
+    // =========================================================================
+    // 12. CLIPBOARD HELPER (IFRAME SAFE execCommand) & TOAST SYSTEM
+    // =========================================================================
+    function copyTextWithExecCommand(text, successMsg) {
+      const tempArea = document.createElement("textarea");
+      tempArea.value = text;
+      tempArea.style.position = "fixed";
+      tempArea.style.opacity = "0";
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      try {
+        document.execCommand("copy");
+        showToast(successMsg);
+      } catch (e) {
+        showToast("تعذر النسخ التلقائي", "error");
+      }
+      document.body.removeChild(tempArea);
+    }
+
+    window.copySettingValue = function (type) {
+      if (type === "vodafone") {
+        copyTextWithExecCommand(appState.settings.vodafone, `تم نسخ رقم فودافون كاش: ${appState.settings.vodafone}`);
+      } else if (type === "instapay") {
+        copyTextWithExecCommand(appState.settings.instapay, `تم نسخ عنوان إنستاباي: ${appState.settings.instapay}`);
+      } else if (type === "whatsapp") {
+        copyTextWithExecCommand(appState.settings.whatsapp, `تم نسخ رقم واتساب: ${appState.settings.whatsapp}`);
+      }
+    };
+
+    window.showToast = function (message, type = "success") {
+      const container = document.getElementById("toast-container");
+      if (!container) return;
+
+      const isError = type === "error";
+      const toast = document.createElement("div");
+      toast.className = `pointer-events-auto px-4 py-2.5 rounded-full shadow-lg text-xs font-extrabold flex items-center gap-2 transition-all duration-300 transform translate-y-2 opacity-0 ${
+        isError
+          ? "bg-rose-600 text-white"
+          : "bg-plum text-white border border-rosegold/50"
+      }`;
+      toast.innerHTML = `
+        <span class="w-2 h-2 rounded-full ${isError ? "bg-white" : "bg-rosegold-champagne"}"></span>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+      requestAnimationFrame(() => {
+        toast.classList.remove("translate-y-2", "opacity-0");
+      });
+      setTimeout(() => {
+        toast.classList.add("translate-y-2", "opacity-0");
+        setTimeout(() => toast.remove(), 300);
+      }, 2700);
+    };
+
+    // =========================================================================
+    // 13. LIGHTWEIGHT STORE OWNER ADMIN MODAL
+    // =========================================================================
+    window.openAdminModal = function () {
+      document.getElementById("admin-set-whatsapp").value = appState.settings.whatsapp;
+      document.getElementById("admin-set-deposit").value = getDepositPercent();
+      document.getElementById("admin-set-vodafone").value = appState.settings.vodafone;
+      document.getElementById("admin-set-instapay").value = appState.settings.instapay;
+
+      document.getElementById("admin-prod-count").textContent = appState.products.length;
+      document.getElementById("admin-order-count").textContent = appState.orders.length;
+
+      document.getElementById("admin-modal").classList.remove("hidden");
+      switchAdminTab(appState.adminTab);
+    };
+
+    window.closeAdminModal = function () {
+      document.getElementById("admin-modal").classList.add("hidden");
+    };
+
+    window.switchAdminTab = function (tab) {
+      appState.adminTab = tab;
+      ["settings", "products", "orders"].forEach(t => {
+        const panel = document.getElementById(`admin-panel-${t}`);
+        const btn = document.getElementById(`admin-tab-btn-${t}`);
+        if (t === tab) {
+          panel?.classList.remove("hidden");
+          btn.className = "px-4 py-2 rounded-full text-xs font-bold rose-gold-gradient text-white shrink-0 cursor-pointer";
+        } else {
+          panel?.classList.add("hidden");
+          btn.className = "px-4 py-2 rounded-full text-xs font-bold bg-white text-plum border border-blush-border shrink-0 cursor-pointer";
+        }
+      });
+
+      if (tab === "products") renderAdminProductsList();
+      if (tab === "orders") renderAdminOrdersList();
+    };
+
+    window.saveAdminSettings = function (event) {
+      event.preventDefault();
+      appState.settings.whatsapp = document.getElementById("admin-set-whatsapp").value.trim() || "01008485337";
+      appState.settings.depositPercent = Math.min(50, Math.max(0, Number(document.getElementById("admin-set-deposit").value) || 20));
+      appState.settings.vodafone = document.getElementById("admin-set-vodafone").value.trim() || "01008485337";
+      appState.settings.instapay = document.getElementById("admin-set-instapay").value.trim() || "razan.store@instapay";
+
+      persistData();
+      syncSettingsToUI();
+      showToast("تم حفظ إعدادات المتجر والديبوزت بنجاح");
+    };
+
+    window.handleAdminCatDefaultVariants = function (cat) {
+      const inp = document.getElementById("add-prod-variants");
+      if (!inp) return;
+      if (cat === "بيجامات") inp.value = "S, M, L, XL";
+      else if (cat === "إكسسوارات") inp.value = "ذهبي وردي, فضي, مقاس موحد";
+      else if (cat === "برفانات") inp.value = "50ml, 100ml";
+      else inp.value = "S, M, L, XL";
+    };
+
+    window.handleAdminAddProduct = function (event) {
+      event.preventDefault();
+      const name = document.getElementById("add-prod-name").value.trim();
+      const category = document.getElementById("add-prod-cat").value;
+      const price = Number(document.getElementById("add-prod-price").value);
+      const stock = Number(document.getElementById("add-prod-stock").value);
+      const variants = document.getElementById("add-prod-variants").value.split(",").map(v => v.trim()).filter(Boolean);
+      const imgUrl = document.getElementById("add-prod-img").value.trim();
+      const fabric = document.getElementById("add-prod-desc").value.trim();
+
+      if (!name || price <= 0) return;
+
+      const newProd = {
+        id: "rz-" + Date.now(),
+        name,
+        category,
+        fabric: fabric || "تصميم راقٍ من تشكيلة رزان",
+        price,
+        oldPrice: null,
+        stock,
+        badge: category === "العروض" ? "عرض خاص" : "جديد",
+        isBestSeller: false,
+        isOffer: category === "العروض",
+        variants: variants.length ? variants : ["مقاس موحد"],
+        image: imgUrl || createRoseGoldIllustrationUrl(category, name),
+        description: fabric || "قطعة مختارة بعناية من تشكيلة رزان."
+      };
+
+      appState.products.unshift(newProd);
+      appState.selectedVariants[newProd.id] = newProd.variants[0];
+      persistData();
+
+      event.target.reset();
+      handleAdminCatDefaultVariants("بيجامات");
+      document.getElementById("admin-prod-count").textContent = appState.products.length;
+      renderAdminProductsList();
+      renderOffersShowcase();
+      renderCategoryTabs();
+      renderProductsGrid();
+      showToast(`تمت إضافة "${name}" بنجاح`);
+    };
+
+    function renderAdminProductsList() {
+      const container = document.getElementById("admin-products-list");
+      if (!container) return;
+
+      container.innerHTML = appState.products.map(p => {
+        const fallbackSvg = createRoseGoldIllustrationUrl(p.category, p.name);
+        return `
+          <div class="p-3 rounded-2xl border border-blush-border bg-blush/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <img src="${p.image}" alt="${p.name}" onerror="this.onerror=null; this.src='${fallbackSvg}';" class="w-12 h-14 rounded-xl object-cover shrink-0" />
+              <div class="min-w-0">
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-rosegold border border-blush-border">${p.category}</span>
+                <h4 class="text-xs sm:text-sm font-extrabold text-plum truncate mt-0.5">${p.name}</h4>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 shrink-0">
+              <div class="flex items-center gap-1 bg-white px-2.5 py-1 rounded-xl border border-blush-border">
+                <span class="text-[11px] text-plum-muted">السعر:</span>
+                <input type="number" value="${p.price}" min="1" onchange="updateAdminProduct('${p.id}', 'price', this.value)" class="w-14 text-xs font-extrabold text-center text-plum focus:outline-none" />
+              </div>
+              <div class="flex items-center gap-1 bg-white px-2.5 py-1 rounded-xl border border-blush-border">
+                <span class="text-[11px] text-plum-muted">المخزون:</span>
+                <input type="number" value="${p.stock}" min="0" onchange="updateAdminProduct('${p.id}', 'stock', this.value)" class="w-12 text-xs font-extrabold text-center text-plum focus:outline-none" />
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    window.updateAdminProduct = function (id, field, val) {
+      const prod = appState.products.find(p => p.id === id);
+      if (!prod) return;
+      prod[field] = Math.max(0, Number(val) || 0);
+      persistData();
+      renderOffersShowcase();
+      renderProductsGrid();
+      showToast("تم تحديث بيانات المنتج");
+    };
+
+    function renderAdminOrdersList() {
+      const container = document.getElementById("admin-orders-list");
+      if (!container) return;
+
+      if (appState.orders.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white rounded-3xl p-10 text-center border border-blush-border">
+            <p class="text-sm font-extrabold text-plum">لا توجد طلبات مسجلة بعد</p>
+            <p class="text-xs text-plum-muted mt-1">ستظهر هنا جميع الطلبات التي يتم تأكيدها عبر واتساب.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = appState.orders.map(o => `
+        <div class="bg-white rounded-2xl p-4 border border-blush-border shadow-2xs space-y-2 text-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-blush-border">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full bg-blush-tint text-rosegold font-extrabold">${o.id}</span>
+              <span class="font-extrabold text-plum">${o.customerName}</span>
+              <span dir="ltr" class="text-plum-muted">(${o.phone})</span>
+            </div>
+            <span class="text-[11px] text-plum-muted">${o.createdAt}</span>
+          </div>
+          <p class="text-plum-muted"><strong class="text-plum">العنوان:</strong> ${o.governorate} - ${o.address}</p>
+          <p class="text-plum-muted"><strong class="text-plum">المنتجات:</strong> ${o.items.map(i => `${i.name} (${i.variant}) × ${i.qty}`).join(" • ")}</p>
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-1 font-extrabold">
+            <span class="text-plum">الإجمالي: ${o.grandTotal} ج.م</span>
+            <span class="text-rosegold">ديبوزت (${o.depositMethod}): ${o.depositRequired} ج.م</span>
+            <span class="text-plum">المتبقي عند الاستلام: ${o.remainingOnDelivery} ج.م</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // =========================================================================
+    // 14. INITIALIZE APPLICATION ON LOAD
+    // =========================================================================
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPersistedData();
+      applyThemeIcon();
+      syncSettingsToUI();
+      renderOffersShowcase();
+      renderCategoryTabs();
+      renderProductsGrid();
+      updateCartBadge();
+    });
+  </script>
+</body>
+</html>
