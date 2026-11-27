@@ -8,6 +8,8 @@
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- EmailJS: sends an order email notification (free tier). Configured in Admin > Settings. -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <script>
     /* RAZAN dark mode: saved choice wins, otherwise respect device preference */
     (function () { try { var s = localStorage.getItem('razan_theme'); var dark = s ? s === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches; if (dark) document.documentElement.classList.add('dark'); } catch (e) {} })();
@@ -131,6 +133,14 @@
     html.dark .bg-plum\/50, html.dark .bg-plum\/45, html.dark .bg-plum\/55 { background-color: rgba(0,0,0,.65) !important; }
     html.dark ::-webkit-scrollbar-track { background: #1d1216; }
     html.dark ::-webkit-scrollbar-thumb { background: #6b4350; }
+    /* Checkout confirm button: sticky at the bottom of the cart drawer,
+       so it stays visible while scrolling the long checkout form. */
+    #whatsapp-checkout-form button[type="submit"] {
+      position: sticky;
+      bottom: 12px;
+      z-index: 10;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+    }
     /* ================= INVOICE PRINT ================= */
     @media print {
       body * { visibility: hidden !important; }
@@ -558,6 +568,17 @@
             </div>
           </div>
 
+          <div id="contact-wa-row-2" class="hidden flex items-center justify-between p-3.5 rounded-2xl bg-blush-soft border border-blush-border">
+            <div>
+              <span class="block text-[11px] font-bold text-plum-muted">رقم واتساب ثانٍ</span>
+              <span id="contact-wa-display-2" dir="ltr" class="text-sm font-extrabold text-plum">01024604385</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="copySettingValue('whatsapp2')" class="px-3 py-1.5 rounded-xl bg-white border border-blush-border hover:border-rosegold text-xs font-bold text-plum cursor-pointer">نسخ</button>
+              <button type="button" onclick="openDirectWhatsAppChat2()" class="px-3 py-1.5 rounded-xl bg-[#25D366] text-white text-xs font-bold hover:opacity-95 cursor-pointer">مراسلة</button>
+            </div>
+          </div>
+
           <div class="flex items-center justify-between p-3.5 rounded-2xl bg-blush-soft border border-blush-border">
             <div>
               <span class="block text-[11px] font-bold text-plum-muted">رقم تحويل الديبوزت (فودافون كاش)</span>
@@ -579,6 +600,17 @@
           <a href="#instagram" onclick="event.preventDefault(); showToast('تابعي حساب @razan.store.eg على إنستجرام')" class="px-4 py-2 rounded-full bg-blush-tint text-rosegold text-xs font-bold hover:bg-rosegold hover:text-white transition-colors">Instagram</a>
           <a href="#tiktok" onclick="event.preventDefault(); showToast('تابعي حساب رزان على تيك توك لمشاهدة الخامات على الطبيعة')" class="px-4 py-2 rounded-full bg-blush-tint text-rosegold text-xs font-bold hover:bg-rosegold hover:text-white transition-colors">TikTok</a>
           <a href="#facebook" onclick="event.preventDefault(); showToast('صفحة رزان الرسمية على فيسبوك')" class="px-4 py-2 rounded-full bg-blush-tint text-rosegold text-xs font-bold hover:bg-rosegold hover:text-white transition-colors">Facebook</a>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-5 sm:p-6 border border-blush-border shadow-2xs">
+        <h2 class="text-base sm:text-lg font-extrabold text-plum mb-1">تتبعي طلبك</h2>
+        <p class="text-xs text-plum-muted mb-4">اكتبي رقم الطلب ورقم الموبايل اللي طلبتي بيه (من نفس المتصفح) عشان تشوفي حالة الطلب.</p>
+        <div class="space-y-3">
+          <input type="text" id="track-order-ref" dir="ltr" placeholder="#RZ-1001" class="w-full rounded-xl border border-blush-border bg-blush/50 px-3.5 py-2.5 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+          <input type="tel" id="track-order-phone" dir="ltr" maxlength="11" placeholder="01012345678" class="w-full rounded-xl border border-blush-border bg-blush/50 px-3.5 py-2.5 text-xs sm:text-sm focus:bg-white focus:outline-none focus:border-rosegold" />
+          <button type="button" onclick="trackOrder()" class="w-full py-3 rounded-full rose-gold-gradient text-white font-extrabold text-xs sm:text-sm shadow-sm cursor-pointer">عرض حالة الطلب</button>
+          <div id="track-order-result"></div>
         </div>
       </div>
 
@@ -874,7 +906,7 @@
             class="w-full py-3.5 px-4 rounded-full bg-[#25D366] hover:bg-[#1fb858] text-white font-extrabold text-xs sm:text-sm shadow-md border-2 border-rosegold/35 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-            <span>تأكيد الطلب على واتساب</span>
+            <span>تأكيد الطلب</span>
           </button>
         </form>
       </div>
@@ -898,6 +930,14 @@
         </p>
       </div>
 
+      <div class="rounded-2xl bg-amber-50 border border-amber-200 p-3.5 text-right">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-xs font-bold text-plum-muted">حالة الطلب:</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200 text-[11px] font-extrabold">قيد المراجعة — بانتظار الديبوزت</span>
+        </div>
+        <p class="text-[11px] text-plum-muted mt-1.5 leading-relaxed">هنأكد طلبك أول ما يوصلنا تحويل الديبوزت، وهنبعتلك رسالة واتساب بالتأكيد. احتفظي برقم الطلب للمتابعة.</p>
+      </div>
+
       <div class="bg-blush-soft rounded-2xl p-3.5 border border-blush-border text-right space-y-2 text-xs">
         <div class="flex items-center justify-between">
           <span class="text-plum-muted">فودافون كاش: <strong id="modal-vf-num" dir="ltr" class="text-plum">01008485337</strong></span>
@@ -918,6 +958,15 @@
           class="w-full py-3.5 rounded-full bg-[#25D366] hover:bg-[#1fb858] text-white text-xs sm:text-sm font-extrabold shadow-sm flex items-center justify-center gap-2 transition-all"
         >
           <span>فتح محادثة واتساب وإرسال الطلب والإيصال</span>
+        </a>
+        <a
+          id="modal-whatsapp-launch-link-2"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden w-full py-3 rounded-full bg-white hover:bg-blush-soft text-[#25D366] text-xs sm:text-sm font-extrabold shadow-sm border-2 border-[#25D366]/50 items-center justify-center gap-2 transition-all"
+        >
+          <span>إرسال نسخة من الطلب للرقم الثاني</span>
         </a>
         <div class="grid grid-cols-2 gap-2">
           <button type="button" onclick="printLastOrderInvoice()" class="py-2.5 rounded-full bg-plum text-white text-xs font-bold shadow-xs hover:opacity-95 cursor-pointer">
@@ -1027,6 +1076,10 @@
                 <input type="text" id="admin-set-whatsapp" dir="ltr" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
               </div>
               <div>
+                <label class="block text-xs font-bold text-plum mb-1">رقم واتساب ثانٍ لاستقبال الطلبات (اختياري)</label>
+                <input type="text" id="admin-set-whatsapp2" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+              <div>
                 <label class="block text-xs font-bold text-plum mb-1">نسبة الديبوزت % *</label>
                 <input type="number" id="admin-set-deposit" min="0" max="50" required class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
               </div>
@@ -1043,6 +1096,33 @@
               حفظ الإعدادات وتطبيقها فوراً
             </button>
           </form>
+        </div>
+
+        <div class="pt-4 border-t border-blush-border">
+          <h4 class="text-sm font-extrabold text-plum mb-1">إشعار إيميل لكل طلب (EmailJS — مجاني)</h4>
+          <p class="text-[11px] text-plum-muted mb-3 leading-relaxed">كل طلب جديد هيتبعت إيميل تلقائياً للإيميل المكتوب هنا — حتى لو العميلة ما بعتتش واتساب. الخطوات: اعملي حساب مجاني على emailjs.com بحساب جوجل، اربطي Gmail كخدمة (Add New Service)، اعملي قالب إيميل (Email Templates) بالمتغيرات اللي تحت، وبعدين حطي هنا الـ Public Key والـ Service ID والـ Template ID واضغطي حفظ الإعدادات. متغيرات القالب: <span dir="ltr">{{order_id}} {{customer_name}} {{customer_phone}} {{governorate}} {{address}} {{items_text}} {{subtotal}} {{shipping}} {{grand_total}} {{deposit_required}} {{remaining}} {{deposit_method}} {{created_at}}</span></p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">الإيميل اللي توصله الطلبات</label>
+              <input type="email" id="admin-set-notify-email" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">Public Key</label>
+              <input type="text" id="admin-set-emailjs-key" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">Service ID</label>
+              <input type="text" id="admin-set-emailjs-service" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-plum mb-1">Template ID</label>
+              <input type="text" id="admin-set-emailjs-template" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <button type="button" onclick="sendTestOrderEmail()" class="px-5 py-2.5 rounded-full bg-plum text-white text-xs font-bold shadow-xs cursor-pointer">إرسال إيميل تجريبي</button>
+            <span class="text-[11px] text-plum-muted self-center">الزرار ده بيحفظ الإعدادات الأول وبعدين يبعت إيميل تجريبي بطلب وهمي.</span>
+          </div>
         </div>
 
         <div class="pt-4 border-t border-blush-border flex flex-wrap items-center justify-between gap-3">
@@ -1516,9 +1596,14 @@
 
     const DEFAULT_SETTINGS = {
       whatsapp: "01008485337",
+      whatsapp2: "01024604385",
       vodafone: "01008485337",
       instapay: "razan.store@instapay",
-      depositPercent: 20
+      depositPercent: 20,
+      notifyEmail: "aymanelshorbagi@gmail.com",
+      emailjsPublicKey: "",
+      emailjsServiceId: "service_b2il5hq",
+      emailjsTemplateId: ""
     };
 
     const appState = {
@@ -1555,6 +1640,7 @@
         const savedOrders = localStorage.getItem(STORAGE_KEYS.ORDERS);
         if (savedOrders) {
           appState.orders = JSON.parse(savedOrders) || [];
+          appState.orders.forEach(normalizeOrderStatus);
         }
         const savedCart = localStorage.getItem(STORAGE_KEYS.CART);
         if (savedCart) {
@@ -1628,6 +1714,10 @@
       if (vfCart) vfCart.textContent = vodafone;
       if (ipCart) ipCart.textContent = instapay;
 
+      const waDisp2 = document.getElementById("contact-wa-display-2");
+      const waRow2 = document.getElementById("contact-wa-row-2");
+      if (waDisp2) waDisp2.textContent = appState.settings.whatsapp2 || "—";
+      if (waRow2) waRow2.classList.toggle("hidden", !appState.settings.whatsapp2);
       const waDisp = document.getElementById("contact-wa-display");
       const vfDisp = document.getElementById("contact-vf-display");
       const ipDisp = document.getElementById("contact-ip-display");
@@ -2455,6 +2545,7 @@
 
       const orderRecord = {
         id: orderRef,
+        status: "pending",
         customerName: name,
         phone,
         governorate: gov,
@@ -2472,6 +2563,9 @@
 
       appState.orders.unshift(orderRecord);
       saveOrderToFirestore(orderRecord);
+      sendOrderEmail(orderRecord).then(sent => {
+        if (sent) showToast("تم إرسال إشعار بالطلب على إيميلك");
+      });
       appState.cart.forEach(item => {
         const prod = appState.products.find(p => p.id === item.productId);
         if (prod) syncProductToFirestore(prod);
@@ -2533,6 +2627,20 @@
       const linkEl = document.getElementById("modal-whatsapp-launch-link");
       if (linkEl) linkEl.href = waUrl;
 
+      // Second WhatsApp number: same receipt, sent as a copy (wa.me takes one recipient per link)
+      const linkEl2 = document.getElementById("modal-whatsapp-launch-link-2");
+      if (linkEl2) {
+        if (appState.settings.whatsapp2 && appState.lastWhatsAppReceiptText) {
+          const waPhone2 = formatEgyptianWhatsAppNumber(appState.settings.whatsapp2);
+          linkEl2.href = `https://wa.me/${waPhone2}?text=${encodeURIComponent(appState.lastWhatsAppReceiptText)}`;
+          linkEl2.classList.remove("hidden");
+          linkEl2.classList.add("flex");
+        } else {
+          linkEl2.classList.add("hidden");
+          linkEl2.classList.remove("flex");
+        }
+      }
+
       const modal = document.getElementById("order-success-modal");
       modal.classList.remove("hidden");
       modal.classList.add("flex");
@@ -2559,6 +2667,7 @@
             <div><strong>العميلة:</strong> ${escapeHtml(order.customerName)}</div>
             <div><strong>الموبايل:</strong> <span dir="ltr">${escapeHtml(order.phone)}</span></div>
             <div><strong>المحافظة:</strong> ${escapeHtml(order.governorate)}</div>
+            <div><strong>الحالة:</strong> ${escapeHtml((ORDER_STATUSES[orderStatusOf(order)] || ORDER_STATUSES.pending).label)}</div>
             <div><strong>العنوان:</strong> ${escapeHtml(order.address)}</div>
             ${order.notes ? `<div><strong>ملاحظات:</strong> ${escapeHtml(order.notes)}</div>` : ""}
           </div>
@@ -2664,10 +2773,77 @@
     };
 
     // =========================================================================
+    // =========================================================================
+    // ORDER EMAIL NOTIFICATION (EmailJS, free tier). Sends one email per order
+    // to settings.notifyEmail. Never blocks checkout: failures are silent.
+    // =========================================================================
+    async function sendOrderEmail(order) {
+      const s = appState.settings;
+      if (!s.emailjsPublicKey || !s.emailjsServiceId || !s.emailjsTemplateId || !s.notifyEmail) return false;
+      if (typeof emailjs === "undefined") { console.warn("EmailJS library not loaded"); return false; }
+      const itemsText = (order.items || []).map(i => `${i.name} (${i.variant}) × ${i.qty} = ${i.price * i.qty} ج.م`).join("<br>");
+      try {
+        emailjs.init({ publicKey: s.emailjsPublicKey });
+        await emailjs.send(s.emailjsServiceId, s.emailjsTemplateId, {
+          to_email: s.notifyEmail,
+          order_id: order.id,
+          customer_name: order.customerName,
+          customer_phone: order.phone,
+          governorate: order.governorate,
+          address: order.address,
+          notes: order.notes || "",
+          items_text: itemsText,
+          subtotal: order.subtotal,
+          shipping: order.shipping,
+          grand_total: order.grandTotal,
+          deposit_required: order.depositRequired,
+          remaining: order.remainingOnDelivery,
+          deposit_method: order.depositMethod,
+          created_at: order.createdAt
+        });
+        return true;
+      } catch (e) {
+        console.warn("Order email failed:", e);
+        return false;
+      }
+    }
+
+    window.sendTestOrderEmail = function () {
+      readSettingsFromForm();
+      persistData();
+      syncSettingsToFirestore();
+      syncSettingsToUI();
+      const s = appState.settings;
+      if (!s.emailjsPublicKey || !s.emailjsServiceId || !s.emailjsTemplateId || !s.notifyEmail) {
+        showToast("كمّلي بيانات EmailJS الأول (Public Key و Service ID و Template ID والإيميل)", "error");
+        return;
+      }
+      const testOrder = {
+        id: "#RZ-TEST", customerName: "عميلة تجريبية", phone: "01012345678",
+        governorate: "الشرقية", address: "عنوان تجريبي", notes: "إيميل تجريبي من لوحة الإدارة",
+        items: [{ name: "بيجامة تجريبية", variant: "M", qty: 1, price: 100 }],
+        subtotal: 100, shipping: 50, grandTotal: 150, depositRequired: 30,
+        remainingOnDelivery: 120, depositMethod: "فودافون كاش", createdAt: new Date().toLocaleString("ar-EG")
+      };
+      showToast("جاري إرسال الإيميل التجريبي...");
+      sendOrderEmail(testOrder).then(sent => {
+        showToast(sent ? "تم إرسال الإيميل التجريبي — افتحي إيميلك وتأكدي" : "فشل إرسال الإيميل — راجعي بيانات EmailJS", sent ? undefined : "error");
+      });
+    };
+
+    // =========================================================================
     // 11. SHIPPING & CONTACT PAGE INTERACTIONS
+    // ========================================================================= 
     // =========================================================================
     window.openDirectWhatsAppChat = function () {
       const waPhone = formatEgyptianWhatsAppNumber(appState.settings.whatsapp);
+      const msg = "أهلاً متجر رزان 🌸 حابة أستفسر عن المنتجات المتاحة وطريقة الحجز.";
+      window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
+    };
+
+    window.openDirectWhatsAppChat2 = function () {
+      if (!appState.settings.whatsapp2) return;
+      const waPhone = formatEgyptianWhatsAppNumber(appState.settings.whatsapp2);
       const msg = "أهلاً متجر رزان 🌸 حابة أستفسر عن المنتجات المتاحة وطريقة الحجز.";
       window.open(`https://wa.me/${waPhone}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
     };
@@ -2723,6 +2899,8 @@
         copyTextWithExecCommand(appState.settings.instapay, `تم نسخ عنوان إنستاباي: ${appState.settings.instapay}`);
       } else if (type === "whatsapp") {
         copyTextWithExecCommand(appState.settings.whatsapp, `تم نسخ رقم واتساب: ${appState.settings.whatsapp}`);
+      } else if (type === "whatsapp2") {
+        copyTextWithExecCommand(appState.settings.whatsapp2, `تم نسخ رقم واتساب الثاني: ${appState.settings.whatsapp2}`);
       }
     };
 
@@ -2855,7 +3033,7 @@
         const docId = String(orderRecord.id || ("RZ-" + Date.now())).replace(/[^a-zA-Z0-9_-]/g, "_");
         await fsCtx.setDoc(
           fsCtx.doc(fsCtx.db, "razan_orders", docId),
-          { ...orderRecord, createdAtTs: Date.now() }
+          { ...orderRecord, createdAtTs: orderRecord.createdAtTs || Date.now() }
         );
       } catch (e) {
         console.warn("Firestore order save error:", e.message);
@@ -2888,6 +3066,11 @@
           appState.settings = {
             ...DEFAULT_SETTINGS,
             whatsapp: data.whatsapp ?? appState.settings.whatsapp,
+            whatsapp2: data.whatsapp2 ?? appState.settings.whatsapp2,
+            notifyEmail: data.notifyEmail ?? appState.settings.notifyEmail,
+            emailjsPublicKey: data.emailjsPublicKey ?? appState.settings.emailjsPublicKey,
+            emailjsServiceId: data.emailjsServiceId ?? appState.settings.emailjsServiceId,
+            emailjsTemplateId: data.emailjsTemplateId ?? appState.settings.emailjsTemplateId,
             vodafone: data.vodafone ?? appState.settings.vodafone,
             instapay: data.instapay ?? appState.settings.instapay,
             depositPercent: data.depositPercent ?? appState.settings.depositPercent
@@ -2960,6 +3143,7 @@
           if (o) cloudOrders.push(o);
         });
         appState.orders = cloudOrders;
+        appState.orders.forEach(normalizeOrderStatus);
         try {
           localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(appState.orders));
         } catch (_) {}
@@ -3059,6 +3243,11 @@
 
     function showAdminModalContent() {
       document.getElementById("admin-set-whatsapp").value = appState.settings.whatsapp;
+      document.getElementById("admin-set-whatsapp2").value = appState.settings.whatsapp2 || "";
+      document.getElementById("admin-set-notify-email").value = appState.settings.notifyEmail || "";
+      document.getElementById("admin-set-emailjs-key").value = appState.settings.emailjsPublicKey || "";
+      document.getElementById("admin-set-emailjs-service").value = appState.settings.emailjsServiceId || "";
+      document.getElementById("admin-set-emailjs-template").value = appState.settings.emailjsTemplateId || "";
       document.getElementById("admin-set-deposit").value = getDepositPercent();
       document.getElementById("admin-set-vodafone").value = appState.settings.vodafone;
       document.getElementById("admin-set-instapay").value = appState.settings.instapay;
@@ -3094,13 +3283,22 @@
       if (tab === "orders") renderAdminOrdersList();
     };
 
+    function readSettingsFromForm() {
+      const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ""; };
+      appState.settings.whatsapp = g("admin-set-whatsapp") || "01008485337";
+      appState.settings.whatsapp2 = g("admin-set-whatsapp2");
+      appState.settings.depositPercent = Math.min(50, Math.max(0, Number(g("admin-set-deposit")) || 20));
+      appState.settings.vodafone = g("admin-set-vodafone") || "01008485337";
+      appState.settings.instapay = g("admin-set-instapay") || "razan.store@instapay";
+      appState.settings.notifyEmail = g("admin-set-notify-email") || "aymanelshorbagi@gmail.com";
+      appState.settings.emailjsPublicKey = g("admin-set-emailjs-key");
+      appState.settings.emailjsServiceId = g("admin-set-emailjs-service");
+      appState.settings.emailjsTemplateId = g("admin-set-emailjs-template");
+    }
+
     window.saveAdminSettings = function (event) {
       event.preventDefault();
-      appState.settings.whatsapp = document.getElementById("admin-set-whatsapp").value.trim() || "01008485337";
-      appState.settings.depositPercent = Math.min(50, Math.max(0, Number(document.getElementById("admin-set-deposit").value) || 20));
-      appState.settings.vodafone = document.getElementById("admin-set-vodafone").value.trim() || "01008485337";
-      appState.settings.instapay = document.getElementById("admin-set-instapay").value.trim() || "razan.store@instapay";
-
+      readSettingsFromForm();
       persistData();
       syncSettingsToFirestore();
       syncSettingsToUI();
@@ -3480,11 +3678,16 @@
         return;
       }
 
-      container.innerHTML = appState.orders.map(o => `
+      const pendingCount = appState.orders.filter(o => orderStatusOf(o) === "pending").length;
+      const summaryHtml = pendingCount
+        ? `<div class="bg-amber-50 border border-amber-200 rounded-2xl p-3.5 text-xs font-extrabold text-amber-800">لديك ${pendingCount} طلب بانتظار تأكيد الديبوزت</div>`
+        : "";
+      container.innerHTML = summaryHtml + appState.orders.map(o => `
         <div class="bg-white rounded-2xl p-4 border border-blush-border shadow-2xs space-y-2 text-xs">
           <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-blush-border">
             <div class="flex items-center gap-2">
               <span class="px-2.5 py-0.5 rounded-full bg-blush-tint text-rosegold font-extrabold">${escapeHtml(o.id)}</span>
+              ${orderStatusChip(orderStatusOf(o))}
               <span class="font-extrabold text-plum">${escapeHtml(o.customerName)}</span>
               <span dir="ltr" class="text-plum-muted">(${escapeHtml(o.phone)})</span>
             </div>
@@ -3501,10 +3704,74 @@
             <span class="text-plum">الإجمالي: ${o.grandTotal} ج.م</span>
             <span class="text-rosegold">ديبوزت (${escapeHtml(o.depositMethod)}): ${o.depositRequired} ج.م</span>
             <span class="text-plum">المتبقي عند الاستلام: ${o.remainingOnDelivery} ج.م</span>
+            <label class="flex items-center gap-1.5 text-[11px] font-bold text-plum-muted">تحديث الحالة:
+              <select onchange="setOrderStatus('${escapeJsStr(o.id)}', this.value)" class="rounded-lg border border-blush-border bg-white px-2 py-1 text-[11px] font-bold text-plum cursor-pointer">
+                ${Object.entries(ORDER_STATUSES).map(([v, s]) => `<option value="${v}" ${orderStatusOf(o) === v ? "selected" : ""}>${s.label}</option>`).join("")}
+              </select>
+            </label>
           </div>
         </div>
       `).join("");
     }
+
+    // =========================================================================
+    // ORDER STATUS LIFECYCLE
+    // New orders start as "pending" (under review until the deposit is paid).
+    // The admin confirms from the orders tab; the customer sees the status in
+    // the success modal and in the order-tracking box on the contact page.
+    // =========================================================================
+    const ORDER_STATUSES = {
+      pending:   { label: "قيد المراجعة", hint: "بانتظار دفع الديبوزت", chip: "bg-amber-100 text-amber-800 border-amber-200" },
+      confirmed: { label: "تم التأكيد", hint: "تم استلام الديبوزت — طلبك مؤكد", chip: "bg-emerald-100 text-emerald-800 border-emerald-200" },
+      shipped:   { label: "تم الشحن", hint: "الطلب في الطريق إليك", chip: "bg-sky-100 text-sky-800 border-sky-200" },
+      delivered: { label: "تم التوصيل", hint: "وصل الطلب للعميلة", chip: "bg-rose-100 text-rose-700 border-rose-200" },
+      cancelled: { label: "ملغي", hint: "تم إلغاء الطلب", chip: "bg-gray-100 text-gray-600 border-gray-200" }
+    };
+    function orderStatusOf(o) { return (o && ORDER_STATUSES[o.status]) ? o.status : "pending"; }
+    function normalizeOrderStatus(o) { if (o && !ORDER_STATUSES[o.status]) o.status = "pending"; }
+    function orderStatusChip(status) {
+      const s = ORDER_STATUSES[status] || ORDER_STATUSES.pending;
+      return `<span class="px-2.5 py-0.5 rounded-full border text-[11px] font-extrabold ${s.chip}">${s.label}</span>`;
+    }
+
+    window.setOrderStatus = function (id, status) {
+      const order = appState.orders.find(o => o.id === id);
+      if (!order || !ORDER_STATUSES[status]) return;
+      order.status = status;
+      persistData();
+      saveOrderToFirestore(order);
+      renderAdminOrdersList();
+      showToast(`تم تحديث حالة الطلب إلى "${ORDER_STATUSES[status].label}"`);
+    };
+
+    window.trackOrder = function () {
+      const ref = (document.getElementById("track-order-ref")?.value || "").trim().replace(/^#/, "").toLowerCase();
+      const phone = (document.getElementById("track-order-phone")?.value || "").trim().replace(/\D/g, "");
+      const result = document.getElementById("track-order-result");
+      if (!result) return;
+      if (!ref || !phone) {
+        result.innerHTML = `<p class="text-[11px] font-bold text-rose-600">اكتبي رقم الطلب ورقم الموبايل.</p>`;
+        return;
+      }
+      const order = appState.orders.find(o =>
+        String(o.id || "").replace(/^#/, "").toLowerCase() === ref &&
+        String(o.phone || "").replace(/\D/g, "") === phone
+      );
+      if (!order) {
+        result.innerHTML = `<p class="text-[11px] font-bold text-rose-600 leading-relaxed">مفيش طلب بالبيانات دي على المتصفح ده. تأكدي من رقم الطلب والموبايل، أو كلمينا واتساب.</p>`;
+        return;
+      }
+      const st = ORDER_STATUSES[orderStatusOf(order)];
+      result.innerHTML = `
+        <div class="rounded-2xl border border-blush-border bg-blush-soft p-3.5 text-xs space-y-1.5">
+          <div class="flex items-center justify-between gap-2">
+            <span class="font-bold text-plum-muted">الطلب ${escapeHtml(order.id)}</span>
+            ${orderStatusChip(orderStatusOf(order))}
+          </div>
+          <p class="text-plum-muted">${escapeHtml(st.hint)}</p>
+          <p class="font-extrabold text-plum">الإجمالي: ${order.grandTotal} ج.م — المتبقي عند الاستلام: ${order.remainingOnDelivery} ج.م</p>
+        </div>`;
+    };
 
     // =========================================================================
     // 14. KEYBOARD ESCAPE HANDLER & INITIALIZATION
