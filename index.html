@@ -425,13 +425,7 @@
             <thead class="bg-blush-soft text-plum font-extrabold">
               <tr><th class="py-3 px-4">المقاس</th><th class="py-3 px-4">محيط الصدر</th><th class="py-3 px-4">محيط الوسط</th><th class="py-3 px-4">طول البلوزة</th></tr>
             </thead>
-            <tbody class="divide-y divide-blush-border bg-white">
-              <tr><td class="py-3 px-4 font-bold text-plum">S</td><td class="py-3 px-4">52 سم</td><td class="py-3 px-4">48 سم</td><td class="py-3 px-4">62 سم</td></tr>
-              <tr><td class="py-3 px-4 font-bold text-plum">M</td><td class="py-3 px-4">56 سم</td><td class="py-3 px-4">52 سم</td><td class="py-3 px-4">64 سم</td></tr>
-              <tr><td class="py-3 px-4 font-bold text-plum">L</td><td class="py-3 px-4">60 سم</td><td class="py-3 px-4">56 سم</td><td class="py-3 px-4">66 سم</td></tr>
-              <tr><td class="py-3 px-4 font-bold text-plum">XL</td><td class="py-3 px-4">64 سم</td><td class="py-3 px-4">60 سم</td><td class="py-3 px-4">68 سم</td></tr>
-              <tr><td class="py-3 px-4 font-bold text-plum">XXL</td><td class="py-3 px-4">68 سم</td><td class="py-3 px-4">64 سم</td><td class="py-3 px-4">70 سم</td></tr>
-            </tbody>
+            <tbody id="size-chart-body" class="divide-y divide-blush-border bg-white"></tbody>
           </table>
         </div>
       </div>
@@ -1130,6 +1124,46 @@
                 <input type="url" id="admin-set-tiktok" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-3.5 py-2 text-sm font-bold text-plum focus:bg-white focus:outline-none focus:border-rosegold" />
               </div>
             </div>
+            <div class="rounded-2xl border border-blush-border bg-blush/30 p-4">
+              <h4 class="text-xs font-extrabold text-plum mb-1">جدول المقاسات (بالسنتيمتر)</h4>
+              <p class="text-[11px] text-plum-muted mb-3">غيّر أي رقم ودوس حفظ — الجدول بيتحدث فوراً على الموقع لكل الزوار.</p>
+              <div class="grid grid-cols-4 gap-2 items-center mb-1.5">
+                <span class="text-[11px] font-bold text-plum-muted text-center">المقاس</span>
+                <span class="text-[11px] font-bold text-plum-muted text-center">محيط الصدر</span>
+                <span class="text-[11px] font-bold text-plum-muted text-center">محيط الوسط</span>
+                <span class="text-[11px] font-bold text-plum-muted text-center">طول البلوزة</span>
+              </div>
+              <div class="grid grid-cols-4 gap-2 items-center">
+                <span class="text-xs font-extrabold text-plum text-center">S</span>
+                <input type="number" id="admin-sizechart-0-chest" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+                <input type="number" id="admin-sizechart-0-waist" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+                <input type="number" id="admin-sizechart-0-length" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+              <div class="grid grid-cols-4 gap-2 items-center">
+                <span class="text-xs font-extrabold text-plum text-center">M</span>
+                <input type="number" id="admin-sizechart-1-chest" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+                <input type="number" id="admin-sizechart-1-waist" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+                <input type="number" id="admin-sizechart-1-length" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+              <div class="grid grid-cols-4 gap-2 items-center">
+                <span class="text-xs font-extrabold text-plum text-center">L</span>
+                <input type="number" id="admin-sizechart-2-chest" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+                <input type="number" id="admin-sizechart-2-waist" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+                <input type="number" id="admin-sizechart-2-length" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+              <div class="grid grid-cols-4 gap-2 items-center">
+                <span class="text-xs font-extrabold text-plum text-center">XL</span>
+                <input type="number" id="admin-sizechart-3-chest" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+                <input type="number" id="admin-sizechart-3-waist" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+                <input type="number" id="admin-sizechart-3-length" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+              <div class="grid grid-cols-4 gap-2 items-center">
+                <span class="text-xs font-extrabold text-plum text-center">XXL</span>
+                <input type="number" id="admin-sizechart-4-chest" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+                <input type="number" id="admin-sizechart-4-waist" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+                <input type="number" id="admin-sizechart-4-length" min="0" dir="ltr" class="w-full rounded-xl border border-blush-border bg-blush/40 px-2 py-2 text-sm font-bold text-plum text-center focus:bg-white focus:outline-none focus:border-rosegold" />
+              </div>
+            </div>
             <button type="submit" class="px-6 py-2.5 rounded-full rose-gold-gradient text-white text-xs sm:text-sm font-bold shadow-xs cursor-pointer">
               حفظ الإعدادات وتطبيقها فوراً
             </button>
@@ -1496,6 +1530,13 @@
       facebookUrl: "https://www.facebook.com/share/1A1DPkzQgg/",
       instagramUrl: "https://www.instagram.com/razan.store.eg/",
       tiktokUrl: "https://www.tiktok.com/@razan.store.eg",
+      sizeChart: [
+        { size: "S", chest: 52, waist: 48, length: 62 },
+        { size: "M", chest: 56, waist: 52, length: 64 },
+        { size: "L", chest: 60, waist: 56, length: 66 },
+        { size: "XL", chest: 64, waist: 60, length: 68 },
+        { size: "XXL", chest: 68, waist: 64, length: 70 }
+      ],
       depositPercent: 25,
       notifyEmail: "aymanelshorbagi@gmail.com",
       emailjsPublicKey: "",
@@ -1600,7 +1641,22 @@
     // =========================================================================
     // 4. DYNAMIC SETTINGS SYNC ACROSS UI
     // =========================================================================
+    // Size chart is data, not fixed HTML: admin edits it in Settings and it
+    // re-renders here (and on every open browser via the Firestore listener).
+    function getSizeChart() {
+      const c = appState.settings.sizeChart;
+      return (Array.isArray(c) && c.length) ? c : DEFAULT_SETTINGS.sizeChart;
+    }
+    function renderSizeChart() {
+      const body = document.getElementById("size-chart-body");
+      if (!body) return;
+      body.innerHTML = getSizeChart().map(r => {
+        const chest = Number(r.chest) || 0, waist = Number(r.waist) || 0, len = Number(r.length) || 0;
+        return `<tr><td class="py-3 px-4 font-bold text-plum">${escapeHtml(String(r.size || ""))}</td><td class="py-3 px-4">${chest} سم</td><td class="py-3 px-4">${waist} سم</td><td class="py-3 px-4">${len} سم</td></tr>`;
+      }).join("");
+    }
     function syncSettingsToUI() {
+      renderSizeChart();
       const { whatsapp, vodafone, instapay } = appState.settings;
       const depPct = getDepositPercent();
 
@@ -3345,7 +3401,11 @@
             emailjsTemplateId: data.emailjsTemplateId ?? appState.settings.emailjsTemplateId,
             vodafone: data.vodafone ?? appState.settings.vodafone,
             instapay: data.instapay ?? appState.settings.instapay,
-            depositPercent: data.depositPercent ?? appState.settings.depositPercent
+            depositPercent: data.depositPercent ?? appState.settings.depositPercent,
+            facebookUrl: data.facebookUrl ?? appState.settings.facebookUrl,
+            instagramUrl: data.instagramUrl ?? appState.settings.instagramUrl,
+            tiktokUrl: data.tiktokUrl ?? appState.settings.tiktokUrl,
+            sizeChart: (Array.isArray(data.sizeChart) && data.sizeChart.length) ? data.sizeChart : appState.settings.sizeChart
           };
           try {
             localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(appState.settings));
@@ -3583,6 +3643,14 @@
       document.getElementById("admin-set-facebook").value = appState.settings.facebookUrl || "";
       document.getElementById("admin-set-instagram").value = appState.settings.instagramUrl || "";
       document.getElementById("admin-set-tiktok").value = appState.settings.tiktokUrl || "";
+      getSizeChart().forEach((r, i) => {
+        const c = document.getElementById("admin-sizechart-" + i + "-chest");
+        const w = document.getElementById("admin-sizechart-" + i + "-waist");
+        const l = document.getElementById("admin-sizechart-" + i + "-length");
+        if (c) c.value = r.chest ?? "";
+        if (w) w.value = r.waist ?? "";
+        if (l) l.value = r.length ?? "";
+      });
 
       document.getElementById("admin-prod-count").textContent = appState.products.length;
       document.getElementById("admin-order-count").textContent = appState.orders.length;
@@ -3630,6 +3698,17 @@
       appState.settings.facebookUrl = g("admin-set-facebook");
       appState.settings.instagramUrl = g("admin-set-instagram");
       appState.settings.tiktokUrl = g("admin-set-tiktok");
+      const _sizes = ["S", "M", "L", "XL", "XXL"];
+      const _defaults = DEFAULT_SETTINGS.sizeChart;
+      appState.settings.sizeChart = _sizes.map((s, i) => {
+        const num = (id, fb) => { const v = Number(g(id)); return Number.isFinite(v) && v > 0 ? v : fb; };
+        return {
+          size: s,
+          chest: num("admin-sizechart-" + i + "-chest", _defaults[i].chest),
+          waist: num("admin-sizechart-" + i + "-waist", _defaults[i].waist),
+          length: num("admin-sizechart-" + i + "-length", _defaults[i].length)
+        };
+      });
       appState.settings.notifyEmail = g("admin-set-notify-email") || "aymanelshorbagi@gmail.com";
       appState.settings.emailjsPublicKey = g("admin-set-emailjs-key");
       appState.settings.emailjsServiceId = g("admin-set-emailjs-service");
