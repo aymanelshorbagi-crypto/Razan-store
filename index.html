@@ -159,16 +159,20 @@
   <div id="invoice-print-area" aria-hidden="true"></div>
 
   <!-- ===================================================================== -->
-  <!-- 1. STICKY HEADER & NAVIGATION                                         -->
+  <!-- 1. SLIM ANNOUNCEMENT BAR & STICKY BOUTIQUE HEADER                     -->
   <!-- ===================================================================== -->
-  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-blush-border shadow-2xs">
+  <div class="bg-blush-soft/90 border-b border-blush-border py-1.5 px-3 text-center text-[11px] sm:text-xs font-medium text-plum-muted">
+    شحن لجميع المحافظات • دفع عند الاستلام • <span id="hero-deposit-pill" class="text-rosegold font-bold">حجز بديبوزت 25%</span>
+  </div>
+
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-blush-border">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 sm:h-20 gap-2">
+      <div class="flex items-center justify-between h-14 sm:h-16 gap-2">
 
         <!-- Right Side (RTL Start): Custom Rose-Gold Monogram Logo -->
         <button type="button" onclick="navigateToStore('الكل')" class="flex items-center gap-2.5 text-right group focus:outline-none shrink-0 cursor-pointer">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl rose-gold-soft-gradient border border-blush-border flex items-center justify-center shadow-xs group-hover:border-rosegold transition-all">
-            <svg viewBox="0 0 64 64" class="w-7 h-7 sm:w-8 sm:h-8 text-rosegold" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl rose-gold-soft-gradient border border-blush-border flex items-center justify-center group-hover:border-rosegold transition-all">
+            <svg viewBox="0 0 64 64" class="w-6 h-6 sm:w-7 sm:h-7 text-rosegold" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <linearGradient id="rgLogoGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
                   <stop offset="0%" stop-color="#C9828D"/>
@@ -189,14 +193,14 @@
             <div class="flex items-center gap-1.5">
               <span class="font-amiri text-xl sm:text-2xl font-bold text-plum leading-none">رزان</span>
               <span class="text-rosegold font-light text-sm">|</span>
-              <span class="text-sm sm:text-base font-extrabold tracking-widest text-rosegold">RAZAN</span>
+              <span class="text-xs sm:text-sm font-extrabold tracking-widest text-rosegold">RAZAN</span>
             </div>
-            <span class="text-[10px] sm:text-[11px] text-plum-muted font-medium mt-0.5">بيجامات • إكسسوارات • ملابس</span>
+            <span class="hidden sm:block text-[10px] text-plum-muted font-medium mt-0.5">بيجامات • إكسسوارات • ملابس</span>
           </div>
         </button>
 
         <!-- Center Navigation Links (Desktop) -->
-        <nav class="hidden lg:flex items-center gap-1 bg-blush-soft/80 p-1.5 rounded-full border border-blush-border">
+        <nav class="hidden lg:flex items-center gap-1 bg-blush-soft/80 p-1 rounded-full border border-blush-border">
           <button type="button" onclick="navigateToStore('الكل')" data-nav="الرئيسية" class="nav-link-btn px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-rosegold text-white shadow-2xs cursor-pointer">
             الرئيسية
           </button>
@@ -218,14 +222,14 @@
           </button>
         </nav>
 
-        <!-- Left Side (RTL End): Store Admin Gear + Dark Mode + Cart Button -->
-        <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
+        <!-- Left Side (RTL End): Dark Mode + Cart Button -->
+        <div class="flex items-center gap-2 shrink-0">
           <!-- Dark Mode Toggle -->
           <button
             type="button"
             id="dark-mode-toggle"
             onclick="toggleDarkMode()"
-            class="inline-flex items-center gap-1.5 px-2.5 py-2 sm:px-3 sm:py-2 rounded-full text-xs font-semibold text-plum-muted hover:text-rosegold bg-blush-soft border border-blush-border hover:border-rosegold transition-all cursor-pointer"
+            class="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-full text-xs font-semibold text-plum-muted hover:text-rosegold bg-blush-soft border border-blush-border hover:border-rosegold transition-all cursor-pointer"
             title="الوضع الداكن / الفاتح"
             aria-label="تبديل الوضع الداكن"
           >
@@ -238,36 +242,36 @@
           <button
             type="button"
             onclick="openCartDrawer()"
-            class="relative inline-flex items-center gap-2 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold rose-gold-gradient text-white shadow-sm hover:opacity-95 active:scale-95 transition-all cursor-pointer"
+            class="relative inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold rose-gold-gradient text-white shadow-2xs hover:opacity-95 active:scale-95 transition-all cursor-pointer"
             aria-label="سلة التسوق"
           >
-            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
             <span>السلة</span>
-            <span id="cart-count-badge" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-xs font-extrabold rounded-full bg-white text-rosegold shadow-2xs">0</span>
+            <span id="cart-count-badge" class="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 text-[11px] font-extrabold rounded-full bg-white text-rosegold">0</span>
           </button>
         </div>
       </div>
 
       <!-- Mobile & Tablet Horizontal Scrollable Navigation Bar -->
-      <nav class="lg:hidden flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-2.5 pt-0.5">
-        <button type="button" onclick="navigateToStore('الكل')" data-nav="الرئيسية" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-rosegold text-white cursor-pointer">
+      <nav class="lg:hidden flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-2 pt-0.5">
+        <button type="button" onclick="navigateToStore('الكل')" data-nav="الرئيسية" class="nav-link-btn shrink-0 px-3 py-1 rounded-full text-xs font-bold bg-rosegold text-white cursor-pointer">
           الرئيسية
         </button>
-        <button type="button" onclick="navigateToStore('بيجامات')" data-nav="بيجامات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
+        <button type="button" onclick="navigateToStore('بيجامات')" data-nav="بيجامات" class="nav-link-btn shrink-0 px-3 py-1 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
           بيجامات
         </button>
-        <button type="button" onclick="navigateToStore('إكسسوارات')" data-nav="إكسسوارات" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
+        <button type="button" onclick="navigateToStore('إكسسوارات')" data-nav="إكسسوارات" class="nav-link-btn shrink-0 px-3 py-1 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
           إكسسوارات
         </button>
-        <button type="button" onclick="navigateToStore('ملابس')" data-nav="ملابس" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
+        <button type="button" onclick="navigateToStore('ملابس')" data-nav="ملابس" class="nav-link-btn shrink-0 px-3 py-1 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
           ملابس
         </button>
-        <button type="button" onclick="scrollToOffersSection()" data-nav="العروض" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
+        <button type="button" onclick="scrollToOffersSection()" data-nav="العروض" class="nav-link-btn shrink-0 px-3 py-1 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
           الأكثر طلباً وعروض
         </button>
-        <button type="button" onclick="openShippingContactPage()" data-nav="الشحن والتواصل" class="nav-link-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
+        <button type="button" onclick="openShippingContactPage()" data-nav="الشحن والتواصل" class="nav-link-btn shrink-0 px-3 py-1 rounded-full text-xs font-bold bg-blush-soft text-plum border border-blush-border cursor-pointer">
           الشحن والتواصل
         </button>
       </nav>
@@ -275,73 +279,20 @@
   </header>
 
   <!-- ===================================================================== -->
-  <!-- VIEW A: MAIN STOREFRONT VIEW (HERO + OFFERS + CATALOG)                -->
+  <!-- VIEW A: MAIN STOREFRONT VIEW (MINIMAL HERO + CATALOG + OFFERS)        -->
   <!-- ===================================================================== -->
   <div id="storefront-view" class="flex-1">
 
-    <!-- 2. COMPACT LUXURY HERO & QUICK CATEGORY STRIP -->
-    <section class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3 sm:pt-5">
-      <div class="relative overflow-hidden rounded-3xl rose-gold-soft-gradient border border-blush-border p-4 sm:p-7 lg:p-8 shadow-2xs">
-        <div class="pointer-events-none absolute -top-16 -left-16 w-48 h-48 rounded-full bg-rosegold/10 blur-2xl"></div>
-        <div class="pointer-events-none absolute -bottom-20 right-10 w-56 h-56 rounded-full bg-rosegold-champagne/15 blur-2xl"></div>
-
-        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-6">
-          <div class="max-w-2xl space-y-2 sm:space-y-3">
-            <!-- Trust Pill -->
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 border border-blush-border text-[11px] sm:text-xs font-bold text-rosegold shadow-2xs">
-              <span class="w-2 h-2 rounded-full bg-rosegold animate-pulse"></span>
-              <span id="hero-deposit-pill">تأكيد الطلب بديبوزت 25% (فودافون كاش / إنستاباي)</span>
-            </div>
-
-            <!-- Headline -->
-            <h1 class="text-xl sm:text-3xl lg:text-[34px] font-extrabold text-plum leading-snug">
-              أناقتك تبدأ من تفاصيلك.. <span class="rose-gold-text-gradient">تشكيلة رزان الجديدة</span>
-            </h1>
-
-            <!-- Subtext -->
-            <p id="hero-subtext" class="text-xs sm:text-sm md:text-base text-plum-muted leading-relaxed">
-              بيجامات قطن وستان فاخرة، إكسسوارات مطلية، وملابس أنيقة — احجزي قطعتك الآن بديبوزت 25% من إجمالي الطلب والباقي عند الاستلام.
-            </p>
-          </div>
-
-          <!-- Quick CTA Buttons -->
-          <div class="flex flex-wrap items-center gap-2.5 sm:gap-3 shrink-0">
-            <button
-              type="button"
-              onclick="selectCategoryAndScroll('بيجامات')"
-              class="px-4 py-2.5 sm:px-5 sm:py-3 rounded-full rose-gold-gradient text-white text-xs sm:text-sm font-bold shadow-sm hover:opacity-95 active:scale-95 transition-all cursor-pointer"
-            >
-              تسوقي البيجامات
-            </button>
-            <button
-              type="button"
-              onclick="selectCategoryAndScroll('إكسسوارات')"
-              class="px-4 py-2.5 sm:px-5 sm:py-3 rounded-full bg-white text-plum hover:text-rosegold border border-blush-border hover:border-rosegold text-xs sm:text-sm font-bold shadow-2xs active:scale-95 transition-all cursor-pointer"
-            >
-              اكتشفي الإكسسوارات
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. BEST SELLERS & OFFERS SECTION -->
-    <section id="offers-section" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-6 sm:pt-8">
-      <div class="bg-blush-soft/75 rounded-3xl border border-blush-border p-4 sm:p-6">
-        <div class="flex items-center justify-between gap-2 mb-4">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold rose-gold-gradient text-white">عروض حصرية</span>
-              <h2 class="text-base sm:text-xl font-extrabold text-plum">الأكثر طلباً وعروض رزان</h2>
-            </div>
-            <p class="text-[11px] sm:text-xs text-plum-muted mt-0.5">باكدجات التوفير والقطع الأعلى مبيعاً — احجزيها قبل نفاد الكمية</p>
-          </div>
-          <button type="button" onclick="selectCategoryAndScroll('العروض')" class="text-xs font-bold text-rosegold hover:text-rosegold-hover underline underline-offset-4 shrink-0 cursor-pointer">
-            عرض كل العروض ←
-          </button>
-        </div>
-
-        <div id="offers-showcase-grid" class="flex md:grid md:grid-cols-3 gap-3 sm:gap-5 overflow-x-auto no-scrollbar pb-1 snap-x snap-mandatory"></div>
+    <!-- 2. MINIMAL EDITORIAL BOUTIQUE HEADER (AIRY & COMPACT) -->
+    <section class="border-b border-blush-border/80 py-4 sm:py-6 px-3 sm:px-6 text-center">
+      <div class="max-w-2xl mx-auto space-y-1">
+        <p class="text-[10px] sm:text-[11px] font-bold tracking-[0.22em] text-rosegold uppercase">RAZAN BOUTIQUE</p>
+        <h1 class="font-amiri text-2xl sm:text-4xl font-bold text-plum leading-snug">
+          أناقة هادية وتفاصيل تليق بيكي
+        </h1>
+        <p id="hero-subtext" class="text-xs sm:text-sm text-plum-muted">
+          بيجامات ناعمة، إكسسوارات رقيقة، وملابس عصرية — حجز بديبوزت 25% والباقي عند الاستلام
+        </p>
       </div>
     </section>
 
@@ -414,6 +365,23 @@
         </button>
       </div>
     </main>
+
+    <!-- 3. BEST SELLERS & OFFERS SECTION (EDITORIAL, AUTO-HIDDEN WHEN EMPTY) -->
+    <section id="offers-section" class="hidden max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-12">
+      <div class="border-t border-blush-border pt-7">
+        <div class="flex items-center justify-between gap-2 mb-4">
+          <div>
+            <h2 class="text-base sm:text-xl font-extrabold text-plum">الأكثر طلباً وعروض رزان</h2>
+            <p class="text-[11px] sm:text-xs text-plum-muted mt-0.5">باكدجات التوفير والقطع الأعلى مبيعاً</p>
+          </div>
+          <button type="button" onclick="selectCategoryAndScroll('العروض')" class="text-xs font-bold text-rosegold hover:text-rosegold-hover underline underline-offset-4 shrink-0 cursor-pointer">
+            عرض كل العروض ←
+          </button>
+        </div>
+
+        <div id="offers-showcase-grid" class="flex md:grid md:grid-cols-3 gap-3 sm:gap-5 overflow-x-auto no-scrollbar pb-1 snap-x snap-mandatory"></div>
+      </div>
+    </section>
 
     <!-- SIZE CHART (cm) -->
     <section id="size-chart-section" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pb-16">
@@ -1662,12 +1630,12 @@
 
       const heroPill = document.getElementById("hero-deposit-pill");
       if (heroPill) {
-        heroPill.textContent = `تأكيد الطلب بديبوزت ${depPct}% (فودافون كاش / إنستاباي)`;
+        heroPill.textContent = `حجز بديبوزت ${depPct}%`;
       }
 
       const heroSub = document.getElementById("hero-subtext");
       if (heroSub) {
-        heroSub.textContent = `بيجامات قطن وستان فاخرة، إكسسوارات مطلية، وملابس أنيقة — احجزي قطعتك الآن بديبوزت ${depPct}% من إجمالي الطلب والباقي عند الاستلام.`;
+        heroSub.textContent = `بيجامات ناعمة، إكسسوارات رقيقة، وملابس عصرية — حجز بديبوزت ${depPct}% والباقي عند الاستلام`;
       }
 
       const cartExp = document.getElementById("cart-deposit-explanation");
@@ -1787,8 +1755,10 @@
       highlightNavButtons("العروض");
 
       const offersEl = document.getElementById("offers-section");
-      if (offersEl) {
+      if (offersEl && !offersEl.classList.contains("hidden")) {
         offersEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        selectCategoryAndScroll("العروض");
       }
     };
 
@@ -1805,9 +1775,13 @@
     // =========================================================================
     function renderOffersShowcase() {
       const container = document.getElementById("offers-showcase-grid");
+      const section = document.getElementById("offers-section");
       if (!container) return;
 
       const showcaseItems = appState.products.filter(p => p.isOffer).slice(0, 3);
+      if (section) {
+        section.classList.toggle("hidden", showcaseItems.length === 0);
+      }
 
       container.innerHTML = showcaseItems.map(item => {
         const selectedVar = appState.selectedVariants[item.id] || (item.variants?.[0] ?? "");
